@@ -29,7 +29,7 @@
  				<user name="admin" password="admin" authorities="ROLE_ADMIN" /> 
  			</user-service> 
  		</authentication-provider> 
-		!!!<authentication-provider user-service-ref="userDetailsService">
+		<authentication-provider user-service-ref="userDetailsService">
 
 			<password-encoder ref="encoder"/>
 		</authentication-provider>
