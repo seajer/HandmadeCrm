@@ -69,11 +69,11 @@
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
-</filter-mapping>
+	</filter-mapping>
 	
 	<context-param>
-		<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/mvc-dispatcher-servlet.xml</param-value>
+		<param-name>defaultHtmlEscape</param-name>
+		<param-value>true</param-value>
 	</context-param>
 
 </web-app>
