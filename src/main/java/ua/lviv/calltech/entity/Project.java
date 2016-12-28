@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -28,7 +29,8 @@ public class Project {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "type_id")
 	private ProjectType type;
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "projects")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="users_projects", inverseJoinColumns=@JoinColumn(name="user_id"), joinColumns=@JoinColumn(name="project_id"))
 	private List<User> users;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "lang_id")

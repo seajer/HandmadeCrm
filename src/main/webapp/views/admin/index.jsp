@@ -8,5 +8,6 @@
 </head>
 <body>
 	some text for index.jsp
+	<p>${time}</p>
 </body>
 </html>

@@ -19,7 +19,7 @@
 		http://www.springframework.org/schema/task/spring-task-4.1.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
 	<!-- Repalce * to your package -->
-    <context:component-scan base-package="ua.lviv.lgs.*">
+    <context:component-scan base-package="ua.lviv.calltech.*">
         <context:exclude-filter type="annotation"
                                 expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>

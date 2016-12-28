@@ -8,6 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -20,7 +22,8 @@ public class Language {
 	private int id;
 	@Column
 	private String name;
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "language")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="users_languages", inverseJoinColumns=@JoinColumn(name="user_id"), joinColumns=@JoinColumn(name="lang_id"))
 	private List<User> users;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "language")
 	private List<Project> projects;

@@ -8,6 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -28,13 +30,23 @@ public class User {
 	private String phone;
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Role role;
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="users_projects", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="project_id"))
 	private List<Project> projects;
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="users_languages", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="lang_id"))
 	private List<Language> language;
 	
 	public User() {
 	}
+	
+	public User(String fullName, String email, String phone) {
+		super();
+		this.fullName = fullName;
+		this.email = email;
+		this.phone = phone;
+	}
+	
 	public int getId() {
 		return id;
 	}
