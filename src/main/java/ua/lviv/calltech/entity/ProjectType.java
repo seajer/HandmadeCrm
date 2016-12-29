@@ -26,6 +26,13 @@ public class ProjectType {
 	public ProjectType() {
 	}
 
+	
+	public ProjectType(String name) {
+		super();
+		this.name = name;
+	}
+
+
 	public int getId() {
 		return id;
 	}

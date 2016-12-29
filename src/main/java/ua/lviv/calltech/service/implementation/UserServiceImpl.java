@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 		Collection<SimpleGrantedAuthority> authority = new ArrayList<SimpleGrantedAuthority>();
 		authority.add(new SimpleGrantedAuthority(user.getRole().getName()));
 			return new org.springframework.security.core.userdetails.User(String.valueOf(user.getId()),
-					user.getPassword(), true, true, true, true, authority);
+					user.getPassword(), authority);
 	}
 
 	@Transactional

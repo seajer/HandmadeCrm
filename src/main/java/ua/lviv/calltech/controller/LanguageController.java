@@ -32,7 +32,7 @@ public class LanguageController {
 		langService.editLanguage(id, name);
 		return "redirect:/all_languages";
 	}
-	
+		
 	@RequestMapping(value="/all_languages", method = RequestMethod.GET)
 	public String viewAll(Model model){
 		model.addAttribute("languages", langService.findAll());

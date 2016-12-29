@@ -4,5 +4,6 @@
 <!DOCTYPE>
 <div>
 	Header 
-	 <a href="<c:url value="/logout" />">Logout</a>
+	 <a href="logout">Logout</a>
+	 <a href="/CallTechInsideCrm/">index</a>
 </div>

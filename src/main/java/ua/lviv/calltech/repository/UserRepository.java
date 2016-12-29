@@ -10,7 +10,7 @@ import ua.lviv.calltech.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-	@Query("SELECT u FROM User u WHERE u.email like :email")
+	@Query("SELECT u FROM User u LEFT JOIN FETCH u.role r WHERE u.email like :email")
 	User findByEmail(@Param("email")String email);
 	
 }

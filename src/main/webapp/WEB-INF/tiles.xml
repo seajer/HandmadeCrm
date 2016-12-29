@@ -37,4 +37,25 @@
 		<put-attribute name="footer" value="/views/tiles/footer.jsp"></put-attribute>
 	</definition>
 	
+	<definition name="pt-*" extends="base.definition">
+		<put-attribute name="body" value="/views/type/{1}.jsp"></put-attribute>
+		<put-attribute name="title" value="{1} project type"></put-attribute>
+		<put-attribute name="header" value="/views/tiles/header.jsp"></put-attribute>
+		<put-attribute name="footer" value="/views/tiles/footer.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="project-*" extends="base.definition">
+		<put-attribute name="body" value="/views/project/{1}.jsp"></put-attribute>
+		<put-attribute name="title" value="{1} project"></put-attribute>
+		<put-attribute name="header" value="/views/tiles/header.jsp"></put-attribute>
+		<put-attribute name="footer" value="/views/tiles/footer.jsp"></put-attribute>
+	</definition>
+	
+		<definition name="questionnaire-*" extends="base.definition">
+		<put-attribute name="body" value="/views/questionnaire/{1}.jsp"></put-attribute>
+		<put-attribute name="title" value="{1} questionnaire"></put-attribute>
+		<put-attribute name="header" value="/views/tiles/header.jsp"></put-attribute>
+		<put-attribute name="footer" value="/views/tiles/footer.jsp"></put-attribute>
+	</definition>
+	
 </tiles-definitions>

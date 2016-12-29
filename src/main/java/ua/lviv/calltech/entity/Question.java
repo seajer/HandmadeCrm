@@ -23,6 +23,8 @@ public class Question {
 	@Column
 	private String text;
 	@Column
+	private boolean isVisible;
+	@Column
 	private String recomendations;
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY, mappedBy = "question")
 	private List<Answer> answers;
@@ -30,7 +32,6 @@ public class Question {
 	@JoinColumn(name = "type_id")
 	private QuestionType type;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "questionnare_id")
 	private Questionnaire questionnaire;
 	
 	public int getId() {
@@ -89,7 +90,16 @@ public class Question {
 		this.questionnaire = questionnaire;
 	}
 
+	public boolean isVisible() {
+		return isVisible;
+	}
+
+	public void setVisible(boolean isVisible) {
+		this.isVisible = isVisible;
+	}
+
 	public Question() {
+		this.isVisible = true;
 	}
 	
 }

@@ -30,7 +30,6 @@ public class UserController {
 	@RequestMapping(value = "/createUser", method = RequestMethod.POST)
 	public String createUser(@RequestParam("name")String name, @RequestParam("email")String email,
 			@RequestParam("phone")String phone, @RequestParam("password")String password, @RequestParam("role")int roleId){
-		System.out.println("pass = " + password);
 		userService.addUser(name, email, phone, password, roleId);
 		return "redirect:/all_users";
 	}

@@ -40,8 +40,16 @@ public class Project {
 	private Questionnaire questionnaire;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
 	private List<ClientDataObject> clientData;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
+	private List<Result> results;
 	
 	public Project() {
+	}
+
+	public Project(String companyName, String title) {
+		super();
+		this.companyName = companyName;
+		this.title = title;
 	}
 
 	public int getId() {
@@ -106,6 +114,14 @@ public class Project {
 
 	public void setClientData(List<ClientDataObject> clientData) {
 		this.clientData = clientData;
+	}
+
+	public List<Result> getResults() {
+		return results;
+	}
+
+	public void setResults(List<Result> results) {
+		this.results = results;
 	}
 	
 	

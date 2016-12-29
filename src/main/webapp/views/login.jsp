@@ -12,8 +12,8 @@
 	<form role="form" action="loginprocessing" method="post">
 		<fieldset>
 		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
-			<input type="text" name="username" required autofocus>
-			<input type="password" name="password" required>		
+			email<input type="text" name="username" required autofocus>
+			password<input type="password" name="password" required>		
 			<button class="btn btn-lg btn-success btn-block" type="submit">Enter</button>
 		</fieldset>
 	</form>

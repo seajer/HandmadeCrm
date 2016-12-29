@@ -7,7 +7,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-	some text for index.jsp
-	<p>${time}</p>
+	
+	<a href="all_users">Users</a>
+	<br/>
+	<a href="all_projectTypes">Project Types</a>
+	<br/>
+	<a href="all_projects">Projects</a>
+	<br/>
+	<a href="all_languages">Languages</a>
+	
 </body>
 </html>
