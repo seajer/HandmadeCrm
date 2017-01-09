@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ua.lviv.calltech.entity.Questionnaire;
+import ua.lviv.calltech.DTO.QuestionnaireDTO;
 import ua.lviv.calltech.service.ProjectService;
 import ua.lviv.calltech.service.QuestionnaierService;
 
@@ -35,12 +35,13 @@ public class QuestionnaireController {
 	
 	@RequestMapping(value="/all_questionnaire", method = RequestMethod.GET)
 	public String allQuestionnaire(Model model){
+		model.addAttribute("questionaire", questionnireService.findAll());
 		return "questionnaire-all";
 	}
 	
 	@RequestMapping(value="/view_questionnaire_{id}", method = RequestMethod.GET)
 	public String viewQuestionnaire(Model model, @PathVariable int id){
-		Questionnaire quest = questionnireService.findByIdWithQuestions(id);
+		QuestionnaireDTO quest = questionnireService.findDtoByIdWithQuestionsAndVisible(id, true);
 		if (quest != null){
 			model.addAttribute("questionnaire", quest);
 			return "questionnaire-view";

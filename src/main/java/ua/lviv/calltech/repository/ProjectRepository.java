@@ -11,7 +11,7 @@ import ua.lviv.calltech.entity.Project;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Integer>{
 	
-	@Query("SELECT p FROM Project p LEFT JOIN FETCH p.type t LEFT JOIN FETCH p.language l")
+	@Query("FROM Project p LEFT JOIN FETCH p.type t LEFT JOIN FETCH p.language l")
 	List<Project> findAllWithLanguageAndType();
 	
 }

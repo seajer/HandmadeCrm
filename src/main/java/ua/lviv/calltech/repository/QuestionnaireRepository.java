@@ -2,15 +2,18 @@ package ua.lviv.calltech.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import ua.lviv.calltech.DTO.QuestionnaireDTO;
 import ua.lviv.calltech.entity.Questionnaire;
 
 @Repository
 public interface QuestionnaireRepository  extends JpaRepository<Questionnaire, Integer>{
 
-	@Query("SELECT q from Questionnaire q LEFT JOIN FETCH q.questions quest WHERE q.id = :id")
-	Questionnaire findByIdWithQuestions(@Param("id")int id);
+	@Query("FROM Questionnaire q JOIN FETCH q.questions sub WHERE q.id = ?1")
+	Questionnaire findByIdWithQuestions(int questionnaireUd);
+
+	@Query("SELECT new ua.lviv.calltech.DTO.QuestionnaireDTO(q.id, q.description) FROM Questionnaire q WHERE q.id = ?1")
+	QuestionnaireDTO findDtoByIdAndVisible(int id);
 
 }

@@ -33,8 +33,7 @@ public class Question {
 	private QuestionType type;
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Questionnaire questionnaire;
-	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinColumn(name="table")
+	@ManyToOne
 	private Question table;
 	@OneToMany(mappedBy="table")
 	private List<Question> tableQuestions;
@@ -121,6 +120,15 @@ public class Question {
 
 	public Question() {
 		this.isVisible = true;
+	}
+
+	public Question(String text, String recomendations, QuestionType type, Questionnaire questionnaire, boolean visible) {
+		super();
+		this.text = text;
+		this.recomendations = recomendations;
+		this.type = type;
+		this.questionnaire = questionnaire;
+		this.isVisible = visible;
 	}
 	
 }

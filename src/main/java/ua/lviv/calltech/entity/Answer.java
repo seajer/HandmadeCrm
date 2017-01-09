@@ -29,6 +29,11 @@ public class Answer {
 		return id;
 	}
 	
+	public Answer(String text) {
+		super();
+		this.text = text;
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -39,6 +44,21 @@ public class Answer {
 	
 	public void setText(String text) {
 		this.text = text;
+	}
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+
+	public Result getResult() {
+		return result;
+	}
+
+	public void setResult(Result result) {
+		this.result = result;
 	}
 	
 	public Answer() {

@@ -4,4 +4,12 @@ jQuery(document).ready(function($) {
 		placeholder : "+380xxxxxxxxx"
 	});
 	
+
+});
+
+jQuery(document).ready(function($) {
+	
+	$('.addAnswer').click(function(){
+		$("#answers").append('<input name="answer"><br/>');
+	});
 });
