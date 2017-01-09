@@ -8,4 +8,6 @@ public interface QuestionnaierService {
 
 	Questionnaire findByIdWithQuestions(int id);
 
+	Questionnaire findById(int questionnaireId);
+
 }

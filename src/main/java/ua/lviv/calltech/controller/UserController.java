@@ -22,6 +22,9 @@ public class UserController {
 	
 	@RequestMapping(value = "/new_user", method = RequestMethod.GET)
 	public String newUser(Model model){
+		if(roleService.findAll().size()<1){
+			roleService.saveRoles();
+		}
 		model.addAttribute("roles", roleService.findAll());
 		return "users-new";
 	}

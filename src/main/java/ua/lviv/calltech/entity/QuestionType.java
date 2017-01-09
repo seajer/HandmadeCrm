@@ -23,6 +23,11 @@ public class QuestionType {
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY, mappedBy = "type")
 	private List<Question> questions;
 	
+	public QuestionType(String text) {
+		super();
+		this.text = text;
+	}
+
 	public QuestionType() {
 	}
 

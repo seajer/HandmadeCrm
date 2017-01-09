@@ -7,6 +7,6 @@ import ua.lviv.calltech.entity.Role;
 public interface RoleService {
 
 	List<Role> findAll();
-
 	Role findOne(int roleId);
+	void saveRoles();
 }

@@ -33,6 +33,11 @@ public class Question {
 	private QuestionType type;
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Questionnaire questionnaire;
+	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinColumn(name="table")
+	private Question table;
+	@OneToMany(mappedBy="table")
+	private List<Question> tableQuestions;
 	
 	public int getId() {
 		return id;
@@ -68,6 +73,22 @@ public class Question {
 	
 	public QuestionType getType() {
 		return type;
+	}
+
+	public Question getTable() {
+		return table;
+	}
+
+	public void setTable(Question table) {
+		this.table = table;
+	}
+
+	public List<Question> getTableQuestions() {
+		return tableQuestions;
+	}
+
+	public void setTableQuestions(List<Question> tableQuestions) {
+		this.tableQuestions = tableQuestions;
 	}
 
 	public void setType(QuestionType type) {

@@ -36,4 +36,8 @@ public class QuestionnaierServiceImpl implements QuestionnaierService{
 		return questionnaireRepository.findByIdWithQuestions(id);
 	}
 
+	public Questionnaire findById(int questionnaireId) {
+		return questionnaireRepository.findOne(questionnaireId);
+	}
+
 }

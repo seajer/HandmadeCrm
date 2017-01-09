@@ -9,4 +9,5 @@
 		<p>${question.text}</p>
 		<br/>
 	</c:forEach>
+	<a href="new_question_${questionnaire.id}">Add new question</a>
 </div>
