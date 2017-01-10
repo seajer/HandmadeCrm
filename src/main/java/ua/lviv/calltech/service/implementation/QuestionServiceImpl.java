@@ -31,9 +31,9 @@ public class QuestionServiceImpl implements QuestionService{
 	private AnswerRepository answerRepository;
 
 	@Transactional
-	public void hideQuestion(int questionId) {
+	public void setVisible(int questionId, boolean isVisible) {
 		Question q = questionRepository.findOne(questionId);
-		q.setVisible(false);
+		q.setVisible(isVisible);
 		questionRepository.save(q);
 	}
 

@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.lviv.calltech.DTO.QuestionDTO;
 import ua.lviv.calltech.DTO.QuestionnaireDTO;
 import ua.lviv.calltech.entity.Project;
-import ua.lviv.calltech.entity.Question;
 import ua.lviv.calltech.entity.Questionnaire;
 import ua.lviv.calltech.repository.ProjectRepository;
 import ua.lviv.calltech.repository.QuestionRepository;
@@ -42,12 +41,7 @@ public class QuestionnaierServiceImpl implements QuestionnaierService{
 
 	@Transactional
 	public Questionnaire findByIdWithQuestions(int id, boolean isVisible) {
-		System.out.println("insyde serv Impl---- id="+id);
-//		Questionnaire q = questionnaireRepository.findByIdWithQuestions(id); need to do something wiht thos method
-		Questionnaire q = questionnaireRepository.findOne(id);
-		List<Question> questions = questionRepository.findByQuestionnaireId(id); 
-		q.setQuestions(questions);
-		System.out.println("questions size = " + questions.size());
+		Questionnaire q = questionnaireRepository.findByIdWithQuestions(id);
 		return q;
 	}
 
@@ -63,11 +57,12 @@ public class QuestionnaierServiceImpl implements QuestionnaierService{
 	public QuestionnaireDTO findDtoByIdWithQuestionsAndVisible(int id, boolean isVisible) {
 		QuestionnaireDTO q = questionnaireRepository.findDtoByIdAndVisible(id);
 		List<QuestionDTO> questions = questionRepository.findDTOWithVisible(id, isVisible);
-		for (QuestionDTO questionDTO : questions) {
-			System.out.println("question DTO id = " + questionDTO.getQuestionId() + " question text = " + questionDTO.getQuestionText());
-		}
 		q.setQuestions(questions);
 		return q;
+	}
+	
+	public int findIdByQuestionId(int questionId) {
+		return questionnaireRepository.fibdIbByQuestionId(questionId);
 	}
 
 }

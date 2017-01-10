@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ua.lviv.calltech.entity.User;
 import ua.lviv.calltech.service.RoleService;
 import ua.lviv.calltech.service.UserService;
 
@@ -47,5 +48,24 @@ public class UserController {
 	public String viewAll(Model model){
 		model.addAttribute("users", userService.findAll());
 		return "users-all";
+	}
+	
+	@RequestMapping(value="/edit_user_{id}", method = RequestMethod.GET)
+	public String editUser(@PathVariable("id")int userId, Model model){
+		User user = userService.findById(userId);
+		model.addAttribute("user", user);
+		return "users-edit";
+	}
+	
+	@RequestMapping(value="/edit_user", method=RequestMethod.POST)
+	public String edit(@RequestParam("id")int userId,@RequestParam("name")String name, @RequestParam("email")String email, @RequestParam("phone")String phone,
+			@RequestParam("oldPassword")String oldPass, @RequestParam("newPassword")String newPass){
+		boolean validPAss = userService.validatePassword(oldPass, userId);
+		if(validPAss){
+			System.out.println("password valid");
+		}else{
+			return "redirect:/edit_user_"+userId+"?wrongPass=true";
+		}
+		return "redirect:/all_users";
 	}
 }

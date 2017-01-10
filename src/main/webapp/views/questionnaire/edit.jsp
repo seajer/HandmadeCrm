@@ -6,14 +6,15 @@
 	<p>${questionnaire.description}</p>
 	<br/>
 	<c:forEach items="${questionnaire.questions}" var="question">
-		<p>${question.type.text}</p>
-		<br/>
 		<p>${question.text}</p>
-		<a href="hide_question_${question.id}">Hide question</a>
-		<br/>
-		<c:forEach items="${question.answers}" var="answer">
-			<p> ${answer.text} </p>
-		</c:forEach>
+		<c:choose>
+			<c:when test="${question.isVisible()}">
+				<a href="hide_question_${question.id}">Hide question</a>
+			</c:when>
+			<c:otherwise>
+				<a href="show_question_${question.id}">Show question</a>
+			</c:otherwise>
+		</c:choose>
 		<br/>
 	</c:forEach>
 	<a href="new_question_${questionnaire.id}">Add new question</a>

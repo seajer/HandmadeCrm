@@ -16,6 +16,7 @@
 				<td> ${user.fullName} </td>
 				<td> ${user.email} </td>
 				<td> ${user.phone} </td>
+				<td> <a href="edit_user_${user.id}">edit</a> </td>
 				<td> <a href="delete_user_${user.id}">delete</a> </td>
 			</tr>
 		</c:forEach>

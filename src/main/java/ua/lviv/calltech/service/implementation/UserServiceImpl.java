@@ -68,4 +68,15 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 		return userRepository.findAll();
 	}
 
+	public User findById(int userId) {
+		return userRepository.findOne(userId);
+	}
+
+	public boolean validatePassword(String oldPass, int userId) {
+		User user = userRepository.findOne(userId);
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		if(encoder.matches(oldPass, user.getPassword()))return true;
+		return false;
+	}
+
 }

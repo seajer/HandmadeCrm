@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ua.lviv.calltech.entity.Answer;
 import ua.lviv.calltech.entity.Question;
 import ua.lviv.calltech.entity.QuestionType;
 import ua.lviv.calltech.entity.Questionnaire;
@@ -57,13 +56,6 @@ public class QuestionControler {
 		Question question = questionService.findById(questionId);
 		List<QuestionType> types = questionTypeServise.findAll();
 		types.remove(question.getType());
-		System.out.println("question id = " + questionId);
-		System.out.println("question text " + question.getText());
-		System.out.println("recomendations " + question.getRecomendations());
-		System.out.println("question type id = " + question.getType().getId());
-		for(Answer answer : question.getAnswers()){
-			System.out.println("answer id = " + answer.getId() + " answer text = " + answer.getText());
-		}
 		modal.addAttribute("question", question).addAttribute("types", types);
 		return "question-edit";
 	}
@@ -71,20 +63,21 @@ public class QuestionControler {
 	@RequestMapping(value="/edit_question", method = RequestMethod.POST)
 	public String edit(@RequestParam("id")int questionId, @RequestParam("question")String question, @RequestParam("recommendations")String recommendations,
 			@RequestParam("answType")int type, @RequestParam("answerId")int[] answersId, @RequestParam("answerText")String[] answersText){
-		System.out.println("question id = " + questionId);
-		System.out.println("question text " + question);
-		System.out.println("recomendations " + recommendations);
-		System.out.println("question type id = " + type);
-		for(int i = 0; i < answersId.length; i++){
-			System.out.println("answer id = " + answersId[i] + " answer text = " + answersText[i]);
-		}
 		questionService.editQuestion(questionId, question, recommendations, type, answersId, answersText);
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value="hide_question_{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/hide_question_{id}", method=RequestMethod.GET)
 	public String hideQuestion(@PathVariable("id")int questionId){
-		questionService.hideQuestion(questionId);
-		return "redirect:/";
+		questionService.setVisible(questionId, false);
+		int questionnaireId = questionnaireService.findIdByQuestionId(questionId);
+		return "redirect:/edit_questionnaire_"+questionnaireId;
+	}
+	
+	@RequestMapping(value="/show_question_{id}", method=RequestMethod.GET)
+	public String showQuestion(@PathVariable("id")int questionId){
+		questionService.setVisible(questionId, true);
+		int questionnaireId = questionnaireService.findIdByQuestionId(questionId);
+		return "redirect:/edit_questionnaire_"+questionnaireId;
 	}
 }

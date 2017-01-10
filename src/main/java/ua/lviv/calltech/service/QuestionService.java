@@ -4,7 +4,7 @@ import ua.lviv.calltech.entity.Question;
 
 public interface QuestionService {
 
-	void hideQuestion(int questionId);
+	void setVisible(int questionId, boolean isVisible);
 
 	void addNewQuestion(int questionnaireId, String question, String recommendations, int type, String[] answers);
 

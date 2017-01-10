@@ -14,4 +14,8 @@ public interface UserService {
 
 	List<User> findAll();
 
+	User findById(int userId);
+
+	boolean validatePassword(String oldPass, int userId);
+
 }

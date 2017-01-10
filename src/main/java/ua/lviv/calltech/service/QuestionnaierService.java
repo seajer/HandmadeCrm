@@ -17,4 +17,6 @@ public interface QuestionnaierService {
 
 	QuestionnaireDTO findDtoByIdWithQuestionsAndVisible(int id, boolean b);
 
+	int findIdByQuestionId(int questionId);
+
 }

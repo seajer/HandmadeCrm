@@ -16,4 +16,7 @@ public interface QuestionnaireRepository  extends JpaRepository<Questionnaire, I
 	@Query("SELECT new ua.lviv.calltech.DTO.QuestionnaireDTO(q.id, q.description) FROM Questionnaire q WHERE q.id = ?1")
 	QuestionnaireDTO findDtoByIdAndVisible(int id);
 
+	@Query("SELECT q.id FROM Questionnaire q JOIN q.questions quest WHERE quest.id = ?1")
+	int fibdIbByQuestionId(int questionId);
+
 }
