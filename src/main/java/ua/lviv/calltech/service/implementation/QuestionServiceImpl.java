@@ -1,6 +1,7 @@
 package ua.lviv.calltech.service.implementation;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,54 @@ public class QuestionServiceImpl implements QuestionService{
 		}
 		answerRepository.save(answerList);
 		
-		q.setAnswears(answerList);
+		q.setAnswers(answerList);
 		questionRepository.save(q);
 	}
 
+	@Transactional
+	public Question findById(int questionId) {
+		Question q = questionRepository.findOneWIthType(questionId);
+		return q;
+	}
+
+	@Transactional
+	public void editQuestion(int questionId, String text, String recommendations, int type, int[] answersId,
+			String[] answersText) {
+		Question question = questionRepository.findOne(questionId);
+		QuestionType qt = questionTypeRepository.findOne(type);
+		question.setText(text);
+		question.setRecomendations(recommendations);
+		question.setType(qt);
+		List<Answer> incomingAnswers = generatingAnswers(answersText, answersId, questionId);
+		List<Answer> answersFromDb = question.getAnswers();
+		Iterator<Answer> iter = answersFromDb.iterator();
+		while(iter.hasNext()){
+			Answer answer = (Answer) iter.next();
+			if(incomingAnswers.contains(answer)){
+				iter.remove();
+			}
+		}
+		answerRepository.delete(answersFromDb);
+		question.setAnswers(incomingAnswers);
+		questionRepository.save(question);
+	}
+
+	private List<Answer> generatingAnswers(String[] answersText, int[] answersId, int questionId){
+		List<Answer> answers = new ArrayList<Answer>();
+		for(int i=0; i<answersId.length; i++){
+			if(answersId[i]!=0){
+				Answer answer = answerRepository.findOne(answersId[i]);
+				answer.setText(answersText[i]);
+				answerRepository.save(answer);
+				answers.add(answer);
+			}else{
+				Answer answer = new Answer(answersText[i]);
+				answer.setQuestion(questionRepository.findOne(questionId));
+				answerRepository.save(answer);
+				answers.add(answer);
+			}
+		}
+		return answers;
+	}
+	
 }

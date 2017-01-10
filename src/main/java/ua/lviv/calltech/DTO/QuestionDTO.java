@@ -10,6 +10,7 @@ public class QuestionDTO {
 		this.questionId = questionId;
 		this.questionText = questionText;
 	}
+
 	public int getQuestionId() {
 		return questionId;
 	}
@@ -25,5 +26,4 @@ public class QuestionDTO {
 	public QuestionDTO() {
 		super();
 	}
-	
 }

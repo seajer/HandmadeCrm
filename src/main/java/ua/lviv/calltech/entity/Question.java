@@ -61,14 +61,6 @@ public class Question {
 	public void setRecomendations(String recomendations) {
 		this.recomendations = recomendations;
 	}
-
-	public List<Answer> getAnswears() {
-		return answers;
-	}
-
-	public void setAnswears(List<Answer> answears) {
-		this.answers = answears;
-	}
 	
 	public QuestionType getType() {
 		return type;
