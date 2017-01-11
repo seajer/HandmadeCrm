@@ -2,6 +2,7 @@ package ua.lviv.calltech.service;
 
 import java.util.List;
 
+import ua.lviv.calltech.DTO.ProjectDTO;
 import ua.lviv.calltech.entity.Project;
 
 public interface ProjectService {
@@ -13,5 +14,9 @@ public interface ProjectService {
 	List<Project> findAllWithLanguageAndType();
 
 	void deleteProject(int projectId);
+
+	ProjectDTO findDtoById(int projectId);
+
+	void editProject(int projectId, String title, String company, int langId, int typeId);
 
 }

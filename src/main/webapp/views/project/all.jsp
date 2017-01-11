@@ -10,6 +10,7 @@
 		<i>${project.companyName}</i> ||
 		<i>${project.language.name}</i> ||
 		<i>${project.type.name}</i> ||
+		<a href="edit_project_${project.id}">Edit</a>
 		<a href="delete_project_${project.id}">Delete</a>
 	</div>
 	</c:forEach>

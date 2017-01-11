@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.lviv.calltech.DTO.ProjectDTO;
 import ua.lviv.calltech.entity.ProjectType;
 import ua.lviv.calltech.repository.ProjectTypeRepository;
 import ua.lviv.calltech.service.ProjectTypeService;
@@ -32,6 +33,14 @@ public class ProjectTypeServiceImpl implements ProjectTypeService{
 		if(pt != null) {
 			pTypeRepository.delete(projectTypeId);
 		}
+	}
+
+	public List<ProjectType> typesExceptProjects(ProjectDTO project) {
+		List<ProjectType> all = findAll();
+		ProjectType projectsType = pTypeRepository.findByProjectsId(project.getId());
+		project.setType(projectsType);
+		all.remove(projectsType);
+		return all;
 	}
 
 }

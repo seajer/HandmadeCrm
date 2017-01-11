@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.lviv.calltech.DTO.ProjectDTO;
 import ua.lviv.calltech.entity.Language;
 import ua.lviv.calltech.repository.LanguageRepository;
 import ua.lviv.calltech.service.LanguageService;
@@ -42,6 +43,15 @@ public class LanguageServiceImpl implements LanguageService {
 		if(lang != null){
 			langRepository.delete(id);
 		}
+	}
+
+	@Transactional
+	public List<Language> languagesExceptProjects(ProjectDTO project) {
+		List<Language> all = findAll();
+		Language projectsLang = langRepository.projectsLanguage(project.getId());
+		project.setLanguage(projectsLang);
+		all.remove(projectsLang);
+		return all;
 	}
 
 }
