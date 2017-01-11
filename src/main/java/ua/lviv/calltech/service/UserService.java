@@ -18,4 +18,10 @@ public interface UserService {
 
 	boolean validatePassword(String oldPass, int userId);
 
+	boolean passPresenting(String oldPass);
+
+	void saveWithoutPass(int userId, String name, String email, String phone);
+
+	void saveWithPass(int userId, String name, String email, String phone, String newPass);
+
 }

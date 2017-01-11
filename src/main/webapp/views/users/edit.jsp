@@ -11,12 +11,11 @@
 		phone<input type="text" name="phone" id="phone" value="${user.phone}"/>
 		<div>
 			<%
-				if(request.getParameter("wrongPass")==null){
-					out.print("clear");
-				} else {
+				if(request.getParameter("wrongPass")!=null){
 					out.print("<p>WrongPassword</p>");
 				}
 			%>
+			<h1> ${wrongPass} </h1>
 			Old password<input name="oldPassword"/>
 			New password<input name="newPassword"/>
 		</div>

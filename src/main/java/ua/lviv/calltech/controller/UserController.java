@@ -58,14 +58,21 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/edit_user", method=RequestMethod.POST)
-	public String edit(@RequestParam("id")int userId,@RequestParam("name")String name, @RequestParam("email")String email, @RequestParam("phone")String phone,
-			@RequestParam("oldPassword")String oldPass, @RequestParam("newPassword")String newPass){
-		boolean validPAss = userService.validatePassword(oldPass, userId);
-		if(validPAss){
-			System.out.println("password valid");
+	public String edit(@RequestParam("id")int userId,@RequestParam("name")String name, @RequestParam("email")String email,
+			@RequestParam("phone")String phone,	@RequestParam("oldPassword")String oldPass,
+			@RequestParam("newPassword")String newPass){
+		boolean passPresented = userService.passPresenting(oldPass);
+		if(passPresented){
+			boolean validPAss = userService.validatePassword(oldPass, userId);
+			if(validPAss){
+				userService.saveWithPass(userId, name, email, phone, newPass);
+			}else{
+				return "redirect:/edit_user_"+userId+"?wrongPass=true";
+			}
 		}else{
-			return "redirect:/edit_user_"+userId+"?wrongPass=true";
+			userService.saveWithoutPass(userId, name, email, phone);
 		}
+		
 		return "redirect:/all_users";
 	}
 }
