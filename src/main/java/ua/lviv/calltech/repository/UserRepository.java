@@ -17,5 +17,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	@Query("SELECT new ua.lviv.calltech.DTO.UserDTO(u.id, u.fullName) FROM User u JOIN u.projects p WHERE p.id = ?1")
 	List<UserDTO> findAllDtoFromProject(int projectId);
+
+	@Query("SELECT new ua.lviv.calltech.DTO.UserDTO(u.id, u.fullName) FROM User u JOIN u.language l WHERE l.id = ?1")
+	List<UserDTO> findAllDtoWithLanguage(int languageId);
 	
 }

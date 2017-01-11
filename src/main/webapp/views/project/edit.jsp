@@ -25,7 +25,7 @@
 			</c:forEach>
 		</select>
 		Users
-		<select class="chosen-select" name="users">
+		<select class="chosen-select" name="users" multiple="multiple">
 			<c:forEach items="${usersIn}" var="user">
 				<option selected value="${user.id}">${user.name}</option>
 			</c:forEach>

@@ -54,4 +54,15 @@ public class LanguageServiceImpl implements LanguageService {
 		return all;
 	}
 
+	public List<Language> findAllByUserId(int userId) {
+		List<Language> langs = langRepository.findAllByUserId(userId);
+		return langs;
+	}
+
+	public List<Language> findAllExcept(List<Language> langsIn) {
+		List<Language> all = findAll();
+		all.removeAll(langsIn);
+		return all;
+	}
+
 }

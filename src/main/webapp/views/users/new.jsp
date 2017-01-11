@@ -5,14 +5,19 @@
 <div>
 	<form action="createUser" method="post">
 	<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
-		Name<input type="text" name="name"/>
-		email<input type="text" name="email"/>
-		pass<input type="password" name="password"/>
-		phone<input type="text" name="phone" id="phone"/>
+		Name<input type="text" name="name"/><br/>
+		email<input type="text" name="email"/><br/>
+		pass<input type="password" name="password"/><br/>
+		phone<input type="text" name="phone" id="phone"/><br/>
 		role
 		<select name="role">
 			<c:forEach items="${roles}" var="role">
 				<option value="${role.id}">${role.name}</option>
+			</c:forEach>
+		</select><br/>
+		<select name="language">
+			<c:forEach items="${languages}" var="language">
+				<option value="${language.id}">${language.name}</option>
 			</c:forEach>
 		</select>
 		<input type="submit" value="Submit" />

@@ -17,4 +17,8 @@ public interface LanguageService {
 
 	List<Language> languagesExceptProjects(ProjectDTO project);
 
+	List<Language> findAllByUserId(int userId);
+
+	List<Language> findAllExcept(List<Language> langsIn);
+
 }

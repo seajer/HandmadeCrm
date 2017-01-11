@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ua.lviv.calltech.DTO.ProjectDTO;
+import ua.lviv.calltech.DTO.UserDTO;
 import ua.lviv.calltech.entity.Language;
 import ua.lviv.calltech.entity.ProjectType;
 import ua.lviv.calltech.service.LanguageService;
 import ua.lviv.calltech.service.ProjectService;
 import ua.lviv.calltech.service.ProjectTypeService;
+import ua.lviv.calltech.service.UserService;
 
 @Controller
 public class ProjectController {
@@ -31,6 +33,9 @@ public class ProjectController {
 
 	@Autowired
 	private LanguageService languageServise;
+
+	@Autowired
+	private UserService userServise;
 	
 	@RequestMapping(value = "/new_project", method = RequestMethod.GET)
 	public String newProject(Model model){
@@ -58,7 +63,10 @@ public class ProjectController {
 		if(project != null){
 			List<Language> otherLangs = languageServise.languagesExceptProjects(project);
 			List<ProjectType> otherTypes = pTypeService.typesExceptProjects(project);
+			List<UserDTO> usersIn = userServise.findAllUsersDtoOnProject(projectId);
+			List<UserDTO> usersOut = userServise.findAllUsersDtoOutOfProject(usersIn, project.getLanguage().getId());
 			model.addAttribute("project", project).addAttribute("otherLangs", otherLangs).addAttribute("types", otherTypes);
+			model.addAttribute("usersIn", usersIn).addAttribute("usersOut", usersOut);
 			return "project-edit";
 		}
 		return "404";
@@ -66,8 +74,8 @@ public class ProjectController {
 	
 	@RequestMapping(value="/edit_project", method = RequestMethod.POST)
 	public String edit(@RequestParam("id")int projectId, @RequestParam("name")String title, @RequestParam("company")String company,
-			@RequestParam("lang")int langId, @RequestParam("type")int typeId){
-		projectService.editProject(projectId, title, company, langId, typeId);
+			@RequestParam("lang")int langId, @RequestParam("type")int typeId, @RequestParam("users")int[] usersId){
+		projectService.editProject(projectId, title, company, langId, typeId, usersId);
 		return "redirect:/all_projects";
 	}
 	

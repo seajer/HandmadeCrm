@@ -13,8 +13,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.lviv.calltech.DTO.UserDTO;
+import ua.lviv.calltech.entity.Language;
 import ua.lviv.calltech.entity.Role;
 import ua.lviv.calltech.entity.User;
+import ua.lviv.calltech.repository.LanguageRepository;
 import ua.lviv.calltech.repository.UserRepository;
 import ua.lviv.calltech.service.RoleService;
 import ua.lviv.calltech.service.UserService;
@@ -27,6 +30,9 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private LanguageRepository languageRepository;
 
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
@@ -47,12 +53,16 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	}
 
 	@Transactional
-	public void addUser(String name, String email, String phone, String password, int roleId) {
+	public void addUser(String name, String email, String phone, String password, int roleId, int langId) {
 		User user = new User(name, email, phone);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		user.setPassword(encoder.encode(password));
 		Role role = roleService.findOne(roleId);
+		Language lang = languageRepository.findOne(langId);
+		List<Language> langs = new ArrayList<Language>();
+		langs.add(lang);
 		user.setRole(role);
+		user.setLanguage(langs);
 		userRepository.save(user);
 	}
 
@@ -83,27 +93,47 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 		return oldPass.trim().length() != 0;
 	}
 	@Transactional
-	public void saveWithoutPass(int userId, String name, String email, String phone) {
+	public void saveWithoutPass(int userId, String name, String email, String phone, int[] langId) {
 		User u = userRepository.findOne(userId);
 		if(u != null){
-			u.setFullName(name);
-			u.setEmail(email);
-			u.setPhone(phone);
+			fillUserWithParams(u, name, email, phone, langId);
 			userRepository.save(u);
 		}
 	}
 
 	@Transactional
-	public void saveWithPass(int userId, String name, String email, String phone, String newPass) {
+	public void saveWithPass(int userId, String name, String email, String phone, String newPass, int[] langId) {
 		User u = userRepository.findOne(userId);
 		if(u != null){
-			u.setFullName(name);
-			u.setEmail(email);
-			u.setPhone(phone);
+			fillUserWithParams(u, name, email, phone, langId);
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			u.setPassword(encoder.encode(newPass));
 			userRepository.save(u);
 		}
+	}
+
+	public List<UserDTO> findAllUsersDtoOnProject(int projectId) {
+		List<UserDTO> users = userRepository.findAllDtoFromProject(projectId);
+		return users;
+	}
+
+	public List<UserDTO> findAllUsersDtoOutOfProject(List<UserDTO> usersOn, int languageId) {
+		List<UserDTO> usersOut = userRepository.findAllDtoWithLanguage(languageId);
+		usersOut.removeAll(usersOn);
+		return usersOut;
+	}
+	
+	private User fillUserWithParams(User user, String name, String email, String phone, int[] langId){
+		user.setFullName(name);
+		user.setEmail(email);
+		user.setPhone(phone);
+		List<Language> langs = new ArrayList<Language>();
+		for (int i : langId) {
+			Language lang = languageRepository.findOne(i);
+			langs.add(lang);
+		}
+		user.setLanguage(langs);
+		return user;
 	}
 
 }

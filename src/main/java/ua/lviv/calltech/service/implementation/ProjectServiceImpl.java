@@ -1,5 +1,6 @@
 package ua.lviv.calltech.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import ua.lviv.calltech.DTO.UserDTO;
 import ua.lviv.calltech.entity.Language;
 import ua.lviv.calltech.entity.Project;
 import ua.lviv.calltech.entity.ProjectType;
+import ua.lviv.calltech.entity.User;
 import ua.lviv.calltech.repository.LanguageRepository;
 import ua.lviv.calltech.repository.ProjectRepository;
 import ua.lviv.calltech.repository.ProjectTypeRepository;
@@ -76,13 +78,19 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 	
 	@Transactional
-	public void editProject(int projectId, String title, String company, int langId, int typeId) {
+	public void editProject(int projectId, String title, String company, int langId, int typeId, int[] usersId) {
 		Project project = projectRepository.findOne(projectId);
 		if(project != null){
 			Language lang = langRepository.findOne(langId);
 			ProjectType type = pTypeRepository.findOne(typeId);
 			project.setTitle(title);
 			project.setCompanyName(company);
+			List<User> users = new ArrayList<User>();
+			for (int i : usersId) {
+				User u = userRepository.findOne(i);
+				users.add(u);
+			}
+			project.setUsers(users);
 			if(lang != null){
 				project.setLanguage(lang);
 			}

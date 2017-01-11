@@ -17,6 +17,6 @@ public interface ProjectService {
 
 	ProjectDTO findDtoById(int projectId);
 
-	void editProject(int projectId, String title, String company, int langId, int typeId);
+	void editProject(int projectId, String title, String company, int langId, int typeId, int[] usersId);
 
 }
