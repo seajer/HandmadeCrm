@@ -32,9 +32,17 @@ public class ProjectTypeController {
 		model.addAttribute("types", pTypeServise.findAll());
 		return "pt-all";
 	}
-	@RequestMapping(value="/delete_projectType_{id}") 
+	@RequestMapping(value="/delete_projectType_{id}", method = RequestMethod.GET) 
 	public String deleteProjectType(@PathVariable("id")int projectTypeId){
 		pTypeServise.deletePType(projectTypeId);
+		return "redirect:/all_projectTypes";
+	}
+	
+	@RequestMapping(value="/edit_projectType", method = RequestMethod.POST)
+	public String edit(@RequestParam("id")int projectTypeId, @RequestParam("name")String name){
+		if(name.trim().length() > 1){
+			pTypeServise.edit(projectTypeId, name);
+		}
 		return "redirect:/all_projectTypes";
 	}
 	

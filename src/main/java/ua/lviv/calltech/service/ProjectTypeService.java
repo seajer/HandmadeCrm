@@ -15,4 +15,6 @@ public interface ProjectTypeService {
 
 	List<ProjectType> typesExceptProjects(ProjectDTO project);
 
+	void edit(int projectTypeId, String name);
+
 }

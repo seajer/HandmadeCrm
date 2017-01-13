@@ -19,4 +19,6 @@ public interface QuestionnaierService {
 
 	int findIdByQuestionId(int questionId);
 
+	void editQUestionnaire(int questionnaireId, String description);
+
 }

@@ -65,4 +65,13 @@ public class QuestionnaierServiceImpl implements QuestionnaierService{
 		return questionnaireRepository.fibdIbByQuestionId(questionId);
 	}
 
+	@Transactional
+	public void editQUestionnaire(int questionnaireId, String description) {
+		Questionnaire q = questionnaireRepository.findOne(questionnaireId);
+		if(q != null){
+			q.setDescription(description);
+			questionnaireRepository.save(q);
+		}
+	}
+
 }

@@ -3,19 +3,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE>
 <div>
-	<p>${questionnaire.description}</p>
-	<br/>
-	<c:forEach items="${questionnaire.questions}" var="question">
-		<p>${question.text}</p>
-		<c:choose>
-			<c:when test="${question.isVisible()}">
-				<a href="hide_question_${question.id}">Hide question</a>
-			</c:when>
-			<c:otherwise>
-				<a href="show_question_${question.id}">Show question</a>
-			</c:otherwise>
-		</c:choose>
+	<form action="edit_questionnaire" method="post">
+		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+		<input type="hidden" name="id" value="${questionnaire.id}"/>
+		<input name="description" value="${questionnaire.description}"/>
 		<br/>
-	</c:forEach>
-	<a href="new_question_${questionnaire.id}">Add new question</a>
+		<button type="submit">Submit</button>
+		<br/>
+		<c:forEach items="${questionnaire.questions}" var="question">
+			<p>${question.text}</p>
+			<c:choose>
+				<c:when test="${question.isVisible()}">
+					<a href="hide_question_${question.id}">Hide question</a>
+				</c:when>
+				<c:otherwise>
+					<a href="show_question_${question.id}">Show question</a>
+				</c:otherwise>
+			</c:choose>
+			<br/>
+		</c:forEach>
+		<a href="new_question_${questionnaire.id}">Add new question</a>
+	</form>
 </div>

@@ -57,4 +57,12 @@ public class QuestionnaireController {
 		model.addAttribute("questionnaire", quest);
 		return "questionnaire-edit";
 	}
+	
+	@RequestMapping(value="/edit_questionnaire", method = RequestMethod.POST)
+	public String edit(@RequestParam("id")int questionnaireId, @RequestParam("description")String description){
+		if(description.trim().length() > 1){
+			questionnireService.editQUestionnaire(questionnaireId, description);
+		}
+		return "redirect:/all_questionnaire";
+	}
 }

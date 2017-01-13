@@ -43,4 +43,13 @@ public class ProjectTypeServiceImpl implements ProjectTypeService{
 		return all;
 	}
 
+	@Transactional
+	public void edit(int projectTypeId, String name) {
+		ProjectType pType = pTypeRepository.findOne(projectTypeId);
+		if(pType != null) {
+			pType.setName(name);
+			pTypeRepository.save(pType);
+		}
+	}
+
 }
