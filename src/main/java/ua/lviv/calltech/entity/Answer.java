@@ -1,5 +1,7 @@
 package ua.lviv.calltech.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -18,12 +22,14 @@ public class Answer {
 	private int id;
 	@Column
 	private String text;
+	@Column
+	private Integer questionId;	//used to custom answers (we don`t want to bind custom answers to question properly so used this field)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "question_id")
 	private Question question;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "result_id")
-	private Result result;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="result_answer", inverseJoinColumns=@JoinColumn(name="result_id"), joinColumns=@JoinColumn(name="answer_id"))
+	private List<Result> result;
 	
 	public int getId() {
 		return id;
@@ -53,14 +59,24 @@ public class Answer {
 		this.question = question;
 	}
 
-	public Result getResult() {
+	public List<Result> getResult() {
 		return result;
 	}
 
-	public void setResult(Result result) {
+	public void setResult(List<Result> result) {
 		this.result = result;
 	}
 	
+	
+	
+	public Integer getQuestionId() {
+		return questionId;
+	}
+
+	public void setQuestionId(Integer questionId) {
+		this.questionId = questionId;
+	}
+
 	public Answer() {
 	}
 

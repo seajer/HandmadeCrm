@@ -65,4 +65,11 @@
 		<put-attribute name="footer" value="/views/tiles/footer.jsp"></put-attribute>
 	</definition>
 	
+	<definition name="poll-*" extends="base.definition">
+		<put-attribute name="body" value="/views/poll/{1}.jsp"></put-attribute>
+		<put-attribute name="title" value="{1} poll"></put-attribute>
+		<put-attribute name="header" value="/views/tiles/header.jsp"></put-attribute>
+		<put-attribute name="footer" value="/views/tiles/footer.jsp"></put-attribute>
+	</definition>
+	
 </tiles-definitions>

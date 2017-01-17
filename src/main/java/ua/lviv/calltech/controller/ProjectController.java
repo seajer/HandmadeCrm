@@ -39,8 +39,13 @@ public class ProjectController {
 	
 	@RequestMapping(value = "/new_project", method = RequestMethod.GET)
 	public String newProject(Model model){
-		model.addAttribute("languages", langService.findAll()).
-			addAttribute("types", pTypeService.findAll());
+		model.addAttribute("languages", langService.findAll());
+		List <ProjectType> types = pTypeService.findAll();
+		if(types.size() < 1){
+			pTypeService.createProjectTypes();
+			types = pTypeService.findAll();
+		}
+		model.addAttribute("types", types);
 		return "project-new";
 	}
 	

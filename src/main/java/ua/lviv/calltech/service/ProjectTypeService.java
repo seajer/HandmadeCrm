@@ -17,4 +17,6 @@ public interface ProjectTypeService {
 
 	void edit(int projectTypeId, String name);
 
+	void createProjectTypes();
+
 }

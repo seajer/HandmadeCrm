@@ -52,4 +52,14 @@ public class ProjectTypeServiceImpl implements ProjectTypeService{
 		}
 	}
 
+	@Transactional
+	public void createProjectTypes() {
+		ProjectType pollWithDB = new ProjectType("Poll with customers DB");
+		pTypeRepository.save(pollWithDB);
+		ProjectType pollWithoutDB = new ProjectType("Poll using yellowpages");
+		pTypeRepository.save(pollWithoutDB);
+		ProjectType dBValidation = new ProjectType("Validation customers DB");
+		pTypeRepository.save(dBValidation);
+	}
+
 }

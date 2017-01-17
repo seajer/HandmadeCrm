@@ -101,4 +101,8 @@ public class ProjectServiceImpl implements ProjectService{
 		}
 	}
 
+	public Project findOne(int projectId) {
+		return projectRepository.findOne(projectId);
+	}
+
 }

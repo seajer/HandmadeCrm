@@ -1,5 +1,7 @@
 package ua.lviv.calltech.service;
 
+import java.util.Set;
+
 import ua.lviv.calltech.entity.Question;
 
 public interface QuestionService {
@@ -12,5 +14,7 @@ public interface QuestionService {
 
 	void editQuestion(int questionId, String question, String recommendations, int type, int[] answersId,
 			String[] answersText);
+
+	Set<Question> findQuestionsByProjectId(int projectId);
 
 }

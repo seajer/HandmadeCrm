@@ -3,6 +3,7 @@ package ua.lviv.calltech.service.implementation;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,6 +100,11 @@ public class QuestionServiceImpl implements QuestionService{
 			}
 		}
 		return answers;
+	}
+
+	public Set<Question> findQuestionsByProjectId(int projectId) {
+		Set<Question> questions = questionRepository.findAllByProjectId(projectId);
+		return questions;
 	}
 	
 }

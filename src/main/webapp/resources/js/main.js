@@ -18,8 +18,18 @@ jQuery(document).ready(function($) {
 	$('#answers').on('click','a.remove', function(){
 		 $(this).parents('div').eq(0).remove();
 	});
-	multiselect();
 	
+	$(".next").click(function(){
+		var answers = getAnswers();
+		var resultId = $("input[name='resultId']").val();
+		var questionId = $('div.shown input[name="questionId"]').val();
+		sendAnswers(resultId, answers, questionId);
+		$(".shown").hide();
+		$(".shown").next().removeClass("hidden").addClass("shown").show();
+		$(".shown").first().removeClass("shown").addClass("hidden");
+	});
+	
+	multiselect();
 });
 
 function multiselect() {
@@ -41,4 +51,44 @@ function multiselect() {
 	for ( var selector in config) {
 		$(selector).chosen(config[selector]);
 	}
+}
+
+function sendAnswers(resultId, answers, questionId) {
+	
+	var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+      xhr.setRequestHeader(header, token);
+    });
+	
+	$.ajax({
+		type : "POST",
+		contentType : "application/json",
+		url : "saveResultAnswers",
+		dataType : 'json',
+		timeout : 100000,
+		data : JSON.stringify({
+			resultId : resultId,
+			questionId: questionId,
+			answers : answers
+		}),
+		success : function(data) {
+			console.log("SUCCESS: ", data);
+		},
+		error : function(e) {
+			console.log("ERROR: ", e);
+		},
+		done : function(e) {
+			console.log("DONE");
+		}
+	});
+	
+}
+
+function getAnswers(){
+	var elements = [];
+	$("div.shown input:checked").each(function(){
+		elements.push($(this).val());
+	});
+	return elements;
 }

@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class ClientDataObject {
@@ -48,6 +49,9 @@ public class ClientDataObject {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "project_id")
 	private Project project;
+	@OneToOne(mappedBy="client")
+	@JoinColumn(name = "result_id")
+	private Result result;
 	
 	public ClientDataObject() {
 	}
@@ -178,6 +182,14 @@ public class ClientDataObject {
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	public Result getResult() {
+		return result;
+	}
+
+	public void setResult(Result result) {
+		this.result = result;
 	}
 	
 	

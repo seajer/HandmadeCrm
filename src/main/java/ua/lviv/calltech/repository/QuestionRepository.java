@@ -1,6 +1,7 @@
 package ua.lviv.calltech.repository;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,5 +22,8 @@ public interface QuestionRepository extends JpaRepository<Question, Integer>{
 
 	@Query("SELECT q FROM Question q JOIN FETCH q.type t JOIN FETCH q.answers a WHERE q.id = :id")
 	Question findOneWIthType(@Param("id")int questionId);
+
+	@Query("SELECT q FROM Question q JOIN FETCH q.answers a JOIN FETCH q.type t JOIN q.questionnaire seq JOIN seq.project p WHERE p.id = ?1 AND q.isVisible = true")
+	Set<Question> findAllByProjectId(int projectId);
 
 }
