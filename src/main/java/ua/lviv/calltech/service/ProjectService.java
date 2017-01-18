@@ -21,4 +21,6 @@ public interface ProjectService {
 	
 	Project findOne(int projectId);
 
+	Project findOneWithType(int projectId);
+
 }

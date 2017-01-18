@@ -105,4 +105,10 @@ public class ProjectServiceImpl implements ProjectService{
 		return projectRepository.findOne(projectId);
 	}
 
+	@Transactional
+	public Project findOneWithType(int projectId) {
+		Project project = projectRepository.findOneWithType(projectId);
+		return project;
+	}
+
 }

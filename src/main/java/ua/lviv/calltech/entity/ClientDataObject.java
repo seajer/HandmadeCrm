@@ -50,7 +50,6 @@ public class ClientDataObject {
 	@JoinColumn(name = "project_id")
 	private Project project;
 	@OneToOne(mappedBy="client")
-	@JoinColumn(name = "result_id")
 	private Result result;
 	
 	public ClientDataObject() {

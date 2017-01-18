@@ -19,10 +19,15 @@ public class Status {
 	private int id;
 	@Column
 	private String name;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "status")
 	private List<ClientDataObject> objects;
 	
 	public Status() {
+	}
+
+	public Status(String name) {
+		super();
+		this.name = name;
 	}
 
 	public int getId() {

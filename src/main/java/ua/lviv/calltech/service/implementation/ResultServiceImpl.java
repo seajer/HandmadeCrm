@@ -38,6 +38,7 @@ public class ResultServiceImpl implements ResultService{
 		int userId = Integer.parseInt(principalId);
 		Integer resultId = resultRepository.finqClearOneByProjectId(projectId, userId);
 		if(resultId == null){
+			System.out.println("result is null");
 			Project project = projectRepository.findOne(projectId);
 			User user = userRepository.findOne(userId);
 			Result r = new Result(project, user);
@@ -47,29 +48,25 @@ public class ResultServiceImpl implements ResultService{
 		return resultId;
 	}
 
-	// не паше тому ..
+	@Transactional
 	public Result findOneWithAnswers(int resultId) {
 		Result result = resultRepository.findOneWithAnswers(resultId);
 		return result;
 	}
-//	// .. їбашим отак
-//	private Result costylMethod(int resultId){
-//		Result result = resultRepository.findOne(resultId);
-//		List<Answer> answers = answerService.findAllByResultId(resultId);
-//		result.setAnswers(answers);
-//		return result;
-//	}
 
 	@Transactional
 	public void setAnswerToResult(int resultId, int questionId, JSONArray answers) {
 		Result result = findOneWithAnswers(resultId);
 		for (Object obj : answers) {
 			try {
+				System.out.println("try");
+				System.out.println("obj = " + obj.toString());
 				int answerId = Integer.parseInt(obj.toString());
 				Answer answer = answerService.findOne(answerId);
 				setAnswersToResult(result, answer);
 				
 			} catch (Exception e) {
+				System.out.println("catch");
 				String str = obj.toString();
 				Answer answer = new Answer(str);
 				answer.setQuestionId(questionId);
@@ -91,6 +88,26 @@ public class ResultServiceImpl implements ResultService{
 			answ.add(answer);
 			result.setAnswers(answ);
 		}
+	}
+
+	public Result findOne(int resultId) {
+		return resultRepository.findOne(resultId);
+	}
+
+	@Transactional
+	public void save(Result result) {
+		resultRepository.save(result);
+	}
+
+	public Result findOneWithClient(int resultId) {
+		Result result = resultRepository.findOneWithClient(resultId);
+		return result;
+	}
+
+	@Transactional
+	public Result findOneWithAnswersAndProject(int resultId) {
+		Result result = resultRepository.findOneWithAnswersAndProject(resultId);
+		return result;
 	}
 
 }

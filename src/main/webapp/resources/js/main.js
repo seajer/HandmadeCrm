@@ -19,14 +19,36 @@ jQuery(document).ready(function($) {
 		 $(this).parents('div').eq(0).remove();
 	});
 	
-	$(".next").click(function(){
-		var answers = getAnswers();
+	var customAnswer = false;
+	
+	$(".next").on('click',function(){
+		var type = $("div.shown .questionType").val();
+		console.log("isTypeCnanged = " + customAnswer);
+		var answers = [];
 		var resultId = $("input[name='resultId']").val();
 		var questionId = $('div.shown input[name="questionId"]').val();
+		if(type == 'Одна відповідь' || type == 'Кілька відповідей' || type == 'Одна вдповідь з можливістю обрати свій варіант' || type == 'Кілька відповідей з можливістю обрати свій варіант'){
+			answers = getCheckedAnswers();
+		} else if(type == 'Процентре співвідношення представлених варіантів' || type == 'Процентне співвідношення зі своїм варіантом'){
+			answers = getPersentageAnswers();
+		}else{
+		}
+		if(customAnswer){
+			answers = answers + getStringAnswers();
+		}
+		console.log("answers "+answers);
+		customAnswer = false;
+		$("div.hidden .customAnswer").show();
 		sendAnswers(resultId, answers, questionId);
 		$(".shown").hide();
 		$(".shown").next().removeClass("hidden").addClass("shown").show();
 		$(".shown").first().removeClass("shown").addClass("hidden");
+	});
+	
+	$(".customAnswer").click(function(){
+		customAnswer = true;
+		$("div.shown .customAnswer").hide();
+		$("div.shown").append('<input class="answer"/>');
 	});
 	
 	multiselect();
@@ -85,10 +107,28 @@ function sendAnswers(resultId, answers, questionId) {
 	
 }
 
-function getAnswers(){
+function getCheckedAnswers(){
 	var elements = [];
 	$("div.shown input:checked").each(function(){
 		elements.push($(this).val());
 	});
+	return elements;
+}
+function getPersentageAnswers(){
+	var elements = [];
+	$("div.shown input.persentage").each(function(){
+		var text = $(this).parent().children(".text").val();
+		console.log("text = " + text);
+		elements.push($(this).val()+"% "+text);
+	});
+	console.log("elements = " + elements);
+	return elements;
+}
+function getStringAnswers(){
+	var elements = [];
+	$("div.shown input.answer").each(function(){
+		elements.push($(this).val());
+	});
+	console.log("elements = " + elements);
 	return elements;
 }

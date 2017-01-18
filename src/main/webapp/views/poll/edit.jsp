@@ -1,17 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <meta name="_csrf" content="${_csrf.token}" />
 <!-- default header name is X-CSRF-TOKEN -->
 <meta name="_csrf_header" content="${_csrf.headerName}" />
-<!DOCTYPE>
 <div>
-	<form action="startPoll" method="post">
+	<form action="editPoll" method="post" >
 		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
-		<input type="hidden" value="${projectId}" name="projectId">
 		<input type="hidden" value="${resultId}" name="resultId">
 		<c:forEach items="${questions}" varStatus="status">
-			<b style="color: green">${status.index+1}      !</b>
+			<input type="button" style="color: green" value="${status.index+1}" />
 		</c:forEach>
 		<c:forEach items="${questions}" var="question" varStatus="status">
 			<div class="question ${status.first ? 'shown' : 'hidden'}" ${status.first ? '': 'style = "display:none"'}>
@@ -23,11 +22,11 @@
 					<c:choose>
 						<c:when test="${question.type.text=='Кілька відповідей' 
 						|| question.type.text=='Кілька відповідей з можливістю обрати свій варіант'}">
-							<input class="answer" name="answers" type="checkbox" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
+							<input class="answer" <c:if test="${fn:contains(result.answers, answer)}">checked="checked"</c:if> name="answers" type="checkbox" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
 						</c:when>
 						<c:when test="${question.type.text=='Одна відповідь'
 						|| question.type.text=='Одна вдповідь з можливістю обрати свій варіант'}">
-							<input class="answer" name="answers" type="radio" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
+							<input class="answer" <c:if test="${fn:contains(result.answers, answer)}">checked</c:if> name="answers" type="radio" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
 						</c:when>
 						<c:when test="${question.type.text=='Процентре співвідношення представлених варіантів'
 						|| question.type.text=='Процентне співвідношення зі своїм варіантом'}">

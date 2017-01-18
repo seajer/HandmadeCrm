@@ -1,24 +1,68 @@
 package ua.lviv.calltech.service.implementation;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import ua.lviv.calltech.DTO.SimpleClientObjectDTO;
+import ua.lviv.calltech.entity.ClientDataObject;
 import ua.lviv.calltech.entity.Project;
+import ua.lviv.calltech.entity.Result;
+import ua.lviv.calltech.entity.Status;
+import ua.lviv.calltech.repository.ClientDataObjectRepository;
 import ua.lviv.calltech.service.ClientDataObjectService;
 import ua.lviv.calltech.service.ProjectService;
+import ua.lviv.calltech.service.ResultService;
+import ua.lviv.calltech.service.StatusService;
 
 @Service
 public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 
 	@Autowired
+	private ClientDataObjectRepository clientDataObjectRepositiry;
+	
+	@Autowired
 	private ProjectService projectService;
 	
-	public void startPoll(int projectId) {
+	@Autowired
+	private ResultService resultService;
+	
+	@Autowired
+	private StatusService statusService;
+
+	@Transactional
+	public void save(ClientDataObject object, int projectId, int resultId) {
 		Project project = projectService.findOne(projectId);
-		if(project != null){
-			
-		}
+		Result result = resultService.findOne(resultId);
+		Status status = statusService.findOne(Integer.parseInt(object.getStatus().getName()));
+		object.setStatus(status);
+		object.setProject(project);
+		object.setResult(result);
+		clientDataObjectRepositiry.save(object);
+		result.setClient(object);
+		resultService.save(result);
 	}
+
+	@Transactional
+	public void save(ClientDataObject object) {
+		Status status = statusService.findOne(Integer.parseInt(object.getStatus().getName()));
+		object.setStatus(status);
+		clientDataObjectRepositiry.save(object);
+	}
+
+	public List<SimpleClientObjectDTO> findAllByProjectIdWithResults(int projectId) {
+		List<SimpleClientObjectDTO> object = clientDataObjectRepositiry.findSimpleClientsByProjectId(projectId);
+		return object;
+	}
+	
+	@Transactional
+	public ClientDataObject findOneWithStatusAndProject(int clientId) {
+		ClientDataObject client = clientDataObjectRepositiry.findOneWithStatus(clientId);
+		return client;
+	}
+	
 	
 
 }
