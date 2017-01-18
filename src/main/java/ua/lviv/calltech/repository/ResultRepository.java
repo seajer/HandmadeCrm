@@ -21,5 +21,8 @@ public interface ResultRepository extends JpaRepository<Result, Integer>{
 
 	@Query("FROM Result r LEFT JOIN FETCH r.answers a JOIN FETCH r.project p WHERE r.id = ?1")
 	Result findOneWithAnswersAndProject(int resultId);
+
+	@Query("SELECT r FROM Result r JOIN r.client c JOIN FETCH r.project p WHERE c.id = ?1")
+	Result findIdByClientId(int id);
 	
 }

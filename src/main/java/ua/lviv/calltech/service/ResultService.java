@@ -20,4 +20,6 @@ public interface ResultService {
 
 	Result findOneWithClient(int resultId);
 
+	Result findIdByClientId(int id);
+
 }

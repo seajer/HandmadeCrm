@@ -48,7 +48,11 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 	@Transactional
 	public void save(ClientDataObject object) {
 		Status status = statusService.findOne(Integer.parseInt(object.getStatus().getName()));
+		// object return's with null field in object.getProject() so we finding needed project using result  
+		Result result = resultService.findIdByClientId(object.getId());
+		Project project = projectService.findOne(result.getProject().getId());
 		object.setStatus(status);
+		object.setProject(project);
 		clientDataObjectRepositiry.save(object);
 	}
 
@@ -59,7 +63,7 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 	
 	@Transactional
 	public ClientDataObject findOneWithStatusAndProject(int clientId) {
-		ClientDataObject client = clientDataObjectRepositiry.findOneWithStatus(clientId);
+		ClientDataObject client = clientDataObjectRepositiry.findOneWithStatusAndProject(clientId);
 		return client;
 	}
 	

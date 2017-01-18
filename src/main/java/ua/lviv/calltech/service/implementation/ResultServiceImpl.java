@@ -110,4 +110,9 @@ public class ResultServiceImpl implements ResultService{
 		return result;
 	}
 
+	@Transactional
+	public Result findIdByClientId(int id) {
+		Result r = resultRepository.findIdByClientId(id);
+		return r;
+	}
 }
