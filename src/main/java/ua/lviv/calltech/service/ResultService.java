@@ -1,6 +1,6 @@
 package ua.lviv.calltech.service;
 
-import org.json.JSONArray;
+import java.util.List;
 
 import ua.lviv.calltech.entity.Result;
 
@@ -12,7 +12,7 @@ public interface ResultService {
 	
 	Result findOneWithAnswersAndProject(int resultId);
 
-	void setAnswerToResult(int resultId, int questionId, JSONArray answers);
+	void setAnswerToResult(int resultId, int questionId, List<String> answers);
 
 	Result findOne(int resultId);
 

@@ -26,7 +26,9 @@
 						</c:when>
 						<c:when test="${question.type.text=='Одна відповідь'
 						|| question.type.text=='Одна вдповідь з можливістю обрати свій варіант'}">
-							<input class="answer" <c:if test="${fn:contains(result.answers, answer)}">checked</c:if> name="answers" type="radio" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
+							<p>${answer.id}</p>
+							<p>${fn:contains(result.answers, answer)}</p>
+							<input class="answer" <c:if test="${fn:contains(result.answers, answer)}">checked="checked"</c:if> name="answers${answer.id}" type="radio" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
 						</c:when>
 						<c:when test="${question.type.text=='Процентре співвідношення представлених варіантів'
 						|| question.type.text=='Процентне співвідношення зі своїм варіантом'}">

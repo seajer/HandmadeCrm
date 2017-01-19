@@ -1,5 +1,8 @@
 package ua.lviv.calltech.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +25,40 @@ public class AjaxController {
 		JSONObject object = new JSONObject(video);
 		int resultId = Integer.parseInt(object.getString("resultId").trim());
 		int questionId = Integer.parseInt(object.getString("questionId").trim());
-		JSONArray answers = object.getJSONArray("answers");
+		String answerString = null;
+		JSONArray answerArray = null;
+		List<String> answers = new ArrayList<String>();
+		try {
+			answerArray = object.getJSONArray("answers");
+			
+		} catch (Exception e) {
+			answerString = object.getString("answers");
+		}
+		
+		if(answerString != null){
+			answers = changeStringToStringList(answerString);
+		}else{
+			answers = changeJsonArrayToStringList(answerArray);
+		}
 		resultService.setAnswerToResult(resultId, questionId, answers);
 		return false;
+	}
+	
+	private List<String> changeStringToStringList(String answer){
+		List<String> answers = new ArrayList<String>();
+		String[] separated = answer.split(",");
+		for (String string : separated) {
+			answers.add(string.trim());
+		}
+		return answers;
+	}
+	
+	private List<String> changeJsonArrayToStringList(JSONArray answer){
+		List<String> answers = new ArrayList<String>();
+		for (Object object : answer) {
+			String ans = object.toString().trim();
+			answers.add(ans);
+		}
+		return answers;
 	}
 }

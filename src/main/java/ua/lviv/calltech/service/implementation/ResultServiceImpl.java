@@ -3,7 +3,6 @@ package ua.lviv.calltech.service.implementation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,20 +54,16 @@ public class ResultServiceImpl implements ResultService{
 	}
 
 	@Transactional
-	public void setAnswerToResult(int resultId, int questionId, JSONArray answers) {
+	public void setAnswerToResult(int resultId, int questionId, List<String> answers) {
 		Result result = findOneWithAnswers(resultId);
-		for (Object obj : answers) {
+		for (String obj : answers) {
 			try {
-				System.out.println("try");
-				System.out.println("obj = " + obj.toString());
-				int answerId = Integer.parseInt(obj.toString());
+				int answerId = Integer.parseInt(obj);
 				Answer answer = answerService.findOne(answerId);
 				setAnswersToResult(result, answer);
 				
 			} catch (Exception e) {
-				System.out.println("catch");
-				String str = obj.toString();
-				Answer answer = new Answer(str);
+				Answer answer = new Answer(obj);
 				answer.setQuestionId(questionId);
 				answerService.save(answer);
 				setAnswersToResult(result, answer);

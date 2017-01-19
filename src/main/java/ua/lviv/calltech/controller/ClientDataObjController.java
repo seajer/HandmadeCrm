@@ -40,7 +40,7 @@ public class ClientDataObjController {
 			statuses = statusService.findAll();
 		}
 		model.addAttribute("projectId", projectId).addAttribute("resultId", resultId);
-		model.addAttribute("status", statuses).addAttribute("cliendDataObject", new ClientDataObject());
+		model.addAttribute("status", statuses).addAttribute("clientDataObject", new ClientDataObject());
 		return "client-new";
 	}
 	

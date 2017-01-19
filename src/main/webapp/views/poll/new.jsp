@@ -19,6 +19,7 @@
 				<p>${question.text}</p><p> ${question.id} </p>
 				<p style="color: red">${question.recomendations}</p><br/>
 				<c:forEach items="${question.answers}" var="answer">
+				<div>
 					<input type="hidden" value="${question.type.text}" class="questionType">
 					<c:choose>
 						<c:when test="${question.type.text=='Кілька відповідей' 
@@ -34,6 +35,7 @@
 							<input class="persentage" name="answers" value="0"><b class="text"> ${answer.text} </b><br/>
 						</c:when>
 					</c:choose>
+				</div>
 				</c:forEach>
 				<c:if test="${question.type.text=='Одна вдповідь з можливістю обрати свій варіант'
 						|| question.type.text=='Кілька відповідей з можливістю обрати свій варіант'

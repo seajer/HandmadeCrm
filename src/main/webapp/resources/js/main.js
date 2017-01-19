@@ -3,7 +3,6 @@ jQuery(document).ready(function($) {
 	$("#phone").mask("+380999999999", {
 		placeholder : "+380xxxxxxxxx"
 	});
-	
 
 });
 
@@ -34,7 +33,7 @@ jQuery(document).ready(function($) {
 		}else{
 		}
 		if(customAnswer){
-			answers = answers + getStringAnswers();
+			answers = answers +", "+ getStringAnswers();
 		}
 		console.log("answers "+answers);
 		customAnswer = false;
@@ -48,7 +47,7 @@ jQuery(document).ready(function($) {
 	$(".customAnswer").click(function(){
 		customAnswer = true;
 		$("div.shown .customAnswer").hide();
-		$("div.shown").append('<input class="answer"/>');
+		$("div.shown").append('<input class="custom_answer"/>');
 	});
 	
 	multiselect();
@@ -117,18 +116,16 @@ function getCheckedAnswers(){
 function getPersentageAnswers(){
 	var elements = [];
 	$("div.shown input.persentage").each(function(){
-		var text = $(this).parent().children(".text").val();
+		var text = $(this).parent().children(".text").text();
 		console.log("text = " + text);
 		elements.push($(this).val()+"% "+text);
 	});
-	console.log("elements = " + elements);
 	return elements;
 }
 function getStringAnswers(){
 	var elements = [];
-	$("div.shown input.answer").each(function(){
+	$("div.shown input.custom_answer").each(function(){
 		elements.push($(this).val());
 	});
-	console.log("elements = " + elements);
 	return elements;
 }
