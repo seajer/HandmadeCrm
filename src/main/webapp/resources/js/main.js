@@ -43,12 +43,41 @@ jQuery(document).ready(function($) {
 	});
 	
 	$(".headerQuestion").on('click',function(){
-		console.log("headerQuestion");
 		saveQuestion(customAnswer);
 		$(".shown").hide();
 		$(".shown").removeClass("shown").addClass("hidden");
 		var a = $(this).val();
 		$("div.hidden:eq("+(a-1)+")").removeClass("hidden").addClass("shown").show();
+	});
+	
+	$(".questionType").change(function(){
+		var tableIds = [15, 16, 17];
+		var type = $(".questionType").val();
+		if(containing(tableIds, type)){
+			$("#creatingQuestion").attr("action", "new_table");
+			$(".question").empty();
+			$(".question").html("<table border='5'>" +
+					"<tr><th>запитання &#8595; відповіді &#8594;</th><th><input name='answer'></th><th><input name='answer'></th></tr>" +
+					"<tr><td><input name='question'></td><td></td><td></td</tr>" +
+					"</table><input type='button' value='Add question' class='addRow'/>" +
+					"<input type='button' value='Add answer' class='addColumn'/>")
+		}
+	});
+	
+	$('body').on('click', 'input.addRow',function(){
+		var element = "<tr><td><input name='question'></td>"
+		var count = $("th").length -1;
+		while(count > 0){
+			count -= 1;
+			element += "<td></td>"
+		}
+		element += "</tr>"
+		$("table").append(element);
+	});
+	
+	$('body').on('click', 'input.addColumn',function(){
+		$("tr").first().append("<th><input name='answer'/></th>");
+		$("tr").not(":eq(0)").append("<td></td>");
 	});
 	
 	multiselect();
@@ -118,7 +147,6 @@ function getPersentageAnswers(){
 	var elements = [];
 	$("div.shown input.persentage").each(function(){
 		var text = $(this).parent().children(".text").text();
-		console.log("text = " + text);
 		elements.push($(this).val()+"% "+text);
 	});
 	return elements;
@@ -149,4 +177,14 @@ function saveQuestion(customAnswer){
 	customAnswer = false;
 	$("div.hidden .customAnswer").show();
 	sendAnswers(resultId, answers, questionId);
+}
+
+function containing(array, obj){
+	var ret = false;
+	$.each(array, function(index, value){
+		if (value == obj){
+			ret = true;
+		}
+	});
+	return ret;
 }

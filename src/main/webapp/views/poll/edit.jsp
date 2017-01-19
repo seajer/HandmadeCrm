@@ -10,7 +10,8 @@
 		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 		<input type="hidden" value="${resultId}" name="resultId">
 		<c:forEach items="${questions}" varStatus="status" var="question">
-			<input type="button" style="color: green" value="${status.index+1}" class="headerQuestion" />
+			<input type="button" <c:choose><c:when test="${fn:contains(answeredQuestions, question.id)}">style="color:red"</c:when>
+							<c:otherwise>style="color:green"</c:otherwise></c:choose> value="${status.index+1}" class="headerQuestion" />
 		</c:forEach>
 		<c:forEach items="${questions}" var="question" varStatus="status">
 			<div class="question ${status.first ? 'shown' : 'hidden'}" ${status.first ? '': 'style = "display:none"'}>

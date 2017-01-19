@@ -23,7 +23,7 @@ public class Question {
 	@Column
 	private String text;
 	@Column
-	private boolean isVisible;
+	private boolean isVisible = true;
 	@Column
 	private String recomendations;
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY, mappedBy = "question")
@@ -121,6 +121,11 @@ public class Question {
 		this.type = type;
 		this.questionnaire = questionnaire;
 		this.isVisible = visible;
+	}
+
+	public Question(String text) {
+		super();
+		this.text = text;
 	}
 	
 }

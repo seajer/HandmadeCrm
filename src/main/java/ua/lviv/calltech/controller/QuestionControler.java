@@ -51,6 +51,23 @@ public class QuestionControler {
 		return "redirect:/view_questionnaire_"+questionnaireId;
 	}
 	
+	@RequestMapping(value="/new_table", method = RequestMethod.POST)
+	public String newTable(@RequestParam("questionnaireId")int questionnaireId, @RequestParam("answType")int type,
+			@RequestParam("question")String[] question, @RequestParam("answer")String[] answer,
+			@RequestParam("recommendations")String recomendations){
+		for (String string : question) {
+			System.out.println("question " + string);
+		}
+		for (String string : answer) {
+			System.out.println("answer " + string);
+		}
+		System.out.println("type = " + type);
+		System.out.println("questionnaireId = " + questionnaireId);
+		System.out.println("recomendations = " + recomendations);
+		questionService.addTable(questionnaireId, type, recomendations, question, answer);
+		return "redirect:/view_questionnaire_"+questionnaireId;
+	}
+	
 	@RequestMapping(value="/edit_question_{questionId}", method = RequestMethod.GET)
 	public String editQuestion(@PathVariable("questionId")int questionId, Model modal){
 		Question question = questionService.findById(questionId);

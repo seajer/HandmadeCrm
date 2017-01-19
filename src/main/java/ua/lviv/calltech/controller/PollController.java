@@ -53,7 +53,8 @@ public class PollController {
 	public String editPoll(@PathVariable("resultId")int resultId, Model model){
 		Result result = resultService.findOneWithAnswersAndProject(resultId);
 		Set<Question> quest = questionService.findQuestionsByProjectId(result.getProject().getId());
-		model.addAttribute("result", result).addAttribute("questions", quest);
+		Set<Integer> answeredQuestion = questionService.findAnsweredQuestionsForResultById(resultId); 
+		model.addAttribute("result", result).addAttribute("questions", quest).addAttribute("answeredQuestions", answeredQuestion);
 		return "poll-edit";
 	}
 	
@@ -65,7 +66,5 @@ public class PollController {
 		}
 		return "redirect:/";
 	}
-	
-	
 
 }

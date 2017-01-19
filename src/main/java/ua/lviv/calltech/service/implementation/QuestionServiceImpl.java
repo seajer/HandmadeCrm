@@ -106,5 +106,36 @@ public class QuestionServiceImpl implements QuestionService{
 		Set<Question> questions = questionRepository.findAllByProjectId(projectId);
 		return questions;
 	}
+
+	public Set<Integer> findAnsweredQuestionsForResultById(int resultId) {
+		Set<Integer> answeredQuestions = questionRepository.findAnsweredByResultId(resultId);
+		return answeredQuestions;
+	}
+
+	@Transactional
+	public void addTable(int questionnaireId, int type, String recomendations, String[] question, String[] answer) {
+		List<Answer> answers = new ArrayList<Answer>();
+		for (String answer2 : answer) {
+			Answer a = new Answer(answer2);
+			answers.add(a);
+		}
+		answerRepository.save(answers);
+		Question qq = new Question();
+		List<Question> questions = new ArrayList<Question>();
+		for (String question2 : question) {
+			Question q = new Question(question2);
+			q.setAnswers(answers);
+			q.setTable(qq);
+			questions.add(q);
+		}
+		questionRepository.save(questions);
+		Questionnaire questionnaire = questionnaireRepository.findOne(questionnaireId);
+		QuestionType qt = questionTypeRepository.findOne(type);
+		qq.setRecomendations(recomendations);
+		qq.setType(qt);
+		qq.setTableQuestions(questions);
+		qq.setQuestionnaire(questionnaire);
+		questionRepository.save(qq);
+	}
 	
 }

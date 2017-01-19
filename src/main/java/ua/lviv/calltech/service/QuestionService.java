@@ -17,4 +17,8 @@ public interface QuestionService {
 
 	Set<Question> findQuestionsByProjectId(int projectId);
 
+	Set<Integer> findAnsweredQuestionsForResultById(int resultId);
+
+	void addTable(int questionnaireId, int type, String recomendations, String[] question, String[] answer);
+
 }
