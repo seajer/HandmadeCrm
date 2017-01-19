@@ -11,7 +11,7 @@
 		<input type="hidden" value="${projectId}" name="projectId">
 		<input type="hidden" value="${resultId}" name="resultId">
 		<c:forEach items="${questions}" varStatus="status">
-			<b style="color: green">${status.index+1}      !</b>
+			<input type="button" style="color: green" value="${status.index+1}" class="headerQuestion" />
 		</c:forEach>
 		<c:forEach items="${questions}" var="question" varStatus="status">
 			<div class="question ${status.first ? 'shown' : 'hidden'}" ${status.first ? '': 'style = "display:none"'}>
@@ -43,6 +43,9 @@
 						<input type="button" class="customAnswer" value="Add own">
 				</c:if>			
 				<c:if test="${!status.last}"><input type="button" class="next" value="Next"/></c:if><br/>
+				<c:if test="${!status.first}">not first</c:if>
+				<c:if test="${!status.last}">not last</c:if>
+				<c:if test="${!status.first}"><input type="button" class="prev" value="Previous"/></c:if><br/>
 				<c:if test="${status.last}"><button class="next">Save pool</button></c:if>
 			</div>
 		</c:forEach>

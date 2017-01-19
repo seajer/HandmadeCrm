@@ -9,8 +9,8 @@
 	<form action="editPoll" method="post" >
 		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 		<input type="hidden" value="${resultId}" name="resultId">
-		<c:forEach items="${questions}" varStatus="status">
-			<input type="button" style="color: green" value="${status.index+1}" />
+		<c:forEach items="${questions}" varStatus="status" var="question">
+			<input type="button" style="color: green" value="${status.index+1}" class="headerQuestion" />
 		</c:forEach>
 		<c:forEach items="${questions}" var="question" varStatus="status">
 			<div class="question ${status.first ? 'shown' : 'hidden'}" ${status.first ? '': 'style = "display:none"'}>
@@ -26,8 +26,6 @@
 						</c:when>
 						<c:when test="${question.type.text=='Одна відповідь'
 						|| question.type.text=='Одна вдповідь з можливістю обрати свій варіант'}">
-							<p>${answer.id}</p>
-							<p>${fn:contains(result.answers, answer)}</p>
 							<input class="answer" <c:if test="${fn:contains(result.answers, answer)}">checked="checked"</c:if> name="answers${answer.id}" type="radio" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
 						</c:when>
 						<c:when test="${question.type.text=='Процентре співвідношення представлених варіантів'
@@ -42,6 +40,7 @@
 						<input type="button" class="customAnswer" value="Add own">
 				</c:if>			
 				<c:if test="${!status.last}"><input type="button" class="next" value="Next"/></c:if><br/>
+				<c:if test="${!status.first}"><input type="button" class="prev" value="Previous"/></c:if><br/>
 				<c:if test="${status.last}"><button class="next">Save pool</button></c:if>
 			</div>
 		</c:forEach>

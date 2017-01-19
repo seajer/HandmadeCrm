@@ -21,33 +21,34 @@ jQuery(document).ready(function($) {
 	var customAnswer = false;
 	
 	$(".next").on('click',function(){
-		var type = $("div.shown .questionType").val();
-		console.log("isTypeCnanged = " + customAnswer);
-		var answers = [];
-		var resultId = $("input[name='resultId']").val();
-		var questionId = $('div.shown input[name="questionId"]').val();
-		if(type == 'Одна відповідь' || type == 'Кілька відповідей' || type == 'Одна вдповідь з можливістю обрати свій варіант' || type == 'Кілька відповідей з можливістю обрати свій варіант'){
-			answers = getCheckedAnswers();
-		} else if(type == 'Процентре співвідношення представлених варіантів' || type == 'Процентне співвідношення зі своїм варіантом'){
-			answers = getPersentageAnswers();
-		}else{
-		}
-		if(customAnswer){
-			answers = answers +", "+ getStringAnswers();
-		}
-		console.log("answers "+answers);
-		customAnswer = false;
-		$("div.hidden .customAnswer").show();
-		sendAnswers(resultId, answers, questionId);
+		console.log("next");
+		saveQuestion(customAnswer);
 		$(".shown").hide();
 		$(".shown").next().removeClass("hidden").addClass("shown").show();
 		$(".shown").first().removeClass("shown").addClass("hidden");
+	});
+	
+	$(".prev").on('click',function(){
+		console.log("prev");
+		saveQuestion(customAnswer);
+		$(".shown").hide();
+		$(".shown").prev().removeClass("hidden").addClass("shown").show();
+		$(".shown").last().removeClass("shown").addClass("hidden");
 	});
 	
 	$(".customAnswer").click(function(){
 		customAnswer = true;
 		$("div.shown .customAnswer").hide();
 		$("div.shown").append('<input class="custom_answer"/>');
+	});
+	
+	$(".headerQuestion").on('click',function(){
+		console.log("headerQuestion");
+		saveQuestion(customAnswer);
+		$(".shown").hide();
+		$(".shown").removeClass("shown").addClass("hidden");
+		var a = $(this).val();
+		$("div.hidden:eq("+(a-1)+")").removeClass("hidden").addClass("shown").show();
 	});
 	
 	multiselect();
@@ -128,4 +129,24 @@ function getStringAnswers(){
 		elements.push($(this).val());
 	});
 	return elements;
+}
+
+function saveQuestion(customAnswer){
+	var type = $("div.shown .questionType").val();
+	console.log("isTypeCnanged = " + customAnswer);
+	var answers = [];
+	var resultId = $("input[name='resultId']").val();
+	var questionId = $('div.shown input[name="questionId"]').val();
+	if(type == 'Одна відповідь' || type == 'Кілька відповідей' || type == 'Одна вдповідь з можливістю обрати свій варіант' || type == 'Кілька відповідей з можливістю обрати свій варіант'){
+		answers = getCheckedAnswers();
+	} else if(type == 'Процентре співвідношення представлених варіантів' || type == 'Процентне співвідношення зі своїм варіантом'){
+		answers = getPersentageAnswers();
+	}else{
+	}
+	if(customAnswer){
+		answers = answers +", "+ getStringAnswers();
+	}
+	customAnswer = false;
+	$("div.hidden .customAnswer").show();
+	sendAnswers(resultId, answers, questionId);
 }
