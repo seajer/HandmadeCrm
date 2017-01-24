@@ -1,6 +1,7 @@
 package ua.lviv.calltech.service.implementation;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -104,6 +105,10 @@ public class QuestionServiceImpl implements QuestionService{
 
 	public Set<Question> findQuestionsByProjectId(int projectId) {
 		Set<Question> questions = questionRepository.findAllByProjectId(projectId);
+		for (Question question : questions) {
+			List<Question> table = questionRepository.findAllQuestionTable(question.getId());
+			question.setTableQuestions(table);
+		}
 		return questions;
 	}
 
@@ -114,13 +119,14 @@ public class QuestionServiceImpl implements QuestionService{
 
 	@Transactional
 	public void addTable(int questionnaireId, int type, String recomendations, String[] question, String[] answer) {
+		Question qq = new Question();
 		List<Answer> answers = new ArrayList<Answer>();
 		for (String answer2 : answer) {
 			Answer a = new Answer(answer2);
+			a.setQuestion(qq);
 			answers.add(a);
 		}
 		answerRepository.save(answers);
-		Question qq = new Question();
 		List<Question> questions = new ArrayList<Question>();
 		for (String question2 : question) {
 			Question q = new Question(question2);

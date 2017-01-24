@@ -14,7 +14,7 @@ import ua.lviv.calltech.entity.Question;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Integer>{
 
-	@Query("FROM Question q JOIN q.questionnaire quest WHERE quest.id = ?1")
+	@Query("SELECT q FROM Question q JOIN q.questionnaire quest JOIN FETCH q.type t WHERE quest.id = ?1")
 	List<Question> findByQuestionnaireId(int id);
 
 	@Query("SELECT new ua.lviv.calltech.DTO.QuestionDTO(q.id, q.text) FROM Question q JOIN q.questionnaire quest WHERE quest.id = ?1 AND q.isVisible = ?2")
@@ -28,5 +28,8 @@ public interface QuestionRepository extends JpaRepository<Question, Integer>{
 
 	@Query("SELECT q.id FROM Question q JOIN q.answers a JOIN a.result r WHERE r.id =?1 ")
 	Set<Integer> findAnsweredByResultId(int resultId);
-
+	
+	@Query("SELECT q FROM Question q WHERE q.table.id = ?1")
+	List<Question> findAllQuestionTable(int tableId);
+	
 }

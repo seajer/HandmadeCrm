@@ -17,8 +17,6 @@
 		<div class="question">
 			Text
 			<input name="question" /> <br>
-			Recomendations
-			<input name="recommendations" /> <br>
 			Type
 			<div id="answers">
 				<input name="answer"><br/>

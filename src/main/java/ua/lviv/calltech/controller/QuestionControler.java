@@ -55,15 +55,6 @@ public class QuestionControler {
 	public String newTable(@RequestParam("questionnaireId")int questionnaireId, @RequestParam("answType")int type,
 			@RequestParam("question")String[] question, @RequestParam("answer")String[] answer,
 			@RequestParam("recommendations")String recomendations){
-		for (String string : question) {
-			System.out.println("question " + string);
-		}
-		for (String string : answer) {
-			System.out.println("answer " + string);
-		}
-		System.out.println("type = " + type);
-		System.out.println("questionnaireId = " + questionnaireId);
-		System.out.println("recomendations = " + recomendations);
 		questionService.addTable(questionnaireId, type, recomendations, question, answer);
 		return "redirect:/view_questionnaire_"+questionnaireId;
 	}
