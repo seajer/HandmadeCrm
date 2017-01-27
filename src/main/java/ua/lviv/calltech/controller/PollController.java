@@ -51,19 +51,11 @@ public class PollController {
 	
 	@RequestMapping(value="/edit_result_{resultId}", method = RequestMethod.GET)
 	public String editPoll(@PathVariable("resultId")int resultId, Model model){
-		SingleResult result = resultService.findOneWithAnswersAndProject(resultId);
-		Set<Question> quest = questionService.findQuestionsByProjectId(result.getProject().getId());
-		Set<Integer> answeredQuestion = questionService.findAnsweredQuestionsForResultById(resultId); 
-		model.addAttribute("result", result).addAttribute("questions", quest).addAttribute("answeredQuestions", answeredQuestion);
 		return "poll-edit";
 	}
 	
 	@RequestMapping(value="/editPoll", method = RequestMethod.POST)
 	public String editPoll(@RequestParam("resultId")int resultId){
-		SingleResult result = resultService.findOneWithClient(resultId);
-		if(result.getClient() != null){
-			return "redirect:/edit_client_"+result.getClient().getId();
-		}
 		return "redirect:/";
 	}
 

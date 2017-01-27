@@ -19,19 +19,21 @@ public class SingleResult {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
 	@Column
 	private String customAnswer;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "project_id")
-	private Project project;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "question_id")
 	private Question question;
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name="result_answer", inverseJoinColumns=@JoinColumn(name="answer_id"), joinColumns=@JoinColumn(name="result_id"))
 	private List<Answer> answers;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	private ClientDataObject client;
+	private Result totalResult;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 
@@ -51,29 +53,20 @@ public class SingleResult {
 		this.answers = answers;
 	}
 
-	public Project getProject() {
-		return project;
-	}
-
-	public void setProject(Project project) {
-		this.project = project;
-	}
-
-	public ClientDataObject getClient() {
-		return client;
-	}
-
-	public void setClient(ClientDataObject client) {
-		this.client = client;
-	}
-	
-
 	public String getCustomAnswer() {
 		return customAnswer;
 	}
 
 	public void setCustomAnswer(String customAnswer) {
 		this.customAnswer = customAnswer;
+	}
+
+	public Result getTotalResult() {
+		return totalResult;
+	}
+
+	public void setTotalResult(Result totalResult) {
+		this.totalResult = totalResult;
 	}
 
 	public Question getQuestion() {
@@ -94,12 +87,6 @@ public class SingleResult {
 
 	public SingleResult() {
 		super();
-	}
-
-	public SingleResult(Project project, User user) {
-		super();
-		this.project = project;
-		this.user = user;
 	}
 	
 }

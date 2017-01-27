@@ -16,7 +16,4 @@ public interface ClientDataObjectRepository extends JpaRepository<ClientDataObje
 			+ " FROM ClientDataObject c LEFT JOIN c.result r LEFT JOIN c.status s LEFT JOIN c.project p WHERE p.id = ?1")
 	List<SimpleClientObjectDTO> findSimpleClientsByProjectId(int projectId);
 
-	@Query("SELECT c FROM ClientDataObject c LEFT JOIN FETCH c.status JOIN FETCH c.project WHERE c.id = ?1")
-	ClientDataObject findOneWithStatusAndProject(int clientId);
-	
 }

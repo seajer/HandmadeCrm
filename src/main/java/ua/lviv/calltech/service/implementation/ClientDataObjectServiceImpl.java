@@ -43,8 +43,8 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 	
 	@Transactional
 	public ClientDataObject findOneWithStatusAndProject(int clientId) {
-		ClientDataObject client = clientDataObjectRepositiry.findOneWithStatusAndProject(clientId);
-		return client;
+//		ClientDataObject client = clientDataObjectRepositiry.findOneWithStatusAndProject(clientId);
+		return null;
 	}
 	
 	

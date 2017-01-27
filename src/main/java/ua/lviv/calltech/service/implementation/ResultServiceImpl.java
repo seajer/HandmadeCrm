@@ -7,12 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ua.lviv.calltech.entity.Project;
 import ua.lviv.calltech.entity.SingleResult;
-import ua.lviv.calltech.entity.User;
-import ua.lviv.calltech.repository.ProjectRepository;
 import ua.lviv.calltech.repository.ResultRepository;
-import ua.lviv.calltech.repository.UserRepository;
 import ua.lviv.calltech.service.ResultService;
 
 @Service
@@ -21,33 +17,33 @@ public class ResultServiceImpl implements ResultService{
 	@Autowired
 	private ResultRepository resultRepository;
 	
-	@Autowired
-	private ProjectRepository projectRepository;
-	
-	@Autowired
-	private UserRepository userRepository;
+//	@Autowired
+//	private ProjectRepository projectRepository;
+//	
+//	@Autowired
+//	private UserRepository userRepository;
 	
 //	@Autowired
 //	private AnswerService answerService;
 	
 	@Transactional
 	public int findEmptyResultIdByProjectId(int projectId, String principalId) {
-		int userId = Integer.parseInt(principalId);
-		Integer resultId = resultRepository.finqClearOneByProjectId(projectId, userId);
-		if(resultId == null){
-			Project project = projectRepository.findOne(projectId);
-			User user = userRepository.findOne(userId);
-			SingleResult r = new SingleResult(project, user);
-			resultRepository.save(r);
-			resultId = resultRepository.finqClearOneByProjectId(projectId, userId);
-		}
-		return resultId;
+//		int userId = Integer.parseInt(principalId);
+//		Integer resultId = resultRepository.finqClearOneByProjectId(projectId, userId);
+//		if(resultId == null){
+//			Project project = projectRepository.findOne(projectId);
+//			User user = userRepository.findOne(userId);
+//			SingleResult r = new SingleResult(project, user);
+//			resultRepository.save(r);
+//			resultId = resultRepository.finqClearOneByProjectId(projectId, userId);
+//		}
+		return 0;
 	}
 
 	@Transactional
 	public SingleResult findOneWithAnswers(int resultId) {
-		SingleResult result = resultRepository.findOneWithAnswers(resultId);
-		return result;
+//		SingleResult result = resultRepository.findOneWithAnswers(resultId);
+		return null;
 	}
 
 	@Transactional
@@ -79,20 +75,20 @@ public class ResultServiceImpl implements ResultService{
 	}
 
 	public SingleResult findOneWithClient(int resultId) {
-		SingleResult result = resultRepository.findOneWithClient(resultId);
-		return result;
+//		SingleResult result = resultRepository.findOneWithClient(resultId);
+		return null;
 	}
 
 	@Transactional
 	public SingleResult findOneWithAnswersAndProject(int resultId) {
-		SingleResult result = resultRepository.findOneWithAnswersAndProject(resultId);
-		return result;
+//		SingleResult result = resultRepository.findOneWithAnswersAndProject(resultId);
+		return null;
 	}
 
 	@Transactional
 	public SingleResult findIdByClientId(int id) {
-		SingleResult r = resultRepository.findIdByClientId(id);
-		return r;
+//		SingleResult r = resultRepository.findIdByClientId(id);
+		return null;
 	}
 
 	@Transactional

@@ -22,22 +22,30 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
 	private int id;
+	
 	@Column
 	private String fullName;
+	
 	@Column(unique = true)
 	private String email;
+	
 	@Column
 	private String password;
+	
 	@Column
 	private String phone;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Role role;
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name="users_projects", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="project_id"))
 	private List<Project> projects;
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name="users_languages", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="lang_id"))
 	private List<Language> language;
+	
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY, mappedBy = "user")
 	private List<SingleResult> results;
 	

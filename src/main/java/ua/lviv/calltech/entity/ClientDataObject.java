@@ -1,6 +1,5 @@
 package ua.lviv.calltech.entity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,10 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -52,16 +47,9 @@ public class ClientDataObject {
 	private String site;
 	@Column
 	private String comment;
-	@Column
-	private LocalDateTime recallTime;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "status_id")
-	private Status status;
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name="client_projects", inverseJoinColumns=@JoinColumn(name="project_id"), joinColumns=@JoinColumn(name="client_id"))
-	private List<Project> projects;
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
-	private List<SingleResult> result;
+	private List<Result> results;
 	
 	public ClientDataObject() {
 	}
@@ -178,14 +166,6 @@ public class ClientDataObject {
 		this.site = site;
 	}
 
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
 	public int getAge() {
 		return age;
 	}
@@ -202,29 +182,11 @@ public class ClientDataObject {
 		this.comment = comment;
 	}
 
-	public LocalDateTime getRecallTime() {
-		return recallTime;
+	public List<Result> getResult() {
+		return results;
 	}
 
-	public void setRecallTime(LocalDateTime recallTime) {
-		this.recallTime = recallTime;
+	public void setResult(List<Result> result) {
+		this.results = result;
 	}
-
-	public List<Project> getProjects() {
-		return projects;
-	}
-
-	public void setProjects(List<Project> projects) {
-		this.projects = projects;
-	}
-
-	public List<SingleResult> getResult() {
-		return result;
-	}
-
-	public void setResult(List<SingleResult> result) {
-		this.result = result;
-	}
-	
-	
 }

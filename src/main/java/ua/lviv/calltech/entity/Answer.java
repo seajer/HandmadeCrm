@@ -20,11 +20,14 @@ public class Answer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
 	private int id;
+	
 	@Column
 	private String text;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "question_id")
 	private Question question;
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name="result_answer", inverseJoinColumns=@JoinColumn(name="result_id"), joinColumns=@JoinColumn(name="answer_id"))
 	private List<SingleResult> result;

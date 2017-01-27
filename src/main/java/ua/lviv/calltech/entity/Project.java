@@ -22,27 +22,31 @@ public class Project {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
 	private int id;
+	
 	@Column
 	private String companyName;
+	
 	@Column
 	private String title;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "type_id")
 	private ProjectType type;
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name="users_projects", inverseJoinColumns=@JoinColumn(name="user_id"), joinColumns=@JoinColumn(name="project_id"))
 	private List<User> users;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "lang_id")
 	private Language language;
+	
 	@OneToOne
 	@JoinColumn(name = "questionnaire_id")
 	private Questionnaire questionnaire;
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name="client_projects", inverseJoinColumns=@JoinColumn(name="client_id"), joinColumns=@JoinColumn(name="project_id"))
-	private List<ClientDataObject> clientData;
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
-	private List<SingleResult> results;
+	private List<Result> results;
 	
 	public Project() {
 	}
@@ -109,21 +113,12 @@ public class Project {
 		this.questionnaire = questionnaire;
 	}
 
-	public List<ClientDataObject> getClientData() {
-		return clientData;
-	}
-
-	public void setClientData(List<ClientDataObject> clientData) {
-		this.clientData = clientData;
-	}
-
-	public List<SingleResult> getResults() {
+	public List<Result> getResults() {
 		return results;
 	}
 
-	public void setResults(List<SingleResult> results) {
+	public void setResults(List<Result> results) {
 		this.results = results;
 	}
-	
 	
 }
