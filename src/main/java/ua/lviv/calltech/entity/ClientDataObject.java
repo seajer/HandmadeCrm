@@ -1,5 +1,8 @@
 package ua.lviv.calltech.entity;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,8 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class ClientDataObject {
@@ -21,6 +26,8 @@ public class ClientDataObject {
 	private String name;
 	@Column
 	private String surname;
+	@Column
+	private int age;
 	@Column
 	private String position;
 	@Column
@@ -43,14 +50,18 @@ public class ClientDataObject {
 	private String email;
 	@Column
 	private String site;
+	@Column
+	private String comment;
+	@Column
+	private LocalDateTime recallTime;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "status_id")
 	private Status status;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "project_id")
-	private Project project;
-	@OneToOne(mappedBy="client")
-	private Result result;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="client_projects", inverseJoinColumns=@JoinColumn(name="project_id"), joinColumns=@JoinColumn(name="client_id"))
+	private List<Project> projects;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
+	private List<SingleResult> result;
 	
 	public ClientDataObject() {
 	}
@@ -175,19 +186,43 @@ public class ClientDataObject {
 		this.status = status;
 	}
 
-	public Project getProject() {
-		return project;
+	public int getAge() {
+		return age;
 	}
 
-	public void setProject(Project project) {
-		this.project = project;
+	public void setAge(int age) {
+		this.age = age;
 	}
 
-	public Result getResult() {
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public LocalDateTime getRecallTime() {
+		return recallTime;
+	}
+
+	public void setRecallTime(LocalDateTime recallTime) {
+		this.recallTime = recallTime;
+	}
+
+	public List<Project> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
+
+	public List<SingleResult> getResult() {
 		return result;
 	}
 
-	public void setResult(Result result) {
+	public void setResult(List<SingleResult> result) {
 		this.result = result;
 	}
 	

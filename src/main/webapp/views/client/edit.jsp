@@ -10,6 +10,8 @@
 		<form:input path="name"/><br/>
 		Surname
 		<form:input path="surname"/><br/>
+		Age
+		<form:input path="age"/><br/>
 		Position
 		<form:input path="position"/><br/>
 		Company name
@@ -32,6 +34,10 @@
 		<form:input path="email"/><br/>
 		Site address
 		<form:input path="site"/><br/>
+		Comment
+		<form:input path="comment" />
+		Recall time
+		<form:input path="recallTime"/>
 		Status
 		<form:select path="status">
 			<c:forEach items="${status}" var="stat">

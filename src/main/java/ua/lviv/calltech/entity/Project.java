@@ -38,10 +38,11 @@ public class Project {
 	@OneToOne
 	@JoinColumn(name = "questionnaire_id")
 	private Questionnaire questionnaire;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name="client_projects", inverseJoinColumns=@JoinColumn(name="client_id"), joinColumns=@JoinColumn(name="project_id"))
 	private List<ClientDataObject> clientData;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
-	private List<Result> results;
+	private List<SingleResult> results;
 	
 	public Project() {
 	}
@@ -116,11 +117,11 @@ public class Project {
 		this.clientData = clientData;
 	}
 
-	public List<Result> getResults() {
+	public List<SingleResult> getResults() {
 		return results;
 	}
 
-	public void setResults(List<Result> results) {
+	public void setResults(List<SingleResult> results) {
 		this.results = results;
 	}
 	

@@ -1,25 +1,28 @@
 package ua.lviv.calltech.service;
 
 import java.util.List;
+import java.util.Map;
 
-import ua.lviv.calltech.entity.Result;
+import ua.lviv.calltech.entity.SingleResult;
 
 public interface ResultService {
 
 	int findEmptyResultIdByProjectId(int projectId, String string);
 
-	Result findOneWithAnswers(int resultId);
+	SingleResult findOneWithAnswers(int resultId);
 	
-	Result findOneWithAnswersAndProject(int resultId);
+	SingleResult findOneWithAnswersAndProject(int resultId);
 
 	void setAnswerToResult(int resultId, int questionId, List<String> answers);
 
-	Result findOne(int resultId);
+	SingleResult findOne(int resultId);
 
-	void save(Result result);
+	void save(SingleResult result);
 
-	Result findOneWithClient(int resultId);
+	SingleResult findOneWithClient(int resultId);
 
-	Result findIdByClientId(int id);
+	SingleResult findIdByClientId(int id);
+
+	void saveTable(int resultId, Map<Integer, List<String>> tableResults);
 
 }

@@ -11,7 +11,7 @@
 			<c:forEach items="${questionTypes}" var="type">
 				<option value="${type.id}"> ${type.text} </option>
 			</c:forEach>
-		</select>
+		</select></br>
 		Recomendations
 		<input name="recommendations" /> <br>
 		<div class="question">

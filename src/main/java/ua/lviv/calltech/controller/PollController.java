@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ua.lviv.calltech.entity.Project;
 import ua.lviv.calltech.entity.Question;
-import ua.lviv.calltech.entity.Result;
+import ua.lviv.calltech.entity.SingleResult;
 import ua.lviv.calltech.service.ProjectService;
 import ua.lviv.calltech.service.QuestionService;
 import ua.lviv.calltech.service.ResultService;
@@ -42,7 +42,7 @@ public class PollController {
 	@RequestMapping(value="/startPoll", method = RequestMethod.POST)
 	public String startPoll(@RequestParam("projectId")int projectId, @RequestParam("resultId")int resultId){
 		Project project = projectService.findOneWithType(projectId);
-		Result result = resultService.findOne(resultId);
+		SingleResult result = resultService.findOne(resultId);
 		if(project != null && result != null){
 			return "redirect:/examined_p="+projectId+"r="+resultId;
 		}
@@ -51,7 +51,7 @@ public class PollController {
 	
 	@RequestMapping(value="/edit_result_{resultId}", method = RequestMethod.GET)
 	public String editPoll(@PathVariable("resultId")int resultId, Model model){
-		Result result = resultService.findOneWithAnswersAndProject(resultId);
+		SingleResult result = resultService.findOneWithAnswersAndProject(resultId);
 		Set<Question> quest = questionService.findQuestionsByProjectId(result.getProject().getId());
 		Set<Integer> answeredQuestion = questionService.findAnsweredQuestionsForResultById(resultId); 
 		model.addAttribute("result", result).addAttribute("questions", quest).addAttribute("answeredQuestions", answeredQuestion);
@@ -60,7 +60,7 @@ public class PollController {
 	
 	@RequestMapping(value="/editPoll", method = RequestMethod.POST)
 	public String editPoll(@RequestParam("resultId")int resultId){
-		Result result = resultService.findOneWithClient(resultId);
+		SingleResult result = resultService.findOneWithClient(resultId);
 		if(result.getClient() != null){
 			return "redirect:/edit_client_"+result.getClient().getId();
 		}

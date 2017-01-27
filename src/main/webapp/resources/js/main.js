@@ -8,32 +8,40 @@ jQuery(document).ready(function($) {
 
 jQuery(document).ready(function($) {
 	
-	$('.addAnswer').click(function(){
+	$('body').on('click', '.addAnswer', function(){
 		$("#answers").append('<input name="answer"><br/>');
 	});
 	$('.editAnswer').click(function(){
-		$("#answers").append('<div><input name="answerId" type="hidden" value="0"/><input name="answerText"/> <a href="#" class="remove">Remove</a></div>');
+		$("#answers").append('<div><input name="answerId" type="hidden" value="0"/><input name="answerText"/><input type="button" class="remove" value="Remove"/></div>');
 	});
-	$('#answers').on('click','a.remove', function(){
+	$('#answers').on('click','.remove', function(){
 		 $(this).parents('div').eq(0).remove();
 	});
 	
 	var customAnswer = false;
 	
 	$(".next").on('click',function(){
-		console.log("next");
+		console.log("next question");
 		saveQuestion(customAnswer);
-		$(".shown").hide();
-		$(".shown").next().removeClass("hidden").addClass("shown").show();
-		$(".shown").first().removeClass("shown").addClass("hidden");
+		next();
 	});
 	
 	$(".prev").on('click',function(){
-		console.log("prev");
+		console.log("prev question");
 		saveQuestion(customAnswer);
-		$(".shown").hide();
-		$(".shown").prev().removeClass("hidden").addClass("shown").show();
-		$(".shown").last().removeClass("shown").addClass("hidden");
+		prev();
+	});
+	
+	$(".nextTable").on('click',function(){
+		console.log("next table");
+		saveTable();
+		next();
+	});
+	
+	$(".prevTable").on('click',function(){
+		console.log("prev table");
+		saveTable();
+		prev();
 	});
 	
 	$(".customAnswer").click(function(){
@@ -60,7 +68,11 @@ jQuery(document).ready(function($) {
 					"<tr><th>запитання &#8595; відповіді &#8594;</th><th><input name='answer'></th><th><input name='answer'></th></tr>" +
 					"<tr><td><input name='question'></td><td></td><td></td</tr>" +
 					"</table><input type='button' value='Add question' class='addRow'/>" +
-					"<input type='button' value='Add answer' class='addColumn'/>")
+					"<input type='button' value='Add answer' class='addColumn'/>");
+		} else{
+			$(".question").empty();
+			$(".question").html("Text<input name='question'/><br>Type<div id='answers'>" +
+					"<input name='answer'><br/></div>	<input type='button' value='Add answer' class='addAnswer'/>");
 		}
 	});
 	
@@ -83,6 +95,18 @@ jQuery(document).ready(function($) {
 	multiselect();
 });
 
+function prev(){
+	$(".shown").hide();
+	$(".shown").prev().removeClass("hidden").addClass("shown").show();
+	$(".shown").last().removeClass("shown").addClass("hidden");
+}
+
+function next(){
+	$(".shown").hide();
+	$(".shown").next().removeClass("hidden").addClass("shown").show();
+	$(".shown").first().removeClass("shown").addClass("hidden");
+}
+
 function multiselect() {
 	var config = {
 		'.chosen-select' : {},
@@ -104,7 +128,7 @@ function multiselect() {
 	}
 }
 
-function sendAnswers(resultId, answers, questionId) {
+function sendJson(result, url) {
 	
 	var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
@@ -115,13 +139,11 @@ function sendAnswers(resultId, answers, questionId) {
 	$.ajax({
 		type : "POST",
 		contentType : "application/json",
-		url : "saveResultAnswers",
+		url : url,
 		dataType : 'json',
 		timeout : 100000,
 		data : JSON.stringify({
-			resultId : resultId,
-			questionId: questionId,
-			answers : answers
+			result: result
 		}),
 		success : function(data) {
 			console.log("SUCCESS: ", data);
@@ -176,7 +198,8 @@ function saveQuestion(customAnswer){
 	}
 	customAnswer = false;
 	$("div.hidden .customAnswer").show();
-	sendAnswers(resultId, answers, questionId);
+	var result = {resultId : resultId, questionId: questionId, answers : answers}
+	sendJson(result, "saveResultAnswers");
 }
 
 function containing(array, obj){
@@ -187,4 +210,41 @@ function containing(array, obj){
 		}
 	});
 	return ret;
+}
+
+function saveTable(){
+	var typeString;
+	var type = $("div.shown .questionType").val();
+	if(type == 'Таблиця з одним варіантом'){
+		typeString = ":radio:checked";
+	} else if(type == 'Таблиця з багатьма варіантами'){
+		typeString = ":checked";
+	} else{
+		typeString = "";
+	}
+	var result = getRadioTableAnswer(typeString);
+	sendJson(result, "saveTable");
+}
+
+function getRadioTableAnswer(typeString){
+	var tableId = $("div.shown input[name='questionId']").val();
+	var resultId = $("input[name='resultId']").val();
+	var questionId = []
+	$('div.shown .tableQuestionId').each(function(){
+		questionId.push($(this).val());
+	});
+	var result = [];
+	$.each(questionId, function(index, value){
+		var answers = [];
+		var str = '.answer' + value + typeString;
+		$(str).each(function(){
+			var answ = $(this).val()
+			if(typeString == ""){
+				answ += "%";
+			}
+			answers.push(answ);
+		})
+		result.push({questionId: value, answers: answers});
+	})
+	return {resultId: resultId, results: result };
 }

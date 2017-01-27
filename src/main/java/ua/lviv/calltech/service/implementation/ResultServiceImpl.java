@@ -1,20 +1,18 @@
 package ua.lviv.calltech.service.implementation;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ua.lviv.calltech.entity.Answer;
 import ua.lviv.calltech.entity.Project;
-import ua.lviv.calltech.entity.Result;
+import ua.lviv.calltech.entity.SingleResult;
 import ua.lviv.calltech.entity.User;
 import ua.lviv.calltech.repository.ProjectRepository;
 import ua.lviv.calltech.repository.ResultRepository;
 import ua.lviv.calltech.repository.UserRepository;
-import ua.lviv.calltech.service.AnswerService;
 import ua.lviv.calltech.service.ResultService;
 
 @Service
@@ -29,18 +27,17 @@ public class ResultServiceImpl implements ResultService{
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private AnswerService answerService;
+//	@Autowired
+//	private AnswerService answerService;
 	
 	@Transactional
 	public int findEmptyResultIdByProjectId(int projectId, String principalId) {
 		int userId = Integer.parseInt(principalId);
 		Integer resultId = resultRepository.finqClearOneByProjectId(projectId, userId);
 		if(resultId == null){
-			System.out.println("result is null");
 			Project project = projectRepository.findOne(projectId);
 			User user = userRepository.findOne(userId);
-			Result r = new Result(project, user);
+			SingleResult r = new SingleResult(project, user);
 			resultRepository.save(r);
 			resultId = resultRepository.finqClearOneByProjectId(projectId, userId);
 		}
@@ -48,66 +45,58 @@ public class ResultServiceImpl implements ResultService{
 	}
 
 	@Transactional
-	public Result findOneWithAnswers(int resultId) {
-		Result result = resultRepository.findOneWithAnswers(resultId);
+	public SingleResult findOneWithAnswers(int resultId) {
+		SingleResult result = resultRepository.findOneWithAnswers(resultId);
 		return result;
 	}
 
 	@Transactional
 	public void setAnswerToResult(int resultId, int questionId, List<String> answers) {
-		Result result = findOneWithAnswers(resultId);
-		for (String obj : answers) {
-			try {
-				int answerId = Integer.parseInt(obj);
-				Answer answer = answerService.findOne(answerId);
-				setAnswersToResult(result, answer);
-				
-			} catch (Exception e) {
-				Answer answer = new Answer(obj);
-				answer.setQuestionId(questionId);
-				answerService.save(answer);
-				setAnswersToResult(result, answer);
-			}
-			
-		}
-		resultRepository.save(result);
+		// TODO: rewrite this method
 	}
 	
-	private void setAnswersToResult(Result result, Answer answer){
-		if(result.getAnswers() == null){
-			List<Answer> answ = new ArrayList<Answer>();
-			answ.add(answer);
-			result.setAnswers(answ);
-		} else{
-			List<Answer> answ = result.getAnswers();
-			answ.add(answer);
-			result.setAnswers(answ);
-		}
-	}
+//	private void setAnswersToResult(SingleResult result, Answer answer){
+//		if(result.getAnswers() == null){
+//			List<Answer> answ = new ArrayList<Answer>();
+//			answ.add(answer);
+//			result.setAnswers(answ);
+//		} else{
+//			List<Answer> answ = result.getAnswers();
+//			if(!answ.contains(answer)){
+//				answ.add(answer);
+//			}
+//			result.setAnswers(answ);
+//		}
+//	}
 
-	public Result findOne(int resultId) {
+	public SingleResult findOne(int resultId) {
 		return resultRepository.findOne(resultId);
 	}
 
 	@Transactional
-	public void save(Result result) {
+	public void save(SingleResult result) {
 		resultRepository.save(result);
 	}
 
-	public Result findOneWithClient(int resultId) {
-		Result result = resultRepository.findOneWithClient(resultId);
+	public SingleResult findOneWithClient(int resultId) {
+		SingleResult result = resultRepository.findOneWithClient(resultId);
 		return result;
 	}
 
 	@Transactional
-	public Result findOneWithAnswersAndProject(int resultId) {
-		Result result = resultRepository.findOneWithAnswersAndProject(resultId);
+	public SingleResult findOneWithAnswersAndProject(int resultId) {
+		SingleResult result = resultRepository.findOneWithAnswersAndProject(resultId);
 		return result;
 	}
 
 	@Transactional
-	public Result findIdByClientId(int id) {
-		Result r = resultRepository.findIdByClientId(id);
+	public SingleResult findIdByClientId(int id) {
+		SingleResult r = resultRepository.findIdByClientId(id);
 		return r;
+	}
+
+	@Transactional
+	public void saveTable(int resultId, Map<Integer, List<String>> tableResults) {
+		// TODO: rewrite this method
 	}
 }

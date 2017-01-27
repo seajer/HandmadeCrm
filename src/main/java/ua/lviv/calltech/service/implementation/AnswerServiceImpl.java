@@ -31,4 +31,11 @@ public class AnswerServiceImpl implements AnswerService{
 		return answers;
 	}
 
+	@Transactional
+	public void saveAll(List<Answer> answers) {
+		if(answers.size() > 1){
+			answerRepository.save(answers);
+		}
+	}
+
 }

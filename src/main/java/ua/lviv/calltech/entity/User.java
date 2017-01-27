@@ -39,7 +39,7 @@ public class User {
 	@JoinTable(name="users_languages", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="lang_id"))
 	private List<Language> language;
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY, mappedBy = "user")
-	private List<Result> results;
+	private List<SingleResult> results;
 	
 	public User() {
 	}
@@ -98,6 +98,14 @@ public class User {
 	}
 	public void setLanguage(List<Language> language) {
 		this.language = language;
+	}
+
+	public List<SingleResult> getResults() {
+		return results;
+	}
+
+	public void setResults(List<SingleResult> results) {
+		this.results = results;
 	}
 	
 	

@@ -22,7 +22,7 @@
 				<div>
 					<input name="answerId" type="hidden" value="${answer.id}"/>
 					<input name="answerText" value="${answer.text}"/>
-					<a href="#" class="remove">Remove</a>
+					<input type="button" class="remove" value="Remove"/>
 				</div>
 			</c:forEach>
 		</div>
