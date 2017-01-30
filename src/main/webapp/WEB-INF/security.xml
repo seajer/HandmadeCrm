@@ -20,11 +20,11 @@
 	<beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 	
 	<authentication-manager>
- 		<!-- <authentication-provider> 
+ 		 <authentication-provider> 
  			<user-service> 
  				<user name="admin" password="admin" authorities="ROLE_ADMIN" /> 
  			</user-service> 
- 		</authentication-provider>  -->
+ 		</authentication-provider> 
 		<authentication-provider user-service-ref="userDetailsService">
 
 			<password-encoder ref="encoder"/>

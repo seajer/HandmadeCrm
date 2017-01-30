@@ -8,48 +8,59 @@ jQuery(document).ready(function($) {
 
 jQuery(document).ready(function($) {
 	
+	// add new answer (new answer)
 	$('body').on('click', '.addAnswer', function(){
 		$("#answers").append('<input name="answer"><br/>');
 	});
+
+	// add new answer (edit answer)
 	$('.editAnswer').click(function(){
 		$("#answers").append('<div><input name="answerId" type="hidden" value="0"/><input name="answerText"/><input type="button" class="remove" value="Remove"/></div>');
 	});
+
+	// remove answer (new or edit question)
 	$('#answers').on('click','.remove', function(){
 		 $(this).parents('div').eq(0).remove();
 	});
 	
 	var customAnswer = false;
 	
+	// move from question to next question (new or edit poll)
 	$(".next").on('click',function(){
 		console.log("next question");
 		saveQuestion(customAnswer);
 		next();
 	});
 	
+	// move from question to previous question (new or edit poll)
 	$(".prev").on('click',function(){
 		console.log("prev question");
 		saveQuestion(customAnswer);
 		prev();
 	});
 	
+	// move from table to next question (new or edit poll)
 	$(".nextTable").on('click',function(){
 		console.log("next table");
 		saveTable();
 		next();
 	});
 	
+	// move from table to previous question (new or edit poll)
 	$(".prevTable").on('click',function(){
 		console.log("prev table");
 		saveTable();
 		prev();
 	});
 	
+	// add custom answer field (new or edit pool)
 	$(".customAnswer").click(function(){
 		customAnswer = true;
 		$("div.shown .customAnswer").hide();
 		$("div.shown").append('<input class="custom_answer"/>');
 	});
 	
+	// move to question with such number (new pool)
 	$(".headerQuestion").on('click',function(){
 		saveQuestion(customAnswer);
 		$(".shown").hide();
@@ -58,6 +69,7 @@ jQuery(document).ready(function($) {
 		$("div.hidden:eq("+(a-1)+")").removeClass("hidden").addClass("shown").show();
 	});
 	
+	//clear form and set there new HTML tags (for table or question)
 	$(".questionType").change(function(){
 		var tableIds = [15, 16, 17];
 		var type = $(".questionType").val();
@@ -76,6 +88,7 @@ jQuery(document).ready(function($) {
 		}
 	});
 	
+	//add row to table on creating table (new question)
 	$('body').on('click', 'input.addRow',function(){
 		var element = "<tr><td><input name='question'></td>"
 		var count = $("th").length -1;
@@ -87,9 +100,25 @@ jQuery(document).ready(function($) {
 		$("table").append(element);
 	});
 	
+	//add column to table on creating table (new question)
 	$('body').on('click', 'input.addColumn',function(){
 		$("tr").first().append("<th><input name='answer'/></th>");
 		$("tr").not(":eq(0)").append("<td></td>");
+	});
+	
+	// add new container for mapping customer database fields
+	$("#addCDOField").on('click', function(){
+		var element = "<div><select name='paramName'>";
+		var values = [];
+		$("#firstSelect option").each(function(){
+			values.push($(this).val());
+		})
+		console.log(values);
+		$.each(values, function(index, value){
+			element += "<option>"+value+"</option>";
+		})
+		element += "</select><input type='number' name='paramNumber' value='0'></div>";
+		$(".customertDB-ourDB-chain").append(element);
 	});
 	
 	multiselect();

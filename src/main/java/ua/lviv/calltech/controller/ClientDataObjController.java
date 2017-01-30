@@ -1,6 +1,8 @@
 package ua.lviv.calltech.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -70,10 +72,26 @@ public class ClientDataObjController {
 		Project project = projectService.findOneWithType(projectId);
 		if(project != null){
 			model.addAttribute("project", project);
-			List<SimpleClientObjectDTO> clients = clientDataObectService.findAllByProjectIdWithResults(projectId);
-			model.addAttribute("clients", clients);
+			//List<SimpleClientObjectDTO> clients = clientDataObectService.findAllByProjectIdWithResults(projectId);
+			//model.addAttribute("clients", clients);
 			return "client-all";
 		}
 		return "404";
+	}
+	
+	@RequestMapping(value="/uploadCustomerDB", method = RequestMethod.GET)
+	public String uploadCustomersDB(Model model){
+		model.addAttribute("CDOFields", ClientDataObjectService.clientDataObjectParams);
+		return "client-db";
+	}
+	
+	@RequestMapping(value="/save_customer_DB", method = RequestMethod.POST)
+	public String saveCustomersDB(@RequestParam("paramName")String[] paramNames, @RequestParam("paramNumber")int[] paramNumbers){
+		Map<Integer, String> customerDBChain = new HashMap<>();
+		for(int i = 0; i < paramNames.length; i++){
+			customerDBChain.put(paramNumbers[i], paramNames[i]);
+		}
+		clientDataObectService.readFromExcel(customerDBChain);
+		return "redirect:/";
 	}
 }

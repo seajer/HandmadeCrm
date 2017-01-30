@@ -22,7 +22,7 @@ public class ClientDataObject {
 	@Column
 	private String surname;
 	@Column
-	private int age;
+	private String age;
 	@Column
 	private String position;
 	@Column
@@ -30,9 +30,9 @@ public class ClientDataObject {
 	@Column
 	private String industry;
 	@Column
-	private int workersCount;
+	private String workersCount;
 	@Column
-	private int yearEarning;
+	private String yearEarning;
 	@Column
 	private String description;
 	@Column
@@ -102,19 +102,19 @@ public class ClientDataObject {
 		this.industry = industry;
 	}
 
-	public int getWorkersCount() {
+	public String getWorkersCount() {
 		return workersCount;
 	}
 
-	public void setWorkersCount(int workersCount) {
+	public void setWorkersCount(String workersCount) {
 		this.workersCount = workersCount;
 	}
 
-	public int getYearEarning() {
+	public String getYearEarning() {
 		return yearEarning;
 	}
 
-	public void setYearEarning(int yearEarning) {
+	public void setYearEarning(String yearEarning) {
 		this.yearEarning = yearEarning;
 	}
 
@@ -166,11 +166,11 @@ public class ClientDataObject {
 		this.site = site;
 	}
 
-	public int getAge() {
+	public String getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
+	public void setAge(String age) {
 		this.age = age;
 	}
 
@@ -188,5 +188,13 @@ public class ClientDataObject {
 
 	public void setResult(List<Result> result) {
 		this.results = result;
+	}
+	
+	@Override
+	public String toString() {
+		return "ClientDataObject [name=" + name + ", surname=" + surname + ", age=" + age + ", position=" + position
+				+ ", companyName=" + companyName + ", industry=" + industry + ", workersCount=" + workersCount
+				+ ", yearEarning=" + yearEarning + ", description=" + description + ", adress=" + adress + ", country="
+				+ country + ", phone=" + phone + ", email=" + email + ", site=" + site + ", comment=" + comment + "]";
 	}
 }

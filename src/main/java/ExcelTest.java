@@ -12,10 +12,12 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 public class ExcelTest {
-
-	public static void main(String[] args) {
+	
+	public static void main(String[] args) throws Exception {
 		write();
 		read();
+		ReadFromExcel.readFromExcel("ааа.xlsx");
+		
 	}
 
 	private static void write() {

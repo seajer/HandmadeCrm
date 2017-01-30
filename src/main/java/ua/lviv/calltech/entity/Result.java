@@ -27,7 +27,7 @@ public class Result {
 	@JoinColumn(name = "status_id")
 	private Status status;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "totalResult")
 	private List<SingleResult> results;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

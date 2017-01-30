@@ -32,6 +32,7 @@ public class SingleResult {
 	private List<Answer> answers;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="result_id")
 	private Result totalResult;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -1,12 +1,19 @@
 package ua.lviv.calltech.service.implementation;
 
-import java.util.List;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Map;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ua.lviv.calltech.DTO.SimpleClientObjectDTO;
 import ua.lviv.calltech.entity.ClientDataObject;
 import ua.lviv.calltech.repository.ClientDataObjectRepository;
 import ua.lviv.calltech.service.ClientDataObjectService;
@@ -36,15 +43,106 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 		// TODO: rewrite this method
 	}
 
-	public List<SimpleClientObjectDTO> findAllByProjectIdWithResults(int projectId) {
-		List<SimpleClientObjectDTO> object = clientDataObjectRepositiry.findSimpleClientsByProjectId(projectId);
-		return object;
-	}
+//	public List<SimpleClientObjectDTO> findAllByProjectIdWithResults(int projectId) {
+//		List<SimpleClientObjectDTO> object = clientDataObjectRepositiry.findSimpleClientsByProjectId(projectId);
+//		return object;
+//	}
 	
 	@Transactional
 	public ClientDataObject findOneWithStatusAndProject(int clientId) {
 //		ClientDataObject client = clientDataObjectRepositiry.findOneWithStatusAndProject(clientId);
 		return null;
+	}
+
+	public void setParameter(ClientDataObject client, Cell cell, Map<Integer, String> rules) {
+		String value = rules.get(cell.getColumnIndex()+1);
+		
+		if(value != null){
+			switch(value){
+			case "Name":
+				client.setName(cell.getStringCellValue().trim());
+				break;
+			case "Surname":
+				client.setSurname(cell.getStringCellValue().trim());
+				break;
+			case "Age":
+				if(cell.getCellType()==Cell.CELL_TYPE_NUMERIC)client.setAge(String.valueOf(cell.getNumericCellValue()));
+				else if(cell.getCellType()==Cell.CELL_TYPE_STRING)client.setAge(cell.getStringCellValue().trim());
+				break;
+			case "Position":
+				client.setAdress(cell.getStringCellValue().trim());
+				break;
+			case "Company name":
+				client.setCompanyName(cell.getStringCellValue().trim());
+				break;
+			case "Industry":
+				client.setIndustry(cell.getStringCellValue());
+				break;
+			case "Workers count":
+				if(cell.getCellType()==Cell.CELL_TYPE_NUMERIC)client.setWorkersCount(String.valueOf(cell.getNumericCellValue()));
+				else if(cell.getCellType()==Cell.CELL_TYPE_STRING)client.setWorkersCount(cell.getStringCellValue().trim());
+				break;
+			case "Years earning":
+				if(cell.getCellType()==Cell.CELL_TYPE_NUMERIC)client.setYearEarning(String.valueOf(cell.getNumericCellValue()));
+				else if(cell.getCellType()==Cell.CELL_TYPE_STRING)client.setYearEarning(cell.getStringCellValue().trim());
+				break;
+			case "Description":
+				client.setDescription(cell.getStringCellValue().trim());
+				break;
+			case "Adress":
+				client.setAdress(cell.getStringCellValue().trim());
+				break;
+			case "Country":
+				client.setCountry(cell.getStringCellValue().trim());
+				break;
+			case "Phone":
+				if(cell.getCellType()==Cell.CELL_TYPE_NUMERIC)client.setPhone(String.valueOf(cell.getNumericCellValue()));
+				else if(cell.getCellType()==Cell.CELL_TYPE_STRING)client.setPhone(cell.getStringCellValue().trim());
+				break;
+			case "Email":
+				client.setEmail(cell.getStringCellValue().trim());
+				break;
+			case "Site adress":
+				client.setSite(cell.getStringCellValue().trim());
+				break;
+			case "Comments":
+				client.setComment(cell.getStringCellValue().trim());
+				break;
+			default:
+				break;
+		}
+		}
+	}
+
+	@Override
+	public void readFromExcel(Map<Integer, String> map) {
+		FileInputStream fileInputStream = null;
+		String server = System.getProperty("catalina.home");
+		String fileName = "ааа.xlsx";
+		try {
+			fileInputStream = new FileInputStream(new File(server + "/" + fileName));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		XSSFWorkbook workbook = null;
+		try {
+			workbook = new XSSFWorkbook(fileInputStream);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		XSSFSheet sheet = workbook.getSheetAt(0);
+		
+		for (Row row : sheet) {
+			ClientDataObject cdo = new ClientDataObject();
+			for (Cell cell : row) {
+				setParameter(cdo, cell, map);
+			}
+			System.out.println("CDO: "+cdo.toString());
+			if(row.getRowNum() == 0) break;
+		}
+		
 	}
 	
 	

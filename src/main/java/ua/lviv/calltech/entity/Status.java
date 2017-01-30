@@ -20,7 +20,7 @@ public class Status {
 	@Column
 	private String name;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "status")
-	private List<ClientDataObject> objects;
+	private List<Result> objects;
 	
 	public Status() {
 	}
@@ -46,11 +46,11 @@ public class Status {
 		this.name = name;
 	}
 
-	public List<ClientDataObject> getObjects() {
+	public List<Result> getObjects() {
 		return objects;
 	}
 
-	public void setObjects(List<ClientDataObject> objects) {
+	public void setObjects(List<Result> objects) {
 		this.objects = objects;
 	}
 	
