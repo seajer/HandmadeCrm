@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -116,21 +118,48 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 		}
 	}
 
-	public void readFromExcel(Map<Integer, String> map) {
+	public void readFromExcel(Map<Integer, String> map, String fileName, String fileType) {
 		FileInputStream fileInputStream = null;
 		String server = System.getProperty("catalina.home");
-		String fileName = "ааа.xlsx";
 		try {
-			fileInputStream = new FileInputStream(new File(server + "/" + fileName));
+			fileInputStream = new FileInputStream(new File(server + "/" + fileName + "." + fileType));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+		List<ClientDataObject> clients = new ArrayList<>();
+		if(fileType.equals("xlsx")){
+			clients = readXlsxFile(fileInputStream, map);
+		} else if(fileType.equals("xls")){
+			clients = readXlsFile(fileInputStream, map);
+		}
+		clientDataObjectRepositiry.save(clients);
+	}
+	
+	private List<ClientDataObject> readXlsFile(FileInputStream fileInputStream, Map<Integer, String> map) {
+		HSSFWorkbook workbook = null;
+		try {
+			workbook = new HSSFWorkbook(fileInputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		HSSFSheet sheet = workbook.getSheetAt(0);
+		List<ClientDataObject> clientData = new ArrayList<ClientDataObject>();
+		for (Row row : sheet) {
+			ClientDataObject cdo = new ClientDataObject();
+			for (Cell cell : row) {
+				setParameter(cdo, cell, map);
+			}
+			clientData.add(cdo);
+		}
+		System.out.println("XLS____list size = " + clientData.size());
+		return clientData;
+	}
+
+	private List<ClientDataObject> readXlsxFile(FileInputStream fileInputStream, Map<Integer, String> map){
 		XSSFWorkbook workbook = null;
 		try {
 			workbook = new XSSFWorkbook(fileInputStream);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		XSSFSheet sheet = workbook.getSheetAt(0);
@@ -142,11 +171,8 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 			}
 			clientData.add(cdo);
 		}
-		System.out.println("!!!!!!____list size = " + clientData.size());
-		//clientDataObjectRepositiry.save(clientData);
-		
+		System.out.println("XLSX____list size = " + clientData.size());
+		return clientData;
 	}
-	
-	
 
 }

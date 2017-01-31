@@ -4,6 +4,8 @@
 <div>
 	<form action="save_customer_DB" method="post">
 		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+		<input type="hidden" name="fileName" value="${fileName}"/>
+		<input type="hidden" name="fileType" value="${fileType}"/>
 		<div class="customertDB-ourDB-chain">
 			<div>
 				<select name="paramName" id="firstSelect">

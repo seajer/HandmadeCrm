@@ -21,6 +21,6 @@ public interface ClientDataObjectService {
 	
 	void setParameter(ClientDataObject client, Cell cell, Map<Integer, String> rules);
 	
-	void readFromExcel(Map<Integer, String> map);
+	void readFromExcel(Map<Integer, String> map, String fileName, String fileType);
 
 }

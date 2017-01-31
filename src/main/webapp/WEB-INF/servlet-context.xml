@@ -78,8 +78,7 @@
 	<!-- Локалізація проекту -->
 	
 	<bean id="multipartResolver"
-          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-          <property name="maxUploadSize" value="20971520" /> <!-- 20MB -->
+        class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
 	</bean>
 	
 	 <mvc:resources location="/resources/" mapping="/resources/**"/>

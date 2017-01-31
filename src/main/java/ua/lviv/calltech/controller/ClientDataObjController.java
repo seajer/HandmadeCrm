@@ -1,5 +1,6 @@
 package ua.lviv.calltech.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import ua.lviv.calltech.entity.ClientDataObject;
@@ -81,32 +81,43 @@ public class ClientDataObjController {
 	}
 	
 	@RequestMapping(value="/uploadDb", method = RequestMethod.GET)
-	public String uploadFilepage(){
+	public String uploadFilepage(Model model){
+		String[] types = {"xlsx", "xls"};
+		model.addAttribute("types", types);
 		return "client-upload";
 	}
 	
 	@RequestMapping(value="/uploadDb", method = RequestMethod.POST)
-	public String uploadFile(@ModelAttribute("clientFile") MultipartFile file){
-		System.out.println("inside controller");
-		if(file == null){
-			System.out.println("WOW, FILE STILL NULL EMPTY");
-		}
-		return "redirect:/uploadDb";
-	}
+	public String handleFormUpload(@RequestParam("file") MultipartFile file, @RequestParam("type")String type) throws IOException {
+
+        if (!file.isEmpty()) {
+            System.out.println("FILE UPLOADED SUCCESSFULY");
+            String fullname = file.getOriginalFilename();
+            System.out.println(fullname);
+            return "redirect:/uploadCustomerDB_"+type+"_"+fullname;
+        }
+        System.out.println("FAILE TO UPLOAD FILE");
+        return "redirect:/uploadDb";
+    }
 	
-	@RequestMapping(value="/uploadCustomerDB", method = RequestMethod.GET)
-	public String uploadCustomersDB(Model model){
+	@RequestMapping(value="/uploadCustomerDB_{fileType}_{fileName}", method = RequestMethod.GET)
+	public String uploadCustomersDB(@PathVariable("fileName")String fileName, @PathVariable("fileType")String fileType, Model model){
+		System.out.println("fileName1 = " + fileName+"."+fileType);
 		model.addAttribute("CDOFields", ClientDataObjectService.clientDataObjectParams);
+		model.addAttribute("fileName", fileName);
+		model.addAttribute("fileType", fileType);
 		return "client-db";
 	}
 	
 	@RequestMapping(value="/save_customer_DB", method = RequestMethod.POST)
-	public String saveCustomersDB(@RequestParam("paramName")String[] paramNames, @RequestParam("paramNumber")int[] paramNumbers){
+	public String saveCustomersDB(@RequestParam("paramName")String[] paramNames, @RequestParam("paramNumber")int[] paramNumbers,
+			@RequestParam("fileName")String fileName, @RequestParam("fileType")String fileType){
 		Map<Integer, String> customerDBChain = new HashMap<>();
 		for(int i = 0; i < paramNames.length; i++){
 			customerDBChain.put(paramNumbers[i], paramNames[i]);
 		}
-		clientDataObectService.readFromExcel(customerDBChain);
+		System.out.println("FileName2 = " + fileName);
+		clientDataObectService.readFromExcel(customerDBChain, fileName, fileType);
 		return "redirect:/";
 	}
 }
