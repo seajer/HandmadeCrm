@@ -1,5 +1,6 @@
 package ua.lviv.calltech.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -80,44 +81,28 @@ public class ClientDataObjController {
 		return "404";
 	}
 	
-	@RequestMapping(value="/uploadDb", method = RequestMethod.GET)
-	public String uploadFilepage(Model model){
+	@RequestMapping(value="/uploadCustomerDB", method = RequestMethod.GET)
+	public String uploadCustomersDB( Model model){
+		model.addAttribute("CDOFields", ClientDataObjectService.clientDataObjectParams);
 		String[] types = {"xlsx", "xls"};
 		model.addAttribute("types", types);
-		return "client-upload";
-	}
-	
-	@RequestMapping(value="/uploadDb", method = RequestMethod.POST)
-	public String handleFormUpload(@RequestParam("file") MultipartFile file, @RequestParam("type")String type) throws IOException {
-
-        if (!file.isEmpty()) {
-            System.out.println("FILE UPLOADED SUCCESSFULY");
-            String fullname = file.getOriginalFilename();
-            System.out.println(fullname);
-            return "redirect:/uploadCustomerDB_"+type+"_"+fullname;
-        }
-        System.out.println("FAILE TO UPLOAD FILE");
-        return "redirect:/uploadDb";
-    }
-	
-	@RequestMapping(value="/uploadCustomerDB_{fileType}_{fileName}", method = RequestMethod.GET)
-	public String uploadCustomersDB(@PathVariable("fileName")String fileName, @PathVariable("fileType")String fileType, Model model){
-		System.out.println("fileName1 = " + fileName+"."+fileType);
-		model.addAttribute("CDOFields", ClientDataObjectService.clientDataObjectParams);
-		model.addAttribute("fileName", fileName);
-		model.addAttribute("fileType", fileType);
 		return "client-db";
 	}
 	
 	@RequestMapping(value="/save_customer_DB", method = RequestMethod.POST)
 	public String saveCustomersDB(@RequestParam("paramName")String[] paramNames, @RequestParam("paramNumber")int[] paramNumbers,
-			@RequestParam("fileName")String fileName, @RequestParam("fileType")String fileType){
+			@RequestParam("type")String type, @RequestParam("file") MultipartFile file){
 		Map<Integer, String> customerDBChain = new HashMap<>();
 		for(int i = 0; i < paramNames.length; i++){
 			customerDBChain.put(paramNumbers[i], paramNames[i]);
 		}
-		System.out.println("FileName2 = " + fileName);
-		clientDataObectService.readFromExcel(customerDBChain, fileName, fileType);
+		File savedFile = clientDataObectService.saveFile(file);
+		clientDataObectService.readFromExcel(customerDBChain, file.getOriginalFilename(), type);
+		if(savedFile.delete()){
+			System.out.println(savedFile.getName() + " is deleted!");
+		}else{
+			System.out.println("Delete operation is failed.");
+		}
 		return "redirect:/";
 	}
 }

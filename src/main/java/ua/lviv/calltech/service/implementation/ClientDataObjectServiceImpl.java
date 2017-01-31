@@ -17,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import ua.lviv.calltech.entity.ClientDataObject;
 import ua.lviv.calltech.repository.ClientDataObjectRepository;
@@ -121,8 +122,10 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 	public void readFromExcel(Map<Integer, String> map, String fileName, String fileType) {
 		FileInputStream fileInputStream = null;
 		String server = System.getProperty("catalina.home");
+		System.out.println("file name = " + fileName);
+		System.out.println("file type = " + fileType);
 		try {
-			fileInputStream = new FileInputStream(new File(server + "/" + fileName + "." + fileType));
+			fileInputStream = new FileInputStream(new File(server + "/" + fileName));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -133,6 +136,22 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 			clients = readXlsFile(fileInputStream, map);
 		}
 		clientDataObjectRepositiry.save(clients);
+	}
+	
+	public File saveFile(MultipartFile clientFile){
+		String server = System.getProperty("catalina.home")+"/";
+		File file = new File(server, clientFile.getOriginalFilename());
+		try {
+			clientFile.transferTo(file);
+			System.out.println("FILE SAVED");
+		} catch (IllegalStateException e) {
+			System.out.println("CANT TRANSFER FILE");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("CANT TRANSFER FILE");
+			e.printStackTrace();
+		}
+		return file;
 	}
 	
 	private List<ClientDataObject> readXlsFile(FileInputStream fileInputStream, Map<Integer, String> map) {

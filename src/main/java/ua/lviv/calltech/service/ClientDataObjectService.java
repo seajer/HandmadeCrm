@@ -1,8 +1,10 @@
 package ua.lviv.calltech.service;
 
+import java.io.File;
 import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.springframework.web.multipart.MultipartFile;
 
 import ua.lviv.calltech.entity.ClientDataObject;
 
@@ -22,5 +24,7 @@ public interface ClientDataObjectService {
 	void setParameter(ClientDataObject client, Cell cell, Map<Integer, String> rules);
 	
 	void readFromExcel(Map<Integer, String> map, String fileName, String fileType);
+
+	File saveFile(MultipartFile file);
 
 }
