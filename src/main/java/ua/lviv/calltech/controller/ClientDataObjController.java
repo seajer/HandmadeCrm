@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import ua.lviv.calltech.DTO.SimpleClientObjectDTO;
 import ua.lviv.calltech.entity.ClientDataObject;
 import ua.lviv.calltech.entity.Project;
 import ua.lviv.calltech.entity.Status;
@@ -77,6 +78,20 @@ public class ClientDataObjController {
 			return "client-all";
 		}
 		return "404";
+	}
+	
+	@RequestMapping(value="/uploadDb", method = RequestMethod.GET)
+	public String uploadFilepage(){
+		return "client-upload";
+	}
+	
+	@RequestMapping(value="/uploadDb", method = RequestMethod.POST)
+	public String uploadFile(@ModelAttribute("clientFile") MultipartFile file){
+		System.out.println("inside controller");
+		if(file == null){
+			System.out.println("WOW, FILE STILL NULL EMPTY");
+		}
+		return "redirect:/uploadDb";
 	}
 	
 	@RequestMapping(value="/uploadCustomerDB", method = RequestMethod.GET)

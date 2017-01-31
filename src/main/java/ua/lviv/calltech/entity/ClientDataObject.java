@@ -33,9 +33,9 @@ public class ClientDataObject {
 	private String workersCount;
 	@Column
 	private String yearEarning;
-	@Column
+	@Column(columnDefinition="varchar(1000)")
 	private String description;
-	@Column
+	@Column(columnDefinition="varchar(1000)")
 	private String adress;
 	@Column
 	private String country;
@@ -45,7 +45,7 @@ public class ClientDataObject {
 	private String email;
 	@Column
 	private String site;
-	@Column
+	@Column(columnDefinition="varchar(1000)")
 	private String comment;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")

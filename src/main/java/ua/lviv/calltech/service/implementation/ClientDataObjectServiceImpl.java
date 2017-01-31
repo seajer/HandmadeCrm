@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -114,7 +116,6 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 		}
 	}
 
-	@Override
 	public void readFromExcel(Map<Integer, String> map) {
 		FileInputStream fileInputStream = null;
 		String server = System.getProperty("catalina.home");
@@ -133,15 +134,16 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 			e.printStackTrace();
 		}
 		XSSFSheet sheet = workbook.getSheetAt(0);
-		
+		List<ClientDataObject> clientData = new ArrayList<ClientDataObject>();
 		for (Row row : sheet) {
 			ClientDataObject cdo = new ClientDataObject();
 			for (Cell cell : row) {
 				setParameter(cdo, cell, map);
 			}
-			System.out.println("CDO: "+cdo.toString());
-			if(row.getRowNum() == 0) break;
+			clientData.add(cdo);
 		}
+		System.out.println("!!!!!!____list size = " + clientData.size());
+		//clientDataObjectRepositiry.save(clientData);
 		
 	}
 	

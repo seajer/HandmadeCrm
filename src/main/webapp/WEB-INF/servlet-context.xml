@@ -79,7 +79,7 @@
 	
 	<bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="maxUploadSize" value="204857600"/>
+          <property name="maxUploadSize" value="20971520" /> <!-- 20MB -->
 	</bean>
 	
 	 <mvc:resources location="/resources/" mapping="/resources/**"/>
