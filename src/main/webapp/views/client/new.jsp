@@ -4,7 +4,6 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <div>
 	<form:form action="saveExamined" method="post" modelAttribute="clientDataObject">
-		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 		Name
 		<form:input path="name"/><br/>
 		Surname

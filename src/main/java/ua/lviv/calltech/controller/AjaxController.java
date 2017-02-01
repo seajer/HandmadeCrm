@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ua.lviv.calltech.service.QuestionService;
 import ua.lviv.calltech.service.ResultService;
 
 @RestController
@@ -21,6 +22,9 @@ public class AjaxController {
 	
 	@Autowired
 	private ResultService resultService;
+	
+	@Autowired
+	private QuestionService questionService;
 	
 	@RequestMapping(value = "/saveResultAnswers", method = RequestMethod.POST)
 	public @ResponseBody Boolean saveQuestion(@RequestBody String question) {
@@ -43,7 +47,7 @@ public class AjaxController {
 		}else{
 			answers = changeJsonArrayToStringList(answerArray);
 		}
-		resultService.setAnswerToResult(resultId, questionId, answers);
+//		resultService.setAnswerToResult(resultId, questionId, answers);
 		return false;
 	}
 	
@@ -65,7 +69,7 @@ public class AjaxController {
 			}
 			tableResults.put(questionId, ans);
 		}
-		resultService.saveTable(resultId, tableResults);
+		questionService.saveTable(resultId, tableResults);
 		return true;
 	}
 	

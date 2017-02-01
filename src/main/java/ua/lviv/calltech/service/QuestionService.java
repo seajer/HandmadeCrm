@@ -1,5 +1,7 @@
 package ua.lviv.calltech.service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import ua.lviv.calltech.entity.Question;
@@ -20,5 +22,7 @@ public interface QuestionService {
 	Set<Integer> findAnsweredQuestionsForResultById(int resultId);
 
 	void addTable(int questionnaireId, int type, String recomendations, String[] question, String[] answer);
+
+	void saveTable(int resultId, Map<Integer, List<String>> tableResults);
 
 }

@@ -21,4 +21,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>{
 	@Query("SELECT p FROM Project p LEFT JOIN FETCH p.type t WHERE p.id = ?1")
 	Project findOneWithType(int projectId);
 
+	@Query("SELECT p.id FROM Project p JOIN p.results r WHERE ?1 IN (r.id)")
+	Integer findIdByResultId(int resultId);
+
 }

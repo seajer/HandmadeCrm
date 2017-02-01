@@ -78,6 +78,14 @@ public class ClientDataObject {
 		this.surname = surname;
 	}
 
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+
 	public String getPosition() {
 		return position;
 	}
@@ -166,14 +174,6 @@ public class ClientDataObject {
 		this.site = site;
 	}
 
-	public String getAge() {
-		return age;
-	}
-
-	public void setAge(String age) {
-		this.age = age;
-	}
-
 	public String getComment() {
 		return comment;
 	}
@@ -182,14 +182,14 @@ public class ClientDataObject {
 		this.comment = comment;
 	}
 
-	public List<Result> getResult() {
+	public List<Result> getResults() {
 		return results;
 	}
 
-	public void setResult(List<Result> result) {
-		this.results = result;
+	public void setResults(List<Result> results) {
+		this.results = results;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "ClientDataObject [name=" + name + ", surname=" + surname + ", age=" + age + ", position=" + position

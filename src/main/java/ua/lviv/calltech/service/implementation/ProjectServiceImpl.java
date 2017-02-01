@@ -111,4 +111,10 @@ public class ProjectServiceImpl implements ProjectService{
 		return project;
 	}
 
+	@Transactional
+	public Integer findIdByResultId(int resultId) {
+		Integer projectId = projectRepository.findIdByResultId(resultId); 
+		return projectId;
+	}
+
 }

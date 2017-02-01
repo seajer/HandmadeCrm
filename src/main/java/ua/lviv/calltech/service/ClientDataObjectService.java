@@ -27,4 +27,10 @@ public interface ClientDataObjectService {
 
 	File saveFile(MultipartFile file);
 
+	ClientDataObject findOneWithResults(int clientId);
+
+	void createOne(String phone, String company);
+
+	ClientDataObject findOneByPhoneAndCompany(String phone, String company);
+
 }

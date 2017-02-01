@@ -28,15 +28,6 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 
 	@Autowired
 	private ClientDataObjectRepository clientDataObjectRepositiry;
-	
-//	@Autowired
-//	private ProjectService projectService;
-//	
-//	@Autowired
-//	private ResultService resultService;
-//	
-//	@Autowired
-//	private StatusService statusService;
 
 	@Transactional
 	public void save(ClientDataObject object, int projectId, int resultId) {
@@ -53,10 +44,9 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 //		return object;
 //	}
 	
-	@Transactional
-	public ClientDataObject findOneWithStatusAndProject(int clientId) {
-//		ClientDataObject client = clientDataObjectRepositiry.findOneWithStatusAndProject(clientId);
-		return null;
+	public ClientDataObject findOneWithResults(int clientId) {
+		ClientDataObject client = clientDataObjectRepositiry.findOneWithResults(clientId);
+		return client;
 	}
 
 	public void setParameter(ClientDataObject client, Cell cell, Map<Integer, String> rules) {
@@ -192,6 +182,25 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 		}
 		System.out.println("XLSX____list size = " + clientData.size());
 		return clientData;
+	}
+
+	@Override
+	public ClientDataObject findOneWithStatusAndProject(int clientId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Transactional
+	public void createOne(String phone, String company) {
+		ClientDataObject cdo = new ClientDataObject();
+		cdo.setPhone(phone);
+		cdo.setCompanyName(company);
+		clientDataObjectRepositiry.save(cdo);
+	}
+
+	public ClientDataObject findOneByPhoneAndCompany(String phone, String company) {
+		ClientDataObject cdo = clientDataObjectRepositiry.findByPhoneAndCompany(phone, company);
+		return cdo;
 	}
 
 }

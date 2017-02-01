@@ -25,5 +25,5 @@ public interface QuestionnaireRepository  extends JpaRepository<Questionnaire, I
 	//testing query
 	@Query("SELECT q.id FROM Questionnaire q JOIN q.project p WHERE p.id = ?1")
 	int findQuestionnaireIdByProjectId(int projectId);
-	
+
 }

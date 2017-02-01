@@ -57,10 +57,13 @@ public class ClientDataObjController {
 	
 	@RequestMapping(value="/edit_client_{clientId}", method = RequestMethod.GET)
 	public String editClient(@PathVariable("clientId")int clientId, Model model){
-		ClientDataObject client = clientDataObectService.findOneWithStatusAndProject(clientId);
-		List<Status> statuses = statusService.findAll();
-		model.addAttribute("clientDataObject", client).addAttribute("status", statuses);
-		return "client-edit";
+		ClientDataObject client = clientDataObectService.findOneWithResults(clientId);
+		if(client != null){
+			model.addAttribute("clientDataObject", client);
+			return "client-edit";
+		} else {
+			return "redirect:/";
+		}
 	}
 	
 	@RequestMapping(value="/editExamined", method = RequestMethod.POST)

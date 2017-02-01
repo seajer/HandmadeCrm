@@ -5,7 +5,6 @@
 <div>
 	<form:form modelAttribute="clientDataObject" action="editExamined" method="post">
 		<form:input type="hidden" path="id"/>
-		<form:input type="hidden" path="project"/>
 		Name
 		<form:input path="name"/><br/>
 		Surname
@@ -35,16 +34,8 @@
 		Site address
 		<form:input path="site"/><br/>
 		Comment
-		<form:input path="comment" />
-		Recall time
-		<form:input path="recallTime"/>
-		Status
-		<form:select path="status">
-			<c:forEach items="${status}" var="stat">
-				<option value="${stat.id}">${stat.name}</option>
-			</c:forEach>
-		</form:select>
-		<br/>
+		<form:input path="comment" /><br/>
+		<form:input type="hidden" path="results"/>
 		<button type="submit">Submit</button>
 	</form:form>
 </div>
