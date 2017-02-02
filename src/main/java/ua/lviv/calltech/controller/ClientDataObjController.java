@@ -1,7 +1,6 @@
 package ua.lviv.calltech.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,7 @@ import ua.lviv.calltech.entity.Project;
 import ua.lviv.calltech.entity.Status;
 import ua.lviv.calltech.service.ClientDataObjectService;
 import ua.lviv.calltech.service.ProjectService;
+import ua.lviv.calltech.service.ResultService;
 import ua.lviv.calltech.service.StatusService;
 
 @Controller
@@ -35,6 +35,9 @@ public class ClientDataObjController {
 
 	@Autowired
 	private ProjectService projectService;
+	
+	@Autowired
+	private ResultService resultService;
 
 	@RequestMapping(value="/examined_p={projectId}r={resultId}", method=RequestMethod.GET)
 	public String fillExaminedValues(@PathVariable("projectId")int projectId, @PathVariable("resultId")int resultId, Model model){
@@ -84,23 +87,24 @@ public class ClientDataObjController {
 		return "404";
 	}
 	
-	@RequestMapping(value="/uploadCustomerDB", method = RequestMethod.GET)
-	public String uploadCustomersDB( Model model){
+	@RequestMapping(value="/uploadCustomerDB_{projectId}", method = RequestMethod.GET)
+	public String uploadCustomersDB(@PathVariable("projectId")int projectId, Model model){
 		model.addAttribute("CDOFields", ClientDataObjectService.clientDataObjectParams);
 		String[] types = {"xlsx", "xls"};
-		model.addAttribute("types", types);
-		return "client-db";
+		model.addAttribute("types", types).addAttribute("projectId", projectId);
+		return "project-db";
 	}
 	
 	@RequestMapping(value="/save_customer_DB", method = RequestMethod.POST)
 	public String saveCustomersDB(@RequestParam("paramName")String[] paramNames, @RequestParam("paramNumber")int[] paramNumbers,
-			@RequestParam("type")String type, @RequestParam("file") MultipartFile file){
+			@RequestParam("type")String type, @RequestParam("projectId")int projectId, @RequestParam("file") MultipartFile file){
 		Map<Integer, String> customerDBChain = new HashMap<>();
 		for(int i = 0; i < paramNames.length; i++){
 			customerDBChain.put(paramNumbers[i], paramNames[i]);
 		}
 		File savedFile = clientDataObectService.saveFile(file);
-		clientDataObectService.readFromExcel(customerDBChain, file.getOriginalFilename(), type);
+		List<ClientDataObject> clients = clientDataObectService.readFromExcel(customerDBChain, file.getOriginalFilename(), type);
+		resultService.createResultsForCDOs(clients, projectId);
 		if(savedFile.delete()){
 			System.out.println(savedFile.getName() + " is deleted!");
 		}else{

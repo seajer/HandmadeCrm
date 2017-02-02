@@ -25,4 +25,6 @@ public interface ProjectService {
 
 	Integer findIdByResultId(int resultId);
 
+	Project findByNaneAndCompany(String name, String company);
+
 }

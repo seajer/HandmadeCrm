@@ -117,4 +117,9 @@ public class ProjectServiceImpl implements ProjectService{
 		return projectId;
 	}
 
+	public Project findByNaneAndCompany(String name, String company) {
+		Project project = projectRepository.findByNameAndCompany(name, company);
+		return project;
+	}
+
 }

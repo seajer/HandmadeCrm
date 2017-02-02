@@ -19,4 +19,6 @@ public interface ProjectTypeService {
 
 	void createProjectTypes();
 
+	ProjectType findById(int projectTypeId);
+
 }

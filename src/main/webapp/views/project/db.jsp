@@ -4,6 +4,7 @@
 <div>
 	<form action="save_customer_DB" method="post" enctype="multipart/form-data">
 		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+		<input type="hidden" name="projectId" value="${projectId}">
 		<input type="file" name="file"/>
 		<select name="type">
 			<c:forEach items="${types}" var="type">

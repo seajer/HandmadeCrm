@@ -62,4 +62,9 @@ public class ProjectTypeServiceImpl implements ProjectTypeService{
 		pTypeRepository.save(dBValidation);
 	}
 
+	public ProjectType findById(int projectTypeId) {
+		ProjectType pt = pTypeRepository.findOne(projectTypeId);
+		return pt;
+	}
+
 }

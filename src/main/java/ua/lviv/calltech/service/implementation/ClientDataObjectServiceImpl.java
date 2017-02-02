@@ -109,11 +109,9 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 		}
 	}
 
-	public void readFromExcel(Map<Integer, String> map, String fileName, String fileType) {
+	public List<ClientDataObject> readFromExcel(Map<Integer, String> map, String fileName, String fileType) {
 		FileInputStream fileInputStream = null;
 		String server = System.getProperty("catalina.home");
-		System.out.println("file name = " + fileName);
-		System.out.println("file type = " + fileType);
 		try {
 			fileInputStream = new FileInputStream(new File(server + "/" + fileName));
 		} catch (FileNotFoundException e) {
@@ -126,6 +124,7 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 			clients = readXlsFile(fileInputStream, map);
 		}
 		clientDataObjectRepositiry.save(clients);
+		return clients;
 	}
 	
 	public File saveFile(MultipartFile clientFile){

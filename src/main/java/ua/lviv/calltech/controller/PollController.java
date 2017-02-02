@@ -35,9 +35,6 @@ public class PollController {
 	private ProjectService projectService;
 	
 	@Autowired
-	private QuestionnaierService questionnaireService; 
-	
-	@Autowired
 	private ClientDataObjectService cdoService;
 
 	@RequestMapping(value="/new_poll_{id}", method = RequestMethod.GET)
@@ -68,7 +65,6 @@ public class PollController {
 	
 	@RequestMapping(value="/edit_result_{resultId}", method = RequestMethod.GET)
 	public String editPoll(@PathVariable("resultId")int resultId, Model model){
-		System.out.println("inside controller");
 		Integer projectId = projectService.findIdByResultId(resultId);
 		Set<Question> questions = questionService.findQuestionsByProjectId(projectId);
 		model.addAttribute("questions", questions);

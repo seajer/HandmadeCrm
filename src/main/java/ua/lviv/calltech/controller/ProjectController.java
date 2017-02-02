@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ua.lviv.calltech.DTO.ProjectDTO;
 import ua.lviv.calltech.DTO.UserDTO;
 import ua.lviv.calltech.entity.Language;
+import ua.lviv.calltech.entity.Project;
 import ua.lviv.calltech.entity.ProjectType;
 import ua.lviv.calltech.service.LanguageService;
 import ua.lviv.calltech.service.ProjectService;
@@ -33,7 +34,7 @@ public class ProjectController {
 
 	@Autowired
 	private LanguageService languageServise;
-
+	
 	@Autowired
 	private UserService userServise;
 	
@@ -53,6 +54,11 @@ public class ProjectController {
 	public String addProject(@RequestParam("name")String name, @RequestParam("company")String company, @RequestParam("lang")int langId,
 			@RequestParam("type")int typeId){
 		projectService.addProject(name, company, langId, typeId);
+		ProjectType pt = pTypeService.findById(typeId);
+		Project project = projectService.findByNaneAndCompany(name, company);
+		if(pt.getName().equals("Poll with customers DB")){
+			return "redirect:/uploadCustomerDB_"+project.getId();
+		}
 		return "redirect:/all_projects";
 	}
 	
