@@ -16,11 +16,9 @@
 			</c:forEach>
 		</select>
 		<c:choose>
-			<c:when test="${question.type.text=='Одна відповідь' 
-			|| question.type.text=='Кілька відповідей' || question.type.text == 'Одна вдповідь з можливістю обрати свій варіант' 
-			|| question.type.text=='Кілька відповідей з можливістю обрати свій варіант'
-			|| question.type.text=='Процентре співвідношення представлених варіантів'
-			|| question.type.text=='Процентне співвідношення зі своїм варіантом'}" >
+			<c:when test="${question.type.id == 7 || question.type.id == 8
+			|| question.type.id == 9 || question.type.id == 10 || question.type.id == 11
+			|| question.type.id == 12}" >
 				<div class="question">
 					Text
 					<input name="question" value="${question.text}"/> <br>
@@ -36,7 +34,7 @@
 					<input type="button" value="Add answer" class="addAnswer"/>
 				</div>
 			</c:when>
-			<c:when test="${question.type.text=='Розгорнутий (або не розгорнутий) коментар'}">
+			<c:when test="${question.type.id== 13}">
 				<input type="text" name="question" value="${question.text}"> 
 			</c:when>
 		</c:choose>

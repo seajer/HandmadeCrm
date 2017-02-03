@@ -26,11 +26,6 @@ public class AnswerServiceImpl implements AnswerService{
 		answerRepository.save(ansver);
 	}
 
-	public List<Answer> findAllByResultId(int resultId) {
-		List<Answer> answers = answerRepository.findAllByResultId(resultId);
-		return answers;
-	}
-
 	@Transactional
 	public void saveAll(List<Answer> answers) {
 		if(answers.size() > 1){

@@ -70,8 +70,6 @@ public class QuestionControler {
 	public String editQuestion(@PathVariable("questionId")int questionId, Model modal){
 		Question question = questionService.findById(questionId);
 		List<QuestionType> types = questionTypeServise.findAll();
-		System.out.println(types.size());
-		System.out.println(question.getType().getText());
 		types.remove(question.getType());
 		modal.addAttribute("question", question).addAttribute("types", types);
 		return "question-edit";

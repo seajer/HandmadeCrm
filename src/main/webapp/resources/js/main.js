@@ -71,7 +71,7 @@ jQuery(document).ready(function($) {
 	
 	//clear form and set there new HTML tags (for table or question)
 	$(".questionType").change(function(){
-		var tableIds = [651, 652, 653];
+		var tableIds = [14, 15, 16];
 		var type = $(".questionType").val();
 		if(containing(tableIds, type)){
 			$("#creatingQuestion").attr("action", "new_table");
@@ -221,9 +221,9 @@ function saveQuestion(customAnswer){
 	var answers = [];
 	var resultId = $("input[name='resultId']").val();
 	var questionId = $('div.shown input[name="questionId"]').val();
-	if(type == 'Одна відповідь' || type == 'Кілька відповідей' || type == 'Одна вдповідь з можливістю обрати свій варіант' || type == 'Кілька відповідей з можливістю обрати свій варіант'){
+	if(type == 7 || type == 8 || type == 9 || type == 10){
 		answers = getCheckedAnswers();
-	} else if(type == 'Процентре співвідношення представлених варіантів' || type == 'Процентне співвідношення зі своїм варіантом'){
+	} else if(type == 11 || type == 12){
 		answers = getPersentageAnswers();
 	}else{
 	}
@@ -249,9 +249,9 @@ function containing(array, obj){
 function saveTable(){
 	var typeString;
 	var type = $("div.shown .questionType").val();
-	if(type == 'Таблиця з одним варіантом'){
+	if(type == 14){
 		typeString = ":radio:checked";
-	} else if(type == 'Таблиця з багатьма варіантами'){
+	} else if(type == 15){
 		typeString = ":checked";
 	} else{
 		typeString = "";

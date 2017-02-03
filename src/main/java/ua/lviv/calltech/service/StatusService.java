@@ -12,4 +12,6 @@ public interface StatusService {
 
 	Status findOne(int parseInt);
 
+	void createStatuses();
+
 }

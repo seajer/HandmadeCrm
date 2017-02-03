@@ -36,4 +36,16 @@ public class StatusServiceImpl implements StatusService{
 		return status;
 	}
 
+	@Transactional
+	public void createStatuses() {
+		Status notStarted = new Status("Not started");
+		statusRepository.save(notStarted);
+		Status done = new Status("Done");
+		statusRepository.save(done);
+		Status rejected = new Status("Rejected");
+		statusRepository.save(rejected);
+		Status recall = new Status("Recall");
+		statusRepository.save(recall);
+	}
+
 }

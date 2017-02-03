@@ -19,25 +19,23 @@
 				<p>${question.text}</p><p> ${question.id} </p>
 				<p style="color: red">${question.recomendations}</p><br/>
 				<c:forEach items="${question.answers}" var="answer">
-					<input type="hidden" value="${question.type.text}" class="questionType">
+					<input type="hidden" value="${question.type.id}" class="questionType">
 					<c:choose>
-						<c:when test="${question.type.text=='Кілька відповідей' 
-						|| question.type.text=='Кілька відповідей з можливістю обрати свій варіант'}">
+						<c:when test="${question.type.id == 8 || question.type.id == 10}">
 							<input class="answer" <c:if test="${fn:contains(result.answers, answer)}">checked="checked"</c:if> name="answers" type="checkbox" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
 						</c:when>
-						<c:when test="${question.type.text=='Одна відповідь'
-						|| question.type.text=='Одна вдповідь з можливістю обрати свій варіант'}">
+						<c:when test="${question.type.id == 7 || question.type.id == 9}">
 							<input class="answer" <c:if test="${fn:contains(result.answers, answer)}">checked="checked"</c:if> name="answers${answer.id}" type="radio" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
 						</c:when>
-						<c:when test="${question.type.text=='Процентре співвідношення представлених варіантів'
-						|| question.type.text=='Процентне співвідношення зі своїм варіантом'}">
+						<c:when test="${question.type.id == 11 || question.type.id == 12}">
 							<input class="persentage" name="answers" value="0"><b class="text"> ${answer.text} </b><br/>
+						</c:when>
+						<c:when test="${question.type.id == 13}">
+							<textarea class="percentage" name="answer">${question.value}</textarea>
 						</c:when>
 					</c:choose>
 				</c:forEach>
-				<c:if test="${question.type.text=='Одна вдповідь з можливістю обрати свій варіант'
-						|| question.type.text=='Кілька відповідей з можливістю обрати свій варіант'
-						|| question.type.text=='Процентне співвідношення зі своїм варіантом'}">
+				<c:if test="${question.type.id == 14 || question.type.id == 15 || question.type.id == 16}">
 						<input type="button" class="customAnswer" value="Add own">
 				</c:if>			
 				<c:if test="${!status.last}"><input type="button" class="next" value="Next"/></c:if><br/>

@@ -60,8 +60,14 @@ public class QuestionServiceImpl implements QuestionService{
 
 	@Transactional
 	public Question findById(int questionId) {
-		Question q = questionRepository.findOneWithType(questionId);
-		Hibernate.initialize(q.getAnswers());
+		Question q = questionRepository.findOne(questionId);
+		QuestionType qt = questionTypeRepository.findByQuestionId(questionId);
+		List<Answer> answers = answerRepository.findAllByQuestionId(questionId);
+		System.out.println("qt="+qt.getText());
+		System.out.println("answers="+answers.size());
+		System.out.println("q="+q);
+		q.setType(qt);
+		q.setAnswers(answers);
 		return q;
 	}
 
