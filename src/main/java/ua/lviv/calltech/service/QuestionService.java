@@ -29,4 +29,7 @@ public interface QuestionService {
 
 	void editOpen(int questionId, String question, String recommendations, int type);
 
+	void editTable(int questionId, String recommendations, int type, int[] questionIds, String[] questions,
+			int[] answerIds, String[] answers);
+
 }

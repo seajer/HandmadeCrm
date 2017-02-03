@@ -182,5 +182,64 @@ public class QuestionServiceImpl implements QuestionService{
 		quest.setType(questionTypeRepository.findOne(type));
 		questionRepository.save(quest);
 	}
+
+	@Transactional
+	public void editTable(int questionId, String recommendations, int type, int[] questionIds, String[] questions,
+			int[] answerIds, String[] answers) {
+		Question q = questionRepository.findOne(questionId);
+		if(q != null){
+			q.setRecomendations(recommendations);
+			QuestionType qt = questionTypeRepository.findOne(type);
+			if(qt != null){
+				q.setType(qt);
+			}
+
+			setQuestions(q, questionIds, questions);
+			setAnswers(q, answerIds, answers);
+			
+			questionRepository.save(q);
+		}
+	}
+	
+	private void setQuestions(Question q, int[] questionIds, String[] questions){
+		for(int i = 0; i < questionIds.length; i++){
+			Question quest = questionRepository.findOne(questionIds[i]);
+			if(quest != null){
+				quest.setText(questions[i]);
+				questionRepository.save(quest);
+			}
+		}
+		if(questions.length > questionIds.length){
+			List<Question> quests = new ArrayList<Question>();
+			for(int i = questionIds.length; i < questions.length; i++){
+				Question quest = new Question(questions[i]);
+				quest.setTable(q);
+				questionRepository.save(quest);
+				quests.add(quest);
+			}
+			quests.addAll(q.getTableQuestions());
+			q.setTableQuestions(quests);
+		}
+	}
+	
+	private void setAnswers(Question q, int[] answerIds, String[] answers){
+		for(int i = 0; i < answerIds.length; i++){
+			Answer answer = answerRepository.findOne(answerIds[i]);
+			if(answer != null){
+				answer.setText(answers[i]);
+				answerRepository.save(answer);
+			}
+		}
+		if(answers.length > answerIds.length){
+			List<Answer> answ = new ArrayList<Answer>();
+			for(int i = answerIds.length; i < answers.length; i++){
+				Answer ans = new Answer(answers[i]);
+				ans.setQuestion(q);
+				answerRepository.save(ans);
+			}
+			answ.addAll(q.getAnswers());
+			q.setAnswers(answ);
+		}
+	}
 	
 }

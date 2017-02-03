@@ -1,6 +1,5 @@
 package ua.lviv.calltech.controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,10 +96,7 @@ public class QuestionControler {
 	public String editTable(@RequestParam("id")int questionId, @RequestParam("recommendations")String recommendations,
 			@RequestParam("answType")int type, @RequestParam("answerId")int[] answerIds, @RequestParam("answer")String[] answers,
 			@RequestParam("question")String[] questions, @RequestParam("questionsId")int[] questionIds){
-//		Arrays.asList(answerIds).forEach(System.out::println);
-//		Arrays.asList(answers).forEach(System.out::println);
-//		Arrays.asList(questionIds).forEach(System.out::println);
-//		Arrays.asList(questions).forEach(System.out::println);
+		questionService.editTable(questionId, recommendations, type, questionIds, questions, answerIds, answers);
 		int questionnaireId = questionnaireService.findIdByQuestionId(questionId);
 		return "redirect:/view_questionnaire_"+questionnaireId;
 	}

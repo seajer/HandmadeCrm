@@ -80,7 +80,7 @@
 					<table border='5'>
 						<tr><th>запитання &#8595; відповіді &#8594;</th>
 						<c:forEach items="${question.answers}" var="answer">
-					 		<th><input type="hidden" value="${qnswer.id}" name="answerId"/>
+					 		<th><input type="hidden" value="${answer.id}" name="answerId"/>
 					 		<input type="text" value="${answer.text}" name="answer" /></th>
 					 	</c:forEach>
 					 	<c:forEach items="${question.tableQuestions}" var="tableQuestion">
@@ -100,5 +100,4 @@
 			</form>
 		</c:otherwise>
 	</c:choose>
-
 </div>
