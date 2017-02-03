@@ -74,4 +74,10 @@ public class QuestionnaierServiceImpl implements QuestionnaierService{
 		}
 	}
 
+	@Transactional
+	public int findByDescriptionAndProject(String description, int projectId) {
+		Integer questionnaireId = questionnaireRepository.findByDescriptionAndProjectId(description, projectId);
+		return questionnaireId;
+	}
+
 }

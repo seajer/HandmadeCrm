@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +60,8 @@ public class QuestionServiceImpl implements QuestionService{
 
 	@Transactional
 	public Question findById(int questionId) {
-		Question q = questionRepository.findOneWIthType(questionId);
+		Question q = questionRepository.findOneWithType(questionId);
+		Hibernate.initialize(q.getAnswers());
 		return q;
 	}
 
@@ -144,10 +146,20 @@ public class QuestionServiceImpl implements QuestionService{
 		questionRepository.save(qq);
 	}
 
-	@Override
 	public void saveTable(int resultId, Map<Integer, List<String>> tableResults) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Transactional
+	public void addOpen(int questionnaireId, String question, int type, String recomendations) {
+		QuestionType qt = questionTypeRepository.findOne(type);
+		Questionnaire questionnaire = questionnaireRepository.findOne(questionnaireId);
+		Question quest = new Question(question);
+		quest.setType(qt);
+		quest.setQuestionnaire(questionnaire);
+		quest.setRecomendations(recomendations);
+		questionRepository.save(quest);
 	}
 	
 }

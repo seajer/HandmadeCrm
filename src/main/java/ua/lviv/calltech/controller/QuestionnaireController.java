@@ -20,7 +20,7 @@ public class QuestionnaireController {
 	private ProjectService projectService;
 	
 	@Autowired
-	private QuestionnaierService questionnireService;
+	private QuestionnaierService questionnaireService;
 	
 	@RequestMapping(value="/new_questionnaire", method = RequestMethod.GET)
 	public String newQuestionnaire(Model model){
@@ -30,19 +30,20 @@ public class QuestionnaireController {
 	
 	@RequestMapping(value="/new_questionnaire", method = RequestMethod.POST)
 	public String addQuestionnaire(@RequestParam("desctiption")String description, @RequestParam("project")int projectId){
-		questionnireService.addQuestionnaire(description, projectId);
-		return "redirect:/";
+		questionnaireService.addQuestionnaire(description, projectId);
+		int questionnaireId = questionnaireService.findByDescriptionAndProject(description, projectId);
+		return "redirect:/view_questionnaire_"+questionnaireId;
 	}
 	
 	@RequestMapping(value="/all_questionnaire", method = RequestMethod.GET)
 	public String allQuestionnaire(Model model){
-		model.addAttribute("questionaire", questionnireService.findAll());
+		model.addAttribute("questionaire", questionnaireService.findAll());
 		return "questionnaire-all";
 	}
 	
 	@RequestMapping(value="/view_questionnaire_{id}", method = RequestMethod.GET)
 	public String viewQuestionnaire(Model model, @PathVariable int id){
-		QuestionnaireDTO quest = questionnireService.findDtoByIdWithQuestionsAndVisible(id, true);
+		QuestionnaireDTO quest = questionnaireService.findDtoByIdWithQuestionsAndVisible(id, true);
 		if (quest != null){
 			model.addAttribute("questionnaire", quest);
 			return "questionnaire-view";
@@ -53,7 +54,7 @@ public class QuestionnaireController {
 	
 	@RequestMapping(value="/edit_questionnaire_{id}", method = RequestMethod.GET)
 	public String editQuestionnaire(@PathVariable("id")int questionnaireId, Model model){
-		Questionnaire quest = questionnireService.findByIdWithQuestions(questionnaireId, true);
+		Questionnaire quest = questionnaireService.findByIdWithQuestions(questionnaireId, true);
 		model.addAttribute("questionnaire", quest);
 		return "questionnaire-edit";
 	}
@@ -61,7 +62,7 @@ public class QuestionnaireController {
 	@RequestMapping(value="/edit_questionnaire", method = RequestMethod.POST)
 	public String edit(@RequestParam("id")int questionnaireId, @RequestParam("description")String description){
 		if(description.trim().length() > 1){
-			questionnireService.editQUestionnaire(questionnaireId, description);
+			questionnaireService.editQUestionnaire(questionnaireId, description);
 		}
 		return "redirect:/all_questionnaire";
 	}

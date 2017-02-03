@@ -26,4 +26,7 @@ public interface QuestionnaireRepository  extends JpaRepository<Questionnaire, I
 	@Query("SELECT q.id FROM Questionnaire q JOIN q.project p WHERE p.id = ?1")
 	int findQuestionnaireIdByProjectId(int projectId);
 
+	@Query("SELECT q.id FROM Questionnaire q JOIN q.project p WHERE q.description = ?1 AND p.id = ?2")
+	Integer findByDescriptionAndProjectId(String description, int projectId);
+
 }

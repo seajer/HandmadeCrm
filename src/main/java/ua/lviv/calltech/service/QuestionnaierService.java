@@ -21,4 +21,6 @@ public interface QuestionnaierService {
 
 	void editQUestionnaire(int questionnaireId, String description);
 
+	int findByDescriptionAndProject(String description, int projectId);
+
 }

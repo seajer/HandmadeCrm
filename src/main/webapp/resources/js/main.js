@@ -71,7 +71,7 @@ jQuery(document).ready(function($) {
 	
 	//clear form and set there new HTML tags (for table or question)
 	$(".questionType").change(function(){
-		var tableIds = [15, 16, 17];
+		var tableIds = [651, 652, 653];
 		var type = $(".questionType").val();
 		if(containing(tableIds, type)){
 			$("#creatingQuestion").attr("action", "new_table");
@@ -81,10 +81,15 @@ jQuery(document).ready(function($) {
 					"<tr><td><input name='question'></td><td></td><td></td</tr>" +
 					"</table><input type='button' value='Add question' class='addRow'/>" +
 					"<input type='button' value='Add answer' class='addColumn'/>");
-		} else{
+		} else if(type == 650){
+			$("#creatingQuestion").attr("action", "new_open");
 			$(".question").empty();
-			$(".question").html("Text<input name='question'/><br>Type<div id='answers'>" +
-					"<input name='answer'><br/></div>	<input type='button' value='Add answer' class='addAnswer'/>");
+			$(".question").html("Text<input name='question'/>");
+		}else{
+			$("#creatingQuestion").attr("action", "new_question");
+			$(".question").empty();
+			$(".question").html("Text<input name='question'/><br>Answers<div id='answers'>" +
+					"<input name='answer'><br/></div><input type='button' value='Add answer' class='addAnswer'/>");
 		}
 	});
 	

@@ -7,17 +7,18 @@
 	<form action="new_question" method="post" id="creatingQuestion">
 		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 		<input type="hidden" name="questionnaireId" value="${questionaireId}"/>
+		Type
 		<select name="answType" class="questionType">
 			<c:forEach items="${questionTypes}" var="type">
 				<option value="${type.id}"> ${type.text} </option>
 			</c:forEach>
-		</select></br>
+		</select>
 		Recomendations
 		<input name="recommendations" /> <br>
 		<div class="question">
 			Text
 			<input name="question" /> <br>
-			Type
+			Answers
 			<div id="answers">
 				<input name="answer"><br/>
 			</div>

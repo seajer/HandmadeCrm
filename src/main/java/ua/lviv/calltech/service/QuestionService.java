@@ -25,4 +25,6 @@ public interface QuestionService {
 
 	void saveTable(int resultId, Map<Integer, List<String>> tableResults);
 
+	void addOpen(int questionnaireId, String question, int type, String recomendations);
+
 }

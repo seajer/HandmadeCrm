@@ -59,10 +59,19 @@ public class QuestionControler {
 		return "redirect:/view_questionnaire_"+questionnaireId;
 	}
 	
+	@RequestMapping(value="/new_open", method = RequestMethod.POST)
+	public String newOpen(@RequestParam("questionnaireId")int questionnaireId, @RequestParam("answType")int type,
+			@RequestParam("question")String question, @RequestParam("recommendations")String recomendations){
+		questionService.addOpen(questionnaireId, question, type, recomendations);
+		return "redirect:/view_questionnaire_"+questionnaireId; 
+	}
+	
 	@RequestMapping(value="/edit_question_{questionId}", method = RequestMethod.GET)
 	public String editQuestion(@PathVariable("questionId")int questionId, Model modal){
 		Question question = questionService.findById(questionId);
 		List<QuestionType> types = questionTypeServise.findAll();
+		System.out.println(types.size());
+		System.out.println(question.getType().getText());
 		types.remove(question.getType());
 		modal.addAttribute("question", question).addAttribute("types", types);
 		return "question-edit";

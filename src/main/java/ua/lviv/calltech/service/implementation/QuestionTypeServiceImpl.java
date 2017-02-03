@@ -34,6 +34,8 @@ public class QuestionTypeServiceImpl implements QuestionTypeService{
 		questionTypeRepository.save(persentage);
 		QuestionType persentageWithOwn = new QuestionType("Процентне співвідношення зі своїм варіантом");
 		questionTypeRepository.save(persentageWithOwn);
+		QuestionType comment = new QuestionType("Розгорнутий (або не розгорнутий) коментар");
+		questionTypeRepository.save(comment);
 		QuestionType radioTable = new QuestionType("Таблиця з одним варіантом");
 		questionTypeRepository.save(radioTable);
 		QuestionType multipleTable = new QuestionType("Таблиця з багатьма варіантами");
