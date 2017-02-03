@@ -27,4 +27,6 @@ public interface QuestionService {
 
 	void addOpen(int questionnaireId, String question, int type, String recomendations);
 
+	void editOpen(int questionId, String question, String recommendations, int type);
+
 }

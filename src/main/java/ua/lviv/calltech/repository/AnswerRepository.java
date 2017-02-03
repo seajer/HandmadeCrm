@@ -12,8 +12,7 @@ import ua.lviv.calltech.entity.Answer;
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer, Integer>{
 
-	@Query("FROM Answer a JOIN a.question q WHERE q.id = ?1")
+	@Query("SELECT a FROM Answer a JOIN a.question q WHERE q.id = ?1")
 	List<Answer> findAllByQuestionId(int questionId);
-
 
 }

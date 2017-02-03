@@ -10,8 +10,8 @@
 		<br/>
 		<button type="submit">Submit</button>
 		<br/>
-		<c:forEach items="${questionnaire.questions}" var="question">
-			<p>${question.text}</p>
+		<c:forEach items="${questionnaire.questions}" var="question" varStatus="i">
+			<b>${i.index+1}. ${question.recomendations}</b>
 			<c:choose>
 				<c:when test="${question.isVisible()}">
 					<a href="hide_question_${question.id}">Hide question</a>

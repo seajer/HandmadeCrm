@@ -1,5 +1,6 @@
 package ua.lviv.calltech.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,10 +77,32 @@ public class QuestionControler {
 	}
 	
 	@RequestMapping(value="/edit_question", method = RequestMethod.POST)
-	public String edit(@RequestParam("id")int questionId, @RequestParam("question")String question, @RequestParam("recommendations")String recommendations,
-			@RequestParam("answType")int type, @RequestParam("answerId")int[] answersId, @RequestParam("answerText")String[] answersText){
+	public String editQuestion(@RequestParam("id")int questionId, @RequestParam("question")String question, 
+			@RequestParam("recommendations")String recommendations,	@RequestParam("answType")int type,
+			@RequestParam("answerId")int[] answersId, @RequestParam("answerText")String[] answersText){
 		questionService.editQuestion(questionId, question, recommendations, type, answersId, answersText);
-		return "redirect:/";
+		int questionnaireId = questionnaireService.findIdByQuestionId(questionId);
+		return "redirect:/view_questionnaire_"+questionnaireId;
+	}
+	
+	@RequestMapping(value="/edit_open", method = RequestMethod.POST)
+	public String editOpeb(@RequestParam("id")int questionId, @RequestParam("question")String question,
+			@RequestParam("recommendations")String recommendations, @RequestParam("answType")int type){
+		questionService.editOpen(questionId, question, recommendations, type);
+		int questionnaireId = questionnaireService.findIdByQuestionId(questionId);
+		return "redirect:/view_questionnaire_"+questionnaireId;
+	}
+	
+	@RequestMapping(value="/edit_table", method = RequestMethod.POST)
+	public String editTable(@RequestParam("id")int questionId, @RequestParam("recommendations")String recommendations,
+			@RequestParam("answType")int type, @RequestParam("answerId")int[] answerIds, @RequestParam("answer")String[] answers,
+			@RequestParam("question")String[] questions, @RequestParam("questionsId")int[] questionIds){
+//		Arrays.asList(answerIds).forEach(System.out::println);
+//		Arrays.asList(answers).forEach(System.out::println);
+//		Arrays.asList(questionIds).forEach(System.out::println);
+//		Arrays.asList(questions).forEach(System.out::println);
+		int questionnaireId = questionnaireService.findIdByQuestionId(questionId);
+		return "redirect:/view_questionnaire_"+questionnaireId;
 	}
 	
 	@RequestMapping(value="/hide_question_{id}", method=RequestMethod.GET)

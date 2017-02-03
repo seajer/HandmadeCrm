@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,12 +61,18 @@ public class QuestionServiceImpl implements QuestionService{
 	public Question findById(int questionId) {
 		Question q = questionRepository.findOne(questionId);
 		QuestionType qt = questionTypeRepository.findByQuestionId(questionId);
-		List<Answer> answers = answerRepository.findAllByQuestionId(questionId);
-		System.out.println("qt="+qt.getText());
-		System.out.println("answers="+answers.size());
-		System.out.println("q="+q);
+		if(qt.getId() == 14 || qt.getId() == 15 || qt.getId() == 16){
+			List<Question> table = questionRepository.findAllQuestionTable(questionId);
+			List<Answer> answers = answerRepository.findAllByQuestionId(questionId);
+			q.setTableQuestions(table);
+			q.setAnswers(answers);
+		} else if (qt.getId() == 13){
+			
+		} else {
+			List<Answer> answers = answerRepository.findAllByQuestionId(questionId);
+			q.setAnswers(answers);
+		}
 		q.setType(qt);
-		q.setAnswers(answers);
 		return q;
 	}
 
@@ -165,6 +170,16 @@ public class QuestionServiceImpl implements QuestionService{
 		quest.setType(qt);
 		quest.setQuestionnaire(questionnaire);
 		quest.setRecomendations(recomendations);
+		questionRepository.save(quest);
+	}
+
+	@Transactional
+	public void editOpen(int questionId, String question, String recommendations, int type) {
+		Question quest = questionRepository.findOne(questionId);
+		quest.setAnswers(null);
+		quest.setText(question);
+		quest.setRecomendations(recommendations);
+		quest.setType(questionTypeRepository.findOne(type));
 		questionRepository.save(quest);
 	}
 	

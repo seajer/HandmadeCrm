@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ua.lviv.calltech.entity.Project;
 import ua.lviv.calltech.entity.Question;
 import ua.lviv.calltech.entity.Result;
-import ua.lviv.calltech.entity.SingleResult;
 import ua.lviv.calltech.service.ClientDataObjectService;
 import ua.lviv.calltech.service.ProjectService;
 import ua.lviv.calltech.service.QuestionService;
-import ua.lviv.calltech.service.QuestionnaierService;
 import ua.lviv.calltech.service.ResultService;
 
 @Controller

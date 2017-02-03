@@ -19,9 +19,7 @@
 				<p style="color: red">${question.recomendations}</p><br/>
 				<input type="hidden" value="${question.type.text}" class="questionType">
 				<c:choose>
-					<c:when test="${question.type.text=='Таблиця з одним варіантом'
-					 || question.type.text=='Таблиця з багатьма варіантами' 
-					 || question.type.text=='Таблиця процентних співвідношень'}">
+					<c:when test="${question.type.id == 14 || question.type.id == 15 || question.type.id == 16}">
 					 	<table border=5>
 					 		<tr>
 					 			<th></th>
@@ -33,10 +31,10 @@
 					 			<tr><td>${tableQuestion.text}<input type="hidden" value="${tableQuestion.id}" class="tableQuestionId"></td>
 					 			<c:forEach items="${question.answers}" var="answer">
 					 				<c:choose>
-					 					<c:when test="${question.type.text=='Таблиця з одним варіантом'}">
+					 					<c:when test="${question.type.id == 14}">
 					 						<td><input class="answer${tableQuestion.id}" name="answers${tableQuestion.id}" type="radio" value="${answer.id}"></td>
 					 					</c:when>
-					 					<c:when test="${question.type.text=='Таблиця з багатьма варіантами'}">
+					 					<c:when test="${question.type.id == 15}">
 					 						<td><input class="answer${tableQuestion.id}" name="answers" type="checkbox" value="${answer.id}"></td>
 					 					</c:when>
 					 					<c:otherwise>

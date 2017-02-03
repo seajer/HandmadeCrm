@@ -5,8 +5,8 @@
 <div>
 	<p>${questionnaire.text}</p>
 	<br/>
-	<c:forEach items="${questionnaire.questions}" var="question">
-		<p>${question.questionText}</p>	
+	<c:forEach items="${questionnaire.questions}" var="question" varStatus="i">
+		<b>${i.index+1}. ${question.questionId}</b>
 		<a href="edit_question_${question.questionId}">Edit question</a>
 		<br/>
 	</c:forEach>

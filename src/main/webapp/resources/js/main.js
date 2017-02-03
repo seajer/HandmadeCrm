@@ -77,11 +77,13 @@ jQuery(document).ready(function($) {
 			$("#creatingQuestion").attr("action", "new_table");
 			$(".question").empty();
 			$(".question").html("<table border='5'>" +
-					"<tr><th>запитання &#8595; відповіді &#8594;</th><th><input name='answer'></th><th><input name='answer'></th></tr>" +
-					"<tr><td><input name='question'></td><td></td><td></td</tr>" +
+					"<tr><th>запитання &#8595; відповіді &#8594;</th><th><input type='hidden' name='answerId'/>" +
+					"<input name='answer'></th><th><input type='hidden' name='answerId'/><input name='answer'></th></tr>" +
+					"<tr><td><input type='hidden' name='questionsId' class='tableQuestionId'><input name='question'>" +
+					"</td><td></td><td></td</tr>" +
 					"</table><input type='button' value='Add question' class='addRow'/>" +
 					"<input type='button' value='Add answer' class='addColumn'/>");
-		} else if(type == 650){
+		} else if(type == 13){
 			$("#creatingQuestion").attr("action", "new_open");
 			$(".question").empty();
 			$(".question").html("Text<input name='question'/>");
