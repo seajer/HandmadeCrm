@@ -3,7 +3,6 @@ package ua.lviv.calltech.service.implementation;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,11 +154,6 @@ public class QuestionServiceImpl implements QuestionService{
 		qq.setTableQuestions(questions);
 		qq.setQuestionnaire(questionnaire);
 		questionRepository.save(qq);
-	}
-
-	public void saveTable(int resultId, Map<Integer, List<String>> tableResults) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Transactional

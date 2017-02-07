@@ -56,4 +56,8 @@ public class ResultServiceImpl implements ResultService{
 			resultRepository.save(result);
 		}
 	}
+
+	public Result findOne(int resultId) {
+		return resultRepository.findOne(resultId);
+	}
 }

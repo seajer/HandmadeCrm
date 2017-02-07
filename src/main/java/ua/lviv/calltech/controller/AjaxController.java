@@ -14,24 +14,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import ua.lviv.calltech.service.QuestionService;
-import ua.lviv.calltech.service.ResultService;
+import ua.lviv.calltech.service.SingleResultService;
 
 @RestController
 public class AjaxController {
 	
 	@Autowired
-	private ResultService resultService;
-	
-	@Autowired
-	private QuestionService questionService;
+	private SingleResultService singleAnswerServce;
 	
 	@RequestMapping(value = "/saveResultAnswers", method = RequestMethod.POST)
 	public @ResponseBody Boolean saveQuestion(@RequestBody String question) {
 		JSONObject result = new JSONObject(question);
 		JSONObject object = result.getJSONObject("result");
-		int resultId = Integer.parseInt(object.getString("resultId").trim());
-		int questionId = Integer.parseInt(object.getString("questionId").trim());
+		int resultId = object.getInt("resultId");
+		int questionId = object.getInt("questionId");
+		int principal = object.getInt("principal");
 		String answerString = null;
 		JSONArray answerArray = null;
 		List<String> answers = new ArrayList<String>();
@@ -47,7 +44,7 @@ public class AjaxController {
 		}else{
 			answers = changeJsonArrayToStringList(answerArray);
 		}
-//		resultService.setAnswerToResult(resultId, questionId, answers);
+		singleAnswerServce.saveAnswer(resultId, questionId, answers, principal);
 		return false;
 	}
 	
@@ -56,6 +53,7 @@ public class AjaxController {
 		JSONObject object = new JSONObject(table);
 		JSONObject res = object.getJSONObject("result");
 		int resultId = res.getInt("resultId");
+		int principal = res.getInt("principal");
 		JSONArray results = res.getJSONArray("results");
 		Map<Integer, List<String>> tableResults = new LinkedHashMap<Integer, List<String>>();
 		for(int i = 0; i < results.length(); i++){
@@ -69,7 +67,7 @@ public class AjaxController {
 			}
 			tableResults.put(questionId, ans);
 		}
-		questionService.saveTable(resultId, tableResults);
+		singleAnswerServce.saveTable(resultId, tableResults, principal);
 		return true;
 	}
 	

@@ -23,8 +23,6 @@ public interface QuestionService {
 
 	void addTable(int questionnaireId, int type, String recomendations, String[] question, String[] answer);
 
-	void saveTable(int resultId, Map<Integer, List<String>> tableResults);
-
 	void addOpen(int questionnaireId, String question, int type, String recomendations);
 
 	void editOpen(int questionId, String question, String recommendations, int type);

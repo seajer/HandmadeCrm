@@ -13,4 +13,6 @@ public interface ResultService {
 
 	void createResultsForCDOs(List<ClientDataObject> clients, int projectId);
 
+	Result findOne(int resultId);
+
 }

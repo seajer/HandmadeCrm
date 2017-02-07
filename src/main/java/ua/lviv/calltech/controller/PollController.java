@@ -62,10 +62,10 @@ public class PollController {
 	}
 	
 	@RequestMapping(value="/edit_result_{resultId}", method = RequestMethod.GET)
-	public String editPoll(@PathVariable("resultId")int resultId, Model model){
+	public String editPoll(@PathVariable("resultId")int resultId, Model model, Principal principal){
 		Integer projectId = projectService.findIdByResultId(resultId);
 		Set<Question> questions = questionService.findQuestionsByProjectId(projectId);
-		model.addAttribute("questions", questions);
+		model.addAttribute("questions", questions).addAttribute("principal", principal.getName());
 		return "poll-edit";
 	}
 	
