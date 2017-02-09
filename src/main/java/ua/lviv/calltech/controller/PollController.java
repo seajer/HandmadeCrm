@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ua.lviv.calltech.entity.Project;
 import ua.lviv.calltech.entity.Question;
 import ua.lviv.calltech.entity.Result;
+import ua.lviv.calltech.entity.Status;
 import ua.lviv.calltech.service.ClientDataObjectService;
 import ua.lviv.calltech.service.ProjectService;
 import ua.lviv.calltech.service.QuestionService;
 import ua.lviv.calltech.service.ResultService;
+import ua.lviv.calltech.service.StatusService;
 
 @Controller
 public class PollController {
@@ -34,6 +36,9 @@ public class PollController {
 	
 	@Autowired
 	private ClientDataObjectService cdoService;
+	
+	@Autowired
+	private StatusService statusService;
 
 	@RequestMapping(value="/new_poll_{id}", method = RequestMethod.GET)
 	public String startWorking(@PathVariable("id")int projectId, Model model, Principal principal){
@@ -70,8 +75,15 @@ public class PollController {
 	}
 	
 	@RequestMapping(value="/editPoll", method = RequestMethod.POST)
-	public String editPoll(@RequestParam("resultId")int resultId){
-		return "redirect:/";
+	public String editPoll(@RequestParam("resultId")int resultId, Model model){
+		System.out.println("edit pool result id=" + resultId);
+		int clientId = cdoService.findIdByResultId(resultId);
+		Status st = statusService.findByResultId(resultId);
+		List<Status> statuses = statusService.findAll();
+		statuses.remove(st);
+		model.addAttribute("resultId", resultId).addAttribute("clientId", clientId)
+		.addAttribute("status", st).addAttribute("statuses", statuses);
+		return "poll-status";
 	}
 
 }

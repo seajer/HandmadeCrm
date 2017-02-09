@@ -7,11 +7,13 @@ import ua.lviv.calltech.entity.Status;
 public interface StatusService {
 
 	List<Status> findAll();
-	
-	void setDefaultStatuses();
 
 	Status findOne(int parseInt);
 
 	void createStatuses();
+
+	Status findDefault();
+
+	Status findByResultId(int resultId);
 
 }

@@ -27,28 +27,24 @@ jQuery(document).ready(function($) {
 	
 	// move from question to next question (new or edit poll)
 	$(".next").on('click',function(){
-		console.log("next question");
 		saveQuestion(customAnswer);
 		next();
 	});
 	
 	// move from question to previous question (new or edit poll)
 	$(".prev").on('click',function(){
-		console.log("prev question");
 		saveQuestion(customAnswer);
 		prev();
 	});
 	
 	// move from table to next question (new or edit poll)
 	$(".nextTable").on('click',function(){
-		console.log("next table");
 		saveTable();
 		next();
 	});
 	
 	// move from table to previous question (new or edit poll)
 	$(".prevTable").on('click',function(){
-		console.log("prev table");
 		saveTable();
 		prev();
 	});
@@ -125,12 +121,19 @@ jQuery(document).ready(function($) {
 		$("#firstSelect option").each(function(){
 			values.push($(this).val());
 		})
-		console.log(values);
 		$.each(values, function(index, value){
 			element += "<option>"+value+"</option>";
 		})
 		element += "</select><input type='number' name='paramNumber' value='0'></div>";
 		$(".customertDB-ourDB-chain").append(element);
+	});
+	
+	//change result status
+	$(".changeStatus").on('click', function(){
+		var statusId = $('.status').val();
+		var resultId = $('#resultId').val();
+		console.log("status id = " + statusId);
+		console.log("result id = " + resultId);
 	});
 	
 	multiselect();
@@ -233,6 +236,7 @@ function saveQuestion(customAnswer){
 	} else if(type == 11 || type == 12){
 		answers = getPersentageAnswers();
 	}else{
+		answers.push($(".openAnswer").val());
 	}
 	if(customAnswer){
 		answers = answers +", "+ getStringAnswers();

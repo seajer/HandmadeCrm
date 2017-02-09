@@ -21,16 +21,6 @@ public class StatusServiceImpl implements StatusService{
 		return statuses;
 	}
 
-	@Transactional
-	public void setDefaultStatuses() {
-		Status done = new Status("Done");
-		statusRepository.save(done);
-		Status busy = new Status("Busy");
-		statusRepository.save(busy);
-		Status rejected = new Status("Rejected");
-		statusRepository.save(rejected);
-	}
-
 	public Status findOne(int statusId) {
 		Status status = statusRepository.findOne(statusId);
 		return status;
@@ -38,7 +28,7 @@ public class StatusServiceImpl implements StatusService{
 
 	@Transactional
 	public void createStatuses() {
-		Status notStarted = new Status("Not started");
+		Status notStarted = new Status("Pending");
 		statusRepository.save(notStarted);
 		Status done = new Status("Done");
 		statusRepository.save(done);
@@ -46,6 +36,14 @@ public class StatusServiceImpl implements StatusService{
 		statusRepository.save(rejected);
 		Status recall = new Status("Recall");
 		statusRepository.save(recall);
+	}
+
+	public Status findDefault() {
+		return statusRepository.findByName("Pending");
+	}
+
+	public Status findByResultId(int resultId) {
+		return statusRepository.findByResultId(resultId);
 	}
 
 }

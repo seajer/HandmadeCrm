@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.lviv.calltech.entity.Answer;
+import ua.lviv.calltech.entity.Question;
 import ua.lviv.calltech.entity.Result;
 import ua.lviv.calltech.entity.SingleResult;
 import ua.lviv.calltech.entity.User;
 import ua.lviv.calltech.repository.SingleResultRepository;
 import ua.lviv.calltech.service.AnswerService;
+import ua.lviv.calltech.service.QuestionService;
 import ua.lviv.calltech.service.ResultService;
 import ua.lviv.calltech.service.SingleResultService;
 import ua.lviv.calltech.service.UserService;
@@ -32,6 +34,9 @@ public class SingleResultServiceImpl implements SingleResultService{
 	
 	@Autowired
 	private ResultService resultService;
+	
+	@Autowired
+	private QuestionService questionService;
 
 	@Transactional
 	public void saveTable(int resultId, Map<Integer, List<String>> tableResults, int principal) {
@@ -44,12 +49,17 @@ public class SingleResultServiceImpl implements SingleResultService{
 	public void saveAnswer(int resultId, int questionId, List<String> answers, int principal) {
 		SingleResult sr = singleResultRepository.findByResultIdAndQuestionId(resultId, questionId);
 		User user = userService.findById(principal);
+		for (String string : answers) {
+			System.out.println("answer = " + string);
+		}
 		if(sr != null){
 			//edit existing single result
 			transformAnswers(answers, sr);
 		} else {
 			//new single result
 			sr = new SingleResult();
+			Question q = questionService.findOne(questionId);
+			sr.setQuestion(q);
 			transformAnswers(answers, sr);
 			Result result = resultService.findOne(resultId);
 			sr.setTotalResult(result);
@@ -69,7 +79,11 @@ public class SingleResultServiceImpl implements SingleResultService{
 				srAnswers.add(nas);
 			} catch (Exception e){
 				//if custom answer
-				customAnswer += ", " + answer;
+				if(customAnswer.length()>1){
+					customAnswer += ", " + answer;
+				} else {
+					customAnswer += answer;
+				}
 			}
 		}
 		if(srAnswers.size() > 0){

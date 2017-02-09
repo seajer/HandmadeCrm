@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.poi.ss.usermodel.Cell;
 import org.springframework.web.multipart.MultipartFile;
 
+import ua.lviv.calltech.DTO.SimpleClientObjectDTO;
 import ua.lviv.calltech.entity.ClientDataObject;
 
 public interface ClientDataObjectService {
@@ -17,8 +18,6 @@ public interface ClientDataObjectService {
 	void save(ClientDataObject object);
 
 	void save(ClientDataObject object, int projectId, int resultId);
-
-	//List<SimpleClientObjectDTO> findAllByProjectIdWithResults(int projectId);
 
 	ClientDataObject findOneWithStatusAndProject(int clientId);
 	
@@ -33,5 +32,9 @@ public interface ClientDataObjectService {
 	void createOne(String phone, String company);
 
 	ClientDataObject findOneByPhoneAndCompany(String phone, String company);
+
+	List<SimpleClientObjectDTO> findAllByProjectId(int projectId);
+
+	int findIdByResultId(int resultId);
 
 }

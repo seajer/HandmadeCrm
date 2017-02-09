@@ -55,6 +55,10 @@ public class QuestionServiceImpl implements QuestionService{
 		q.setAnswers(answerList);
 		questionRepository.save(q);
 	}
+	
+	public Question findOne(int questionId){
+		return questionRepository.findOne(questionId);
+	}
 
 	@Transactional
 	public Question findById(int questionId) {

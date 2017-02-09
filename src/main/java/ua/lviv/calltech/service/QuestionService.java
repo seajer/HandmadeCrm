@@ -12,6 +12,8 @@ public interface QuestionService {
 
 	void addNewQuestion(int questionnaireId, String question, String recommendations, int type, String[] answers);
 
+	Question findOne(int questionId);
+	
 	Question findById(int questionId);
 
 	void editQuestion(int questionId, String question, String recommendations, int type, int[] answersId,

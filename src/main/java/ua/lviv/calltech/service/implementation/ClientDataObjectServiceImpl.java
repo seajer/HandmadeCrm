@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import ua.lviv.calltech.DTO.SimpleClientObjectDTO;
 import ua.lviv.calltech.entity.ClientDataObject;
 import ua.lviv.calltech.repository.ClientDataObjectRepository;
 import ua.lviv.calltech.service.ClientDataObjectService;
@@ -38,11 +39,6 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 	public void save(ClientDataObject object) {
 		// TODO: rewrite this method
 	}
-
-//	public List<SimpleClientObjectDTO> findAllByProjectIdWithResults(int projectId) {
-//		List<SimpleClientObjectDTO> object = clientDataObjectRepositiry.findSimpleClientsByProjectId(projectId);
-//		return object;
-//	}
 	
 	public ClientDataObject findOneWithResults(int clientId) {
 		ClientDataObject client = clientDataObjectRepositiry.findOneWithResults(clientId);
@@ -55,23 +51,43 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 		if(value != null){
 			switch(value){
 			case "Name":
-				client.setName(cell.getStringCellValue().trim());
+				if(client.getName() == null){
+					client.setName(cell.getStringCellValue().trim());
+				} else {
+					client.setName(client.getName() + ", " + cell.getStringCellValue().trim());
+				}
 				break;
 			case "Surname":
-				client.setSurname(cell.getStringCellValue().trim());
+				if(client.getSurname() == null){
+					client.setSurname(cell.getStringCellValue().trim());
+				} else {
+					client.setSurname(client.getSurname() + ", " + cell.getStringCellValue().trim());
+				}
 				break;
 			case "Age":
 				if(cell.getCellType()==Cell.CELL_TYPE_NUMERIC)client.setAge(String.valueOf(cell.getNumericCellValue()));
 				else if(cell.getCellType()==Cell.CELL_TYPE_STRING)client.setAge(cell.getStringCellValue().trim());
 				break;
 			case "Position":
-				client.setAdress(cell.getStringCellValue().trim());
+				if(client.getPosition() == null ){
+					client.setPosition(cell.getStringCellValue().trim());
+				} else {
+					client.setPosition(client.getPosition() + ", " + cell.getStringCellValue().trim());
+				}
 				break;
 			case "Company name":
-				client.setCompanyName(cell.getStringCellValue().trim());
+				if(client.getCompanyName() == null){
+					client.setCompanyName(cell.getStringCellValue().trim());
+				} else {
+					client.setCompanyName(client.getCompanyName() + ", " + cell.getStringCellValue().trim());
+				}
 				break;
 			case "Industry":
-				client.setIndustry(cell.getStringCellValue());
+				if(client.getIndustry() == null){
+					client.setIndustry(cell.getStringCellValue());
+				} else {
+					client.setIndustry(client.getIndustry() + ", " + cell.getStringCellValue().trim());
+				}
 				break;
 			case "Workers count":
 				if(cell.getCellType()==Cell.CELL_TYPE_NUMERIC)client.setWorkersCount(String.valueOf(cell.getNumericCellValue()));
@@ -82,26 +98,66 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 				else if(cell.getCellType()==Cell.CELL_TYPE_STRING)client.setYearEarning(cell.getStringCellValue().trim());
 				break;
 			case "Description":
-				client.setDescription(cell.getStringCellValue().trim());
+				if(client.getDescription() == null){
+					client.setDescription(cell.getStringCellValue().trim());
+				} else {
+					client.setIndustry(client.getIndustry() + ", " + cell.getStringCellValue().trim());
+				}
 				break;
 			case "Adress":
-				client.setAdress(cell.getStringCellValue().trim());
+				if(client.getAdress() == null){
+					client.setAdress(cell.getStringCellValue().trim());
+				} else {
+					client.setAdress(client.getAdress() + ", " + cell.getStringCellValue().trim());
+				}
 				break;
 			case "Country":
-				client.setCountry(cell.getStringCellValue().trim());
+				if(client.getCountry() == null){
+					client.setCountry(cell.getStringCellValue().trim());
+				} else {
+					client.setCountry(client.getCountry() + ", " + cell.getStringCellValue().trim());
+				}
 				break;
 			case "Phone":
-				if(cell.getCellType()==Cell.CELL_TYPE_NUMERIC)client.setPhone(String.valueOf(cell.getNumericCellValue()));
-				else if(cell.getCellType()==Cell.CELL_TYPE_STRING)client.setPhone(cell.getStringCellValue().trim());
+				if(client.getPhone() == null){
+					if(cell.getCellType()==Cell.CELL_TYPE_NUMERIC){
+						String phone = String.valueOf(cell.getNumericCellValue());
+						phone.replace(".", "");
+						String normPhone = phone.substring(0, phone.indexOf('E'));
+						client.setPhone(normPhone);
+					}
+					else if(cell.getCellType()==Cell.CELL_TYPE_STRING)client.setPhone(cell.getStringCellValue().trim());
+				} else {
+					if(cell.getCellType()==Cell.CELL_TYPE_NUMERIC){
+						String phone = String.valueOf(cell.getNumericCellValue());
+						String normPhone = phone.substring(0, phone.indexOf('E'));
+						client.setPhone(normPhone);
+						client.setPhone(client.getPhone() + ", " + normPhone);
+					} else if(cell.getCellType()==Cell.CELL_TYPE_STRING){
+						client.setPhone(client.getPhone() + ", " + cell.getStringCellValue().trim());
+					}
+				}
 				break;
 			case "Email":
-				client.setEmail(cell.getStringCellValue().trim());
+				if(client.getEmail() == null){
+					client.setEmail(cell.getStringCellValue().trim());
+				} else {
+					client.setEmail(client.getEmail() + ", " + cell.getStringCellValue().trim());
+				}
 				break;
 			case "Site adress":
-				client.setSite(cell.getStringCellValue().trim());
+				if(client.getSite() == null){
+					client.setSite(cell.getStringCellValue().trim());
+				} else {
+					client.setSite(client.getSite() + ", " + cell.getStringCellValue().trim());
+				}
 				break;
 			case "Comments":
-				client.setComment(cell.getStringCellValue().trim());
+				if(client.getComment() == null){
+					client.setComment(cell.getStringCellValue().trim());
+				} else {
+					client.setComment(client.getComment() + ", " + cell.getStringCellValue().trim());
+				}
 				break;
 			default:
 				break;
@@ -178,6 +234,7 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 				setParameter(cdo, cell, map);
 			}
 			clientData.add(cdo);
+			System.out.println(cdo);
 		}
 		System.out.println("XLSX____list size = " + clientData.size());
 		return clientData;
@@ -200,6 +257,14 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 	public ClientDataObject findOneByPhoneAndCompany(String phone, String company) {
 		ClientDataObject cdo = clientDataObjectRepositiry.findByPhoneAndCompany(phone, company);
 		return cdo;
+	}
+
+	public List<SimpleClientObjectDTO> findAllByProjectId(int projectId) {
+		return clientDataObjectRepositiry.findAllDTOByProjectId(projectId);
+	}
+
+	public int findIdByResultId(int resultId) {
+		return clientDataObjectRepositiry.findIdByResultId(resultId);
 	}
 
 }

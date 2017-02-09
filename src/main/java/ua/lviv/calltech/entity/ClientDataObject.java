@@ -192,9 +192,20 @@ public class ClientDataObject {
 
 	@Override
 	public String toString() {
-		return "ClientDataObject [name=" + name + ", surname=" + surname + ", age=" + age + ", position=" + position
-				+ ", companyName=" + companyName + ", industry=" + industry + ", workersCount=" + workersCount
-				+ ", yearEarning=" + yearEarning + ", description=" + description + ", adress=" + adress + ", country="
-				+ country + ", phone=" + phone + ", email=" + email + ", site=" + site + ", comment=" + comment + "]";
+		return "ClientDataObject [name=" + name 
+				+ ", surname=" + surname 
+//				+ ", age=" + age 
+//				+ ", position=" + position
+				+ ", companyName=" + companyName 
+//				+ ", industry=" + industry 
+//				+ ", workersCount=" + workersCount
+//				+ ", yearEarning=" + yearEarning 
+//				+ ", description=" + description 
+//				+ ", adress=" + adress 
+//				+ ", country=" + country 
+				+ ", phone=" + phone 
+//				+ ", email=" + email 
+//				+ ", site=" + site 
+				+ ", comment=" + comment + "]";
 	}
 }

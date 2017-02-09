@@ -54,24 +54,31 @@
 					</c:when>
 					<c:otherwise>
 						<input type="hidden" value="${question.type.id}" class="questionType">
-						<c:forEach items="${question.answers}" var="answer">
-							<div>
-								<c:choose>
-									<c:when test="${question.type.id == 8 || question.type.id == 10}">
-										<input class="answer" <c:if test="${fn:contains(result.answers, answer)}">checked="checked"</c:if> name="answers" type="checkbox" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
-									</c:when>
-									<c:when test="${question.type.id == 7 || question.type.id == 9}">
-										<input class="answer" <c:if test="${fn:contains(result.answers, answer)}">checked="checked"</c:if> name="answers${answer.id}" type="radio" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
-									</c:when>
-									<c:when test="${question.type.id == 11 || question.type.id == 12}">
-										<input class="persentage" name="answers" value="0"><b class="text"> ${answer.text} </b><br/>
-									</c:when>
-									<c:when test="${question.type.id == 13}">
-										<textarea class="percentage" name="answer">${question.value}</textarea>
-									</c:when>
-								</c:choose>
+						<c:choose>
+							<c:when test="${not empty question.answers}">
+								<c:forEach items="${question.answers}" var="answer">
+								<div>
+									<c:choose>
+										<c:when test="${question.type.id == 8 || question.type.id == 10}">
+											<input class="answer" <c:if test="${fn:contains(result.answers, answer)}">checked="checked"</c:if> name="answers" type="checkbox" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
+										</c:when>
+										<c:when test="${question.type.id == 7 || question.type.id == 9}">
+											<input class="answer" <c:if test="${fn:contains(result.answers, answer)}">checked="checked"</c:if> name="answers${answer.id}" type="radio" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
+										</c:when>
+										<c:when test="${question.type.id == 11 || question.type.id == 12}">
+											<input class="persentage" name="answers" value="0"><b class="text"> ${answer.text} </b><br/>
+										</c:when>
+									</c:choose>
 								</div>
-						</c:forEach>
+							</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<c:if test="${question.type.id == 13}">
+									<textarea class="openAnswer" name="answer"></textarea>
+								</c:if>
+							</c:otherwise>
+						</c:choose>
+						
 						<c:if test="${question.type.id == 9 || question.type.id == 10 || question.type.id == 12}">
 							<input type="button" class="customAnswer" value="Add own">
 						</c:if>			

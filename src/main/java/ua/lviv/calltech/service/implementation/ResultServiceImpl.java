@@ -9,10 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.lviv.calltech.entity.ClientDataObject;
 import ua.lviv.calltech.entity.Project;
 import ua.lviv.calltech.entity.Result;
+import ua.lviv.calltech.entity.Status;
 import ua.lviv.calltech.repository.ResultRepository;
 import ua.lviv.calltech.service.ClientDataObjectService;
 import ua.lviv.calltech.service.ProjectService;
 import ua.lviv.calltech.service.ResultService;
+import ua.lviv.calltech.service.StatusService;
 
 @Service
 public class ResultServiceImpl implements ResultService{
@@ -25,6 +27,9 @@ public class ResultServiceImpl implements ResultService{
 	
 	@Autowired
 	private ClientDataObjectService cdoService;
+	
+	@Autowired
+	private StatusService statusService;
 
 	public List<Result> findByProjectPhoneAndCompany(int projectId, String phone, String company) {
 		List<Result> result = resultRepository.findByPhoneAndCompany(projectId, phone, company); 
@@ -46,13 +51,15 @@ public class ResultServiceImpl implements ResultService{
 		return null;
 	}
 
-	@Override
+	@Transactional
 	public void createResultsForCDOs(List<ClientDataObject> clients, int projectId) {
 		Project project = projectService.findOne(projectId);
 		for (ClientDataObject cdo : clients) {
+			Status st = statusService.findDefault();
 			Result result = new Result();
 			result.setProject(project);
 			result.setClient(cdo);
+			result.setStatus(st);
 			resultRepository.save(result);
 		}
 	}

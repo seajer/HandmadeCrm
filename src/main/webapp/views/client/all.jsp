@@ -4,12 +4,13 @@
 <div>
 	<p>${project.title}</p>
 	<c:forEach items="${clients}" var="client">
-		<b>${client.firstName}</b>
-		<b>${client.lastName}</b>
-		<b>${client.phone}</b>
-		<b>${client.statusName}</b>
+		<b>${client.firstName}</b> |_| 
+		<b>${client.lastName}</b> |_| 
+		<b>${client.company}</b> |_| 
+		<b>${client.phone}</b> |_| 
+		<b>${client.statusName}</b> |_| 
 		<a href="edit_result_${client.resultId}">Edit result</a>
 		<br/>
 	</c:forEach>
-	<c:if test="${project.type.name == 'Poll using yellowpages'}"><a href="new_poll_${project.id}">New Pool</a></c:if>
+	<c:if test="${project.type.id == 5}"><a href="new_poll_${project.id}">New Pool</a></c:if>
 </div>

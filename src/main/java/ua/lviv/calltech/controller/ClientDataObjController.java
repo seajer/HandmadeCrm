@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import ua.lviv.calltech.DTO.SimpleClientObjectDTO;
 import ua.lviv.calltech.entity.ClientDataObject;
 import ua.lviv.calltech.entity.Project;
 import ua.lviv.calltech.entity.Status;
@@ -43,7 +44,7 @@ public class ClientDataObjController {
 	public String fillExaminedValues(@PathVariable("projectId")int projectId, @PathVariable("resultId")int resultId, Model model){
 		List<Status> statuses = statusService.findAll();
 		if(statuses.size()<1){
-			statusService.setDefaultStatuses();
+			statusService.createStatuses();
 			statuses = statusService.findAll();
 		}
 		model.addAttribute("projectId", projectId).addAttribute("resultId", resultId);
@@ -80,8 +81,8 @@ public class ClientDataObjController {
 		Project project = projectService.findOneWithType(projectId);
 		if(project != null){
 			model.addAttribute("project", project);
-			//List<SimpleClientObjectDTO> clients = clientDataObectService.findAllByProjectIdWithResults(projectId);
-			//model.addAttribute("clients", clients);
+			List<SimpleClientObjectDTO> clients = clientDataObectService.findAllByProjectId(projectId);
+			model.addAttribute("clients", clients);
 			return "client-all";
 		}
 		return "404";

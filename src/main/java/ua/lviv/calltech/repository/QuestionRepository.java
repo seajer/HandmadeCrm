@@ -22,7 +22,7 @@ public interface QuestionRepository extends JpaRepository<Question, Integer>{
 	@Query("SELECT q FROM Question q JOIN FETCH q.answers a WHERE q.id = ?1")
 	Question findOneWithAnswers(int questionId);
 
-	@Query("SELECT q FROM Question q JOIN FETCH q.answers a JOIN FETCH q.type t JOIN q.questionnaire seq JOIN seq.project p WHERE p.id = ?1 AND q.isVisible = true")
+	@Query("SELECT q FROM Question q LEFT JOIN FETCH q.answers a JOIN FETCH q.type t JOIN q.questionnaire seq JOIN seq.project p WHERE p.id = ?1 AND q.isVisible = true")
 	Set<Question> findAllByProjectId(int projectId);
 
 	@Query("SELECT q.id FROM Question q JOIN q.answers a JOIN a.result r WHERE r.id =?1 ")

@@ -8,6 +8,7 @@ public class SimpleClientObjectDTO {
 	private String firstName;
 	private String lastName;
 	private String statusName;
+	private String company;
 	public int getId() {
 		return id;
 	}
@@ -44,8 +45,14 @@ public class SimpleClientObjectDTO {
 	public void setStatusName(String statusName) {
 		this.statusName = statusName;
 	}
+	public String getCompany() {
+		return company;
+	}
+	public void setCompany(String company) {
+		this.company = company;
+	}
 	public SimpleClientObjectDTO(int id, int resultId, String phone, String firstName, String lastName,
-			String statusName) {
+			String statusName, String company) {
 		super();
 		this.id = id;
 		this.resultId = resultId;
@@ -53,6 +60,7 @@ public class SimpleClientObjectDTO {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.statusName = statusName;
+		this.company = company;
 	}
 	
 }

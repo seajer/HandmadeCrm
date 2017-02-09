@@ -24,6 +24,7 @@ public class AjaxController {
 	
 	@RequestMapping(value = "/saveResultAnswers", method = RequestMethod.POST)
 	public @ResponseBody Boolean saveQuestion(@RequestBody String question) {
+		System.out.println(question);
 		JSONObject result = new JSONObject(question);
 		JSONObject object = result.getJSONObject("result");
 		int resultId = object.getInt("resultId");
@@ -44,6 +45,7 @@ public class AjaxController {
 		}else{
 			answers = changeJsonArrayToStringList(answerArray);
 		}
+		System.out.println("answers =" + answers.size());
 		singleAnswerServce.saveAnswer(resultId, questionId, answers, principal);
 		return false;
 	}
