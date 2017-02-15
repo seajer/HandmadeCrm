@@ -5,9 +5,9 @@
 	<div>
 		<input type="hidden" value="${resultId}" id="resultId">
 		<select class="status">
-			<option value="${status.name}" selected>${status.name}</option>
+			<option value="${status.id}" selected>${status.name}</option>
 			<c:forEach items="${statuses}" var="stat">
-				<option value="${stat.name}">${stat.name}</option>
+				<option value="${stat.id}">${stat.name}</option>
 			</c:forEach>
 		</select>
 		<input type="button" value="Change Status" class="changeStatus"/>

@@ -127,5 +127,53 @@ public class Question {
 		super();
 		this.text = text;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + (isVisible ? 1231 : 1237);
+		result = prime * result + ((recomendations == null) ? 0 : recomendations.hashCode());
+		result = prime * result + ((table == null) ? 0 : table.hashCode());
+		result = prime * result + ((tableQuestions == null) ? 0 : tableQuestions.hashCode());
+		result = prime * result + ((text == null) ? 0 : text.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Question other = (Question) obj;
+		if (id != other.id)
+			return false;
+		if (isVisible != other.isVisible)
+			return false;
+		if (recomendations == null) {
+			if (other.recomendations != null)
+				return false;
+		} else if (!recomendations.equals(other.recomendations))
+			return false;
+		if (table == null) {
+			if (other.table != null)
+				return false;
+		} else if (!table.equals(other.table))
+			return false;
+		if (tableQuestions == null) {
+			if (other.tableQuestions != null)
+				return false;
+		} else if (!tableQuestions.equals(other.tableQuestions))
+			return false;
+		if (text == null) {
+			if (other.text != null)
+				return false;
+		} else if (!text.equals(other.text))
+			return false;
+		return true;
+	}
 }

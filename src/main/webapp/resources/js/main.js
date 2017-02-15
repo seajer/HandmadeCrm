@@ -128,12 +128,11 @@ jQuery(document).ready(function($) {
 		$(".customertDB-ourDB-chain").append(element);
 	});
 	
-	//change result status
+	//change client result status
 	$(".changeStatus").on('click', function(){
 		var statusId = $('.status').val();
 		var resultId = $('#resultId').val();
-		console.log("status id = " + statusId);
-		console.log("result id = " + resultId);
+		sendJsonGet("changeStatus_s="+statusId+"_r="+resultId);
 	});
 	
 	multiselect();
@@ -172,8 +171,7 @@ function multiselect() {
 	}
 }
 
-function sendJson(result, url) {
-	
+function sendJsonPost(result, url) {
 	var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
     $(document).ajaxSend(function(e, xhr, options) {
@@ -199,7 +197,25 @@ function sendJson(result, url) {
 			console.log("DONE");
 		}
 	});
-	
+}
+
+function sendJsonGet(url){
+	$.ajax({
+		type : "GET",
+		contentType : "application/json",
+		url : url,
+		dataType : 'json',
+		timeout : 100000,
+		success : function() {
+			console.log("SUCCESS");
+		},
+		error : function(e) {
+			console.log("ERROR", e);
+		},
+		done : function(e) {
+			console.log("DONE");
+		}
+	});
 }
 
 function getCheckedAnswers(){
@@ -244,7 +260,7 @@ function saveQuestion(customAnswer){
 	customAnswer = false;
 	$("div.hidden .customAnswer").show();
 	var result = {resultId : resultId, principal: principal, questionId: questionId, answers : answers}
-	sendJson(result, "saveResultAnswers");
+	sendJsonPost(result, "saveResultAnswers");
 }
 
 function containing(array, obj){
@@ -268,7 +284,7 @@ function saveTable(){
 		typeString = "";
 	}
 	var result = getRadioTableAnswer(typeString);
-	sendJson(result, "saveTable");
+	sendJsonPost(result, "saveTable");
 }
 
 function getRadioTableAnswer(typeString){

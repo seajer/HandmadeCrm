@@ -2,6 +2,7 @@ package ua.lviv.calltech.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ua.lviv.calltech.entity.Project;
 import ua.lviv.calltech.entity.Question;
 import ua.lviv.calltech.entity.Result;
+import ua.lviv.calltech.entity.SingleResult;
 import ua.lviv.calltech.entity.Status;
 import ua.lviv.calltech.service.ClientDataObjectService;
 import ua.lviv.calltech.service.ProjectService;
 import ua.lviv.calltech.service.QuestionService;
 import ua.lviv.calltech.service.ResultService;
+import ua.lviv.calltech.service.SingleResultService;
 import ua.lviv.calltech.service.StatusService;
 
 @Controller
@@ -39,6 +42,9 @@ public class PollController {
 	
 	@Autowired
 	private StatusService statusService;
+	
+	@Autowired
+	private SingleResultService singleResultService;
 
 	@RequestMapping(value="/new_poll_{id}", method = RequestMethod.GET)
 	public String startWorking(@PathVariable("id")int projectId, Model model, Principal principal){
@@ -70,13 +76,16 @@ public class PollController {
 	public String editPoll(@PathVariable("resultId")int resultId, Model model, Principal principal){
 		Integer projectId = projectService.findIdByResultId(resultId);
 		Set<Question> questions = questionService.findQuestionsByProjectId(projectId);
-		model.addAttribute("questions", questions).addAttribute("principal", principal.getName());
+		List<SingleResult> results = singleResultService.findAllByResultId(resultId);
+		Map<Integer, List<Integer>> tableAnswers = questionService.findTableAnswers(results);
+		Map<Integer, String> customAnsw = questionService.findCustomAnswers(results);
+		model.addAttribute("questions", questions).addAttribute("principal", principal.getName())
+		.addAttribute("tableAnswers", tableAnswers).addAttribute("customAnswers", customAnsw);
 		return "poll-edit";
 	}
 	
-	@RequestMapping(value="/editPoll", method = RequestMethod.POST)
+	@RequestMapping(value="/editPoll", method = RequestMethod.POST)	
 	public String editPoll(@RequestParam("resultId")int resultId, Model model){
-		System.out.println("edit pool result id=" + resultId);
 		int clientId = cdoService.findIdByResultId(resultId);
 		Status st = statusService.findByResultId(resultId);
 		List<Status> statuses = statusService.findAll();

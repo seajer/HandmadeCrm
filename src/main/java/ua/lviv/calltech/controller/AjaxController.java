@@ -8,12 +8,14 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ua.lviv.calltech.service.ResultService;
 import ua.lviv.calltech.service.SingleResultService;
 
 @RestController
@@ -22,9 +24,11 @@ public class AjaxController {
 	@Autowired
 	private SingleResultService singleAnswerServce;
 	
+	@Autowired
+	private ResultService resultService;
+	
 	@RequestMapping(value = "/saveResultAnswers", method = RequestMethod.POST)
 	public @ResponseBody Boolean saveQuestion(@RequestBody String question) {
-		System.out.println(question);
 		JSONObject result = new JSONObject(question);
 		JSONObject object = result.getJSONObject("result");
 		int resultId = object.getInt("resultId");
@@ -45,7 +49,6 @@ public class AjaxController {
 		}else{
 			answers = changeJsonArrayToStringList(answerArray);
 		}
-		System.out.println("answers =" + answers.size());
 		singleAnswerServce.saveAnswer(resultId, questionId, answers, principal);
 		return false;
 	}
@@ -71,6 +74,12 @@ public class AjaxController {
 		}
 		singleAnswerServce.saveTable(resultId, tableResults, principal);
 		return true;
+	}
+	
+	@RequestMapping(value = "/changeStatus_s={statusId}_r={resuntId}", method = RequestMethod.GET)
+	public @ResponseBody Boolean changeStatus(@PathVariable("statusId")int statusId, @PathVariable("resuntId")int resultId){
+		resultService.changeStatus(statusId, resultId);
+		return false;
 	}
 	
 	private List<String> changeStringToStringList(String answer){

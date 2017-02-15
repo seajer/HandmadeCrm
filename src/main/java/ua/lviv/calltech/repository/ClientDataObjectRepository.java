@@ -19,7 +19,7 @@ public interface ClientDataObjectRepository extends JpaRepository<ClientDataObje
 	ClientDataObject findByPhoneAndCompany(String phone, String company);
 
 	@Query("SELECT new ua.lviv.calltech.DTO.SimpleClientObjectDTO(c.id, r.id, c.phone, c.name, c.surname, s.name, c.companyName)"
-			+ " FROM ClientDataObject c LEFT JOIN c.results r LEFT JOIN r.status s LEFT JOIN r.project p WHERE p.id = ?1")
+			+ " FROM ClientDataObject c LEFT JOIN c.results r LEFT JOIN r.status s LEFT JOIN r.project p WHERE p.id = ?1 AND ( s.id <> 18 OR s.id <> 19)")
 	List<SimpleClientObjectDTO> findAllDTOByProjectId(int projectId);
 
 	@Query("SELECT c.id FROM ClientDataObject c JOIN c.results r WHERE r.id = ?1")

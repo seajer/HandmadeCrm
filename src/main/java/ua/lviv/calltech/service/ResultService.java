@@ -15,4 +15,6 @@ public interface ResultService {
 
 	Result findOne(int resultId);
 
+	void changeStatus(int statusId, int resultId);
+
 }

@@ -49,9 +49,6 @@ public class SingleResultServiceImpl implements SingleResultService{
 	public void saveAnswer(int resultId, int questionId, List<String> answers, int principal) {
 		SingleResult sr = singleResultRepository.findByResultIdAndQuestionId(resultId, questionId);
 		User user = userService.findById(principal);
-		for (String string : answers) {
-			System.out.println("answer = " + string);
-		}
 		if(sr != null){
 			//edit existing single result
 			transformAnswers(answers, sr);
@@ -92,6 +89,10 @@ public class SingleResultServiceImpl implements SingleResultService{
 		if(customAnswer.length() > 0){
 			sr.setCustomAnswer(customAnswer);
 		}
+	}
+
+	public List<SingleResult> findAllByResultId(int resultId) {
+		return singleResultRepository.findAllByResultId(resultId);
 	}
 
 }

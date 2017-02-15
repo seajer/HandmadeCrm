@@ -1,8 +1,10 @@
 package ua.lviv.calltech.service.implementation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import ua.lviv.calltech.entity.Answer;
 import ua.lviv.calltech.entity.Question;
 import ua.lviv.calltech.entity.QuestionType;
 import ua.lviv.calltech.entity.Questionnaire;
+import ua.lviv.calltech.entity.SingleResult;
 import ua.lviv.calltech.repository.AnswerRepository;
 import ua.lviv.calltech.repository.QuestionRepository;
 import ua.lviv.calltech.repository.QuestionTypeRepository;
@@ -142,17 +145,18 @@ public class QuestionServiceImpl implements QuestionService{
 			a.setQuestion(qq);
 			answers.add(a);
 		}
+		QuestionType qt = questionTypeRepository.findOne(type);
 		answerRepository.save(answers);
 		List<Question> questions = new ArrayList<Question>();
 		for (String question2 : question) {
 			Question q = new Question(question2);
 			q.setAnswers(answers);
+			q.setType(qt);	
 			q.setTable(qq);
 			questions.add(q);
 		}
 		questionRepository.save(questions);
 		Questionnaire questionnaire = questionnaireRepository.findOne(questionnaireId);
-		QuestionType qt = questionTypeRepository.findOne(type);
 		qq.setRecomendations(recomendations);
 		qq.setType(qt);
 		qq.setTableQuestions(questions);
@@ -238,6 +242,41 @@ public class QuestionServiceImpl implements QuestionService{
 			answ.addAll(q.getAnswers());
 			q.setAnswers(answ);
 		}
+	}
+
+	public Map<Integer, List<Integer>> findTableAnswers(List<SingleResult> results) {
+		Map<Integer, List<Integer>> tableAnswers = new HashMap<>();
+		for (SingleResult result : results) {
+			if(result.getAnswers() != null){
+				List<Integer> answers = new ArrayList<>();
+				for (Answer answer : result.getAnswers()) {
+					answers.add(answer.getId());
+				}
+				tableAnswers.put(result.getQuestion().getId(), answers);
+			}
+			if(result.getQuestion().getTable() != null){
+				if(tableAnswers.containsKey(result.getQuestion().getTable().getId())){
+					List<Integer> quest = tableAnswers.get(result.getQuestion().getTable().getId());
+					quest.add(result.getQuestion().getId());
+				}else{
+					List<Integer> quest = new ArrayList<>();
+					quest.add(result.getQuestion().getId());
+					tableAnswers.put(result.getQuestion().getTable().getId(), quest);
+				}
+			}
+			
+		}
+		return tableAnswers;
+	}
+
+	public Map<Integer, String> findCustomAnswers(List<SingleResult> results) {
+		Map<Integer, String> customMap = new HashMap<>();
+		for (SingleResult singleResult : results) {
+			if(singleResult.getCustomAnswer() != null){
+				customMap.put(singleResult.getQuestion().getId(), singleResult.getCustomAnswer());
+			}
+		}
+		return customMap;
 	}
 	
 }

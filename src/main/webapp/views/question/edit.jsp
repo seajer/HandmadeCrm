@@ -77,18 +77,18 @@
 					</c:forEach>
 				</select><br/>
 				<div class="question">
-					<table border='5'>
+					<table>
 						<tr><th>запитання &#8595; відповіді &#8594;</th>
-						<c:forEach items="${question.answers}" var="answer">
-					 		<th><input type="hidden" value="${answer.id}" name="answerId"/>
+						<c:forEach items="${question.answers}" var="answer" varStatus="i">
+					 		<th class="answer${i.index}"><input type="hidden" value="${answer.id}" name="answerId"/>
 					 		<input type="text" value="${answer.text}" name="answer" /></th>
 					 	</c:forEach>
 					 	<c:forEach items="${question.tableQuestions}" var="tableQuestion">
-					 		<tr>
+					 		<tr class="questRow">
 					 			<td><input type="text" value="${tableQuestion.text}" name="question" />
 					 			<input type="hidden" value="${tableQuestion.id}" name="questionsId" class="tableQuestionId"></td>
-					 			<c:forEach items="${question.answers}" var="answer">
-					 				<td></td>
+					 			<c:forEach items="${question.answers}" var="answer" varStatus="i">
+					 				<td class="answer${i.index}"></td>
 					 			</c:forEach>
 					 		</tr>
 					 	</c:forEach>

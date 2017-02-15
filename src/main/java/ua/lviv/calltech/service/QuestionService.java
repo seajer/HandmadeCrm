@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import ua.lviv.calltech.entity.Question;
+import ua.lviv.calltech.entity.SingleResult;
 
 public interface QuestionService {
 
@@ -31,5 +32,9 @@ public interface QuestionService {
 
 	void editTable(int questionId, String recommendations, int type, int[] questionIds, String[] questions,
 			int[] answerIds, String[] answers);
+
+	Map<Integer, List<Integer>> findTableAnswers(List<SingleResult> results);
+
+	Map<Integer, String> findCustomAnswers(List<SingleResult> results);
 
 }

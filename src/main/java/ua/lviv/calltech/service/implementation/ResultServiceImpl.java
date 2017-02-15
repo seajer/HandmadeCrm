@@ -67,4 +67,14 @@ public class ResultServiceImpl implements ResultService{
 	public Result findOne(int resultId) {
 		return resultRepository.findOne(resultId);
 	}
+
+	@Transactional
+	public void changeStatus(int statusId, int resultId) {
+		Status status = statusService.findOne(statusId);
+		Result result = resultRepository.findOne(resultId);
+		if(status != null && result != null){
+			result.setStatus(status);
+			resultRepository.save(result);
+		}
+	}
 }
