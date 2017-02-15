@@ -21,7 +21,7 @@
 				<p style="color: red">${question.recomendations}</p><br/>
 				<input type="hidden" value="${question.type.id}" class="questionType">
 				<c:choose>
-					<c:when test="${question.type.id == 14 || question.type.id == 15 || question.type.id == 16}">
+					<c:when test="${question.type.id == 8 || question.type.id == 9 || question.type.id == 10}">
 						<table>
 					 		<tr>
 					 			<th></th>
@@ -33,10 +33,10 @@
 					 			<tr><td>${tableQuestion.text}<input type="hidden" value="${tableQuestion.id}" class="tableQuestionId"></td>
 					 			<c:forEach items="${question.answers}" var="answer">
 					 				<c:choose>
-					 					<c:when test="${question.type.id == 14}">
+					 					<c:when test="${question.type.id == 8}">
 					 						<td><input class="answer${tableQuestion.id}" <c:if test="${fn:contains( tableAnswers[tableQuestion.id], answer.id)}">checked="checked"</c:if> name="answers${tableQuestion.id}"  type="radio" value="${answer.id}"/></td>
 					 					</c:when>
-					 					<c:when test="${question.type.id == 15}">
+					 					<c:when test="${question.type.id == 9}">
 					 						<td><input class="answer${tableQuestion.id}" <c:if test="${fn:contains( tableAnswers[tableQuestion.id], answer.id)}">checked="checked"</c:if> name="answers" type="checkbox" value="${answer.id}"></td>
 					 					</c:when>
 					 					<c:otherwise>
@@ -57,13 +57,13 @@
 								<c:forEach items="${question.answers}" var="answer">
 								<div>
 									<c:choose>
-										<c:when test="${question.type.id == 8 || question.type.id == 10}">
+										<c:when test="${question.type.id == 2 || question.type.id == 4}">
 											<input class="answer" <c:if test="${fn:contains(tableAnswers[question.id], answer.id)}">checked="checked"</c:if> name="answers" type="checkbox" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
 										</c:when>
-										<c:when test="${question.type.id == 7 || question.type.id == 9}">
+										<c:when test="${question.type.id == 1 || question.type.id == 3}">
 											<input class="answer" <c:if test="${fn:contains(tableAnswers[question.id], answer.id)}">checked="checked"</c:if> name="answers${question.id}" type="radio" value="${answer.id}"><b class="text"> ${answer.text} </b><br/>
 										</c:when>
-										<c:when test="${question.type.id == 11 || question.type.id == 12}">
+										<c:when test="${question.type.id == 5 || question.type.id == 6}">
 											<input class="persentage" name="answers" value="0"><b class="text"> ${answer.text} </b><br/>
 										</c:when>
 									</c:choose>
@@ -71,13 +71,13 @@
 							</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<c:if test="${question.type.id == 13}">
+								<c:if test="${question.type.id == 7}">
 									<textarea class="openAnswer" name="answer"><c:if test="${fn:contains(customAnswers.keySet(), question.id)}">${customAnswers[question.id]}</c:if></textarea>
 								</c:if>
 							</c:otherwise>
 						</c:choose>
 						
-						<c:if test="${question.type.id == 9 || question.type.id == 10 || question.type.id == 12}">
+						<c:if test="${question.type.id == 3 || question.type.id == 4 || question.type.id == 6}">
 							<c:choose>
 								<c:when test="${fn:contains( customAnswers.keySet(), question.id)}">
 									<input class="custom_answer" value="${customAnswers[question.id]}" />

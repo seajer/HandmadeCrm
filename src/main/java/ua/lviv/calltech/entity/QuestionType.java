@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 public class QuestionType {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private int id;
 	@Column

@@ -67,12 +67,12 @@ public class QuestionServiceImpl implements QuestionService{
 	public Question findById(int questionId) {
 		Question q = questionRepository.findOne(questionId);
 		QuestionType qt = questionTypeRepository.findByQuestionId(questionId);
-		if(qt.getId() == 14 || qt.getId() == 15 || qt.getId() == 16){
+		if(qt.getId() == 8 || qt.getId() == 9 || qt.getId() == 10){
 			List<Question> table = questionRepository.findAllQuestionTable(questionId);
 			List<Answer> answers = answerRepository.findAllByQuestionId(questionId);
 			q.setTableQuestions(table);
 			q.setAnswers(answers);
-		} else if (qt.getId() == 13){
+		} else if (qt.getId() == 7){
 			
 		} else {
 			List<Answer> answers = answerRepository.findAllByQuestionId(questionId);
@@ -195,7 +195,6 @@ public class QuestionServiceImpl implements QuestionService{
 			if(qt != null){
 				q.setType(qt);
 			}
-
 			setQuestions(q, questionIds, questions);
 			setAnswers(q, answerIds, answers);
 			
@@ -264,7 +263,6 @@ public class QuestionServiceImpl implements QuestionService{
 					tableAnswers.put(result.getQuestion().getTable().getId(), quest);
 				}
 			}
-			
 		}
 		return tableAnswers;
 	}

@@ -19,8 +19,6 @@ public interface ClientDataObjectService {
 
 	void save(ClientDataObject object, int projectId, int resultId);
 
-	ClientDataObject findOneWithStatusAndProject(int clientId);
-	
 	void setParameter(ClientDataObject client, Cell cell, Map<Integer, String> rules);
 	
 	List<ClientDataObject> readFromExcel(Map<Integer, String> map, String fileName, String fileType);

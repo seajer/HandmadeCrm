@@ -17,7 +17,7 @@ import javax.persistence.ManyToOne;
 public class SingleResult {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@Column

@@ -240,12 +240,6 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 		return clientData;
 	}
 
-	@Override
-	public ClientDataObject findOneWithStatusAndProject(int clientId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Transactional
 	public void createOne(String phone, String company) {
 		ClientDataObject cdo = new ClientDataObject();

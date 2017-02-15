@@ -59,7 +59,7 @@ jQuery(document).ready(function($) {
 	// move to question with such number (new pool)
 	$(".headerQuestion").on('click',function(){
 		var typeId = $("div.shown input.questionType").val();
-		if(containing([14, 15, 16], typeId)){
+		if(containing([8, 9, 10], typeId)){
 			saveTable();
 		} else {
 			saveQuestion(customAnswer);
@@ -72,7 +72,7 @@ jQuery(document).ready(function($) {
 	
 	//clear form and set there new HTML tags (for table or question)
 	$(".questionType").change(function(){
-		var tableIds = [14, 15, 16];
+		var tableIds = [8, 9, 10];
 		var type = $(".questionType").val();
 		if(containing(tableIds, type)){
 			$("#creatingQuestion").attr("action", "new_table");
@@ -84,7 +84,7 @@ jQuery(document).ready(function($) {
 					"</td><td></td><td></td</tr>" +
 					"</table><input type='button' value='Add question' class='addRow'/>" +
 					"<input type='button' value='Add answer' class='addColumn'/>");
-		} else if(type == 13){
+		} else if(type == 7){
 			$("#creatingQuestion").attr("action", "new_open");
 			$(".question").empty();
 			$(".question").html("Text<input name='question'/>");
@@ -247,9 +247,9 @@ function saveQuestion(customAnswer){
 	var answers = [];
 	var resultId = $("input[name='resultId']").val();
 	var questionId = $('div.shown input[name="questionId"]').val();
-	if(type == 7 || type == 8 || type == 9 || type == 10){
+	if(type == 1 || type == 2 || type == 3 || type == 4){
 		answers = getCheckedAnswers();
-	} else if(type == 11 || type == 12){
+	} else if(type == 5 || type == 6){
 		answers = getPersentageAnswers();
 	}else{
 		answers.push($(".openAnswer").val());
@@ -276,9 +276,9 @@ function containing(array, obj){
 function saveTable(){
 	var typeString;
 	var type = $("div.shown .questionType").val();
-	if(type == 14){
+	if(type == 8){
 		typeString = ":radio:checked";
-	} else if(type == 15){
+	} else if(type == 9){
 		typeString = ":checked";
 	} else{
 		typeString = "";

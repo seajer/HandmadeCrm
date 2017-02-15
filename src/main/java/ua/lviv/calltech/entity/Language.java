@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 public class Language {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private int id;
 	@Column

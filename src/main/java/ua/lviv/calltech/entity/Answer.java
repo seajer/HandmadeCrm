@@ -17,7 +17,7 @@ import javax.persistence.ManyToOne;
 public class Answer {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private int id;
 	

@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
 public class Questionnaire {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private int id;
 	@Column
