@@ -1,5 +1,7 @@
 package ua.lviv.calltech.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +19,8 @@ public class LanguageController {
 	private LanguageService langService;
 
 	@RequestMapping(value = "/new_language", method = RequestMethod.GET)
-	public String newLanguage(){
+	public String newLanguage(Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		return "lang-new";
 	}
 	
@@ -34,12 +37,14 @@ public class LanguageController {
 	}
 		
 	@RequestMapping(value="/all_languages", method = RequestMethod.GET)
-	public String viewAll(Model model){
+	public String viewAll(Model model, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		model.addAttribute("languages", langService.findAll());
 		return "lang-all";
 	}
 	@RequestMapping(value="/delete_lang_{id}", method = RequestMethod.GET)
-	public String deleteLanguage(@PathVariable int id){
+	public String deleteLanguage(@PathVariable int id, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		langService.deleteLanguage(id);
 		return "redirect:/all_languages";
 	}

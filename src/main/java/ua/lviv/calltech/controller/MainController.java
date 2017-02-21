@@ -30,7 +30,8 @@ public class MainController {
 	private StatusService statusService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String homePage(Model model, Principal princinap) {
+	public String homePage(Model model, Principal principal) {
+		if(principal == null) return "redirect:/loginpage";
 		if(roleService.findAll().isEmpty()){
 			roleService.saveRoles();
 		}
@@ -43,12 +44,7 @@ public class MainController {
 		if(statusService.findAll().isEmpty()){
 			statusService.createStatuses();
 		}
-		if(princinap != null){
-			return "admin-index";
-		} else {
-			return "redirect:/loginpage";
-		}
-		
+		return "admin-index";
 	}
 	
 	@RequestMapping(value="/loginpageFail", method = RequestMethod.GET)

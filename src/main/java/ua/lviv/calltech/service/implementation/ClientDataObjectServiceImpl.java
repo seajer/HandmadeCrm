@@ -29,16 +29,6 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 
 	@Autowired
 	private ClientDataObjectRepository clientDataObjectRepositiry;
-
-	@Transactional
-	public void save(ClientDataObject object, int projectId, int resultId) {
-		// TODO: rewrite this method
-	}
-
-	@Transactional
-	public void save(ClientDataObject object) {
-		// TODO: rewrite this method
-	}
 	
 	public ClientDataObject findOneWithResults(int clientId) {
 		ClientDataObject client = clientDataObjectRepositiry.findOneWithResults(clientId);
@@ -259,6 +249,29 @@ public class ClientDataObjectServiceImpl implements ClientDataObjectService{
 
 	public int findIdByResultId(int resultId) {
 		return clientDataObjectRepositiry.findIdByResultId(resultId);
+	}
+
+	@Transactional
+	public void save(ClientDataObject object) {
+		ClientDataObject cdo = clientDataObjectRepositiry.findOne(object.getId());
+		if(cdo != null){
+			cdo.setAdress(object.getAdress());
+			cdo.setAge(object.getAge());
+			cdo.setComment(object.getComment());
+			cdo.setCompanyName(object.getCompanyName());
+			cdo.setCountry(object.getCountry());
+			cdo.setDescription(object.getDescription());
+			cdo.setEmail(object.getEmail());
+			cdo.setIndustry(object.getIndustry());
+			cdo.setName(object.getName());
+			cdo.setPhone(object.getPhone());
+			cdo.setPosition(object.getPosition());
+			cdo.setSite(object.getSite());
+			cdo.setSurname(object.getSurname());
+			cdo.setWorkersCount(object.getWorkersCount());
+			cdo.setYearEarning(object.getYearEarning());
+			clientDataObjectRepositiry.save(cdo);
+		}
 	}
 
 }

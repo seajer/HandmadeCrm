@@ -1,5 +1,6 @@
 package ua.lviv.calltech.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,8 @@ public class UserController {
 	private LanguageService languageService;
 	
 	@RequestMapping(value = "/new_user", method = RequestMethod.GET)
-	public String newUser(Model model){
+	public String newUser(Model model, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		if(roleService.findAll().size()<1){
 			roleService.saveRoles();
 		}
@@ -37,7 +39,6 @@ public class UserController {
 		model.addAttribute("languages", languageService.findAll());
 		return "users-new";
 	}
-	
 	
 	@RequestMapping(value = "/createUser", method = RequestMethod.POST)
 	public String createUser(@RequestParam("name")String name, @RequestParam("email")String email,
@@ -48,19 +49,22 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/delete_user_{id}", method = RequestMethod.GET)
-	public String deleteUser(@PathVariable int id){
+	public String deleteUser(@PathVariable int id, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		userService.deleteUser(id);
 		return "redirect:/all_users";
 	}
 	
 	@RequestMapping(value="/all_users", method = RequestMethod.GET)
-	public String viewAll(Model model){
+	public String viewAll(Model model, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		model.addAttribute("users", userService.findAll());
 		return "users-all";
 	}
 	
 	@RequestMapping(value="/edit_user_{userId}", method = RequestMethod.GET)
-	public String editUser(@PathVariable("userId")int userId, Model model){
+	public String editUser(@PathVariable("userId")int userId, Model model, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		User user = userService.findById(userId);
 		List<Language> langsIn = languageService.findAllByUserId(userId);
 		List<Language> langsOut = languageService.findAllExcept(langsIn);
@@ -83,7 +87,6 @@ public class UserController {
 		}else{
 			userService.saveWithoutPass(userId, name, email, phone, langsId);
 		}
-		
 		return "redirect:/all_users";
 	}
 }

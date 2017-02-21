@@ -1,5 +1,7 @@
 package ua.lviv.calltech.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,8 @@ public class QuestionnaireController {
 	private QuestionnaierService questionnaireService;
 	
 	@RequestMapping(value="/new_questionnaire", method = RequestMethod.GET)
-	public String newQuestionnaire(Model model){
+	public String newQuestionnaire(Model model, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		model.addAttribute("projects", projectService.findAll());
 		return "questionnaire-new";
 	}
@@ -36,13 +39,15 @@ public class QuestionnaireController {
 	}
 	
 	@RequestMapping(value="/all_questionnaire", method = RequestMethod.GET)
-	public String allQuestionnaire(Model model){
+	public String allQuestionnaire(Model model, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		model.addAttribute("questionaire", questionnaireService.findAll());
 		return "questionnaire-all";
 	}
 	
 	@RequestMapping(value="/view_questionnaire_{id}", method = RequestMethod.GET)
-	public String viewQuestionnaire(Model model, @PathVariable int id){
+	public String viewQuestionnaire(Model model, @PathVariable int id, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		QuestionnaireDTO quest = questionnaireService.findDtoByIdWithQuestionsAndVisible(id, true);
 		if (quest != null){
 			model.addAttribute("questionnaire", quest);
@@ -53,7 +58,8 @@ public class QuestionnaireController {
 	}
 	
 	@RequestMapping(value="/edit_questionnaire_{id}", method = RequestMethod.GET)
-	public String editQuestionnaire(@PathVariable("id")int questionnaireId, Model model){
+	public String editQuestionnaire(@PathVariable("id")int questionnaireId, Model model, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		Questionnaire quest = questionnaireService.findByIdWithQuestions(questionnaireId, true);
 		model.addAttribute("questionnaire", quest);
 		return "questionnaire-edit";

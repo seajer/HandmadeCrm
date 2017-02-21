@@ -15,10 +15,6 @@ public interface ClientDataObjectService {
 	String[] clientDataObjectParams = {"Name", "Surname", "Age", "Position", "Company name", "Industry", "Workers count",
 			"Years earning", "Description", "Adress", "Country", "Phone", "Email", "Site adress", "Comments"};
 
-	void save(ClientDataObject object);
-
-	void save(ClientDataObject object, int projectId, int resultId);
-
 	void setParameter(ClientDataObject client, Cell cell, Map<Integer, String> rules);
 	
 	List<ClientDataObject> readFromExcel(Map<Integer, String> map, String fileName, String fileType);
@@ -34,5 +30,7 @@ public interface ClientDataObjectService {
 	List<SimpleClientObjectDTO> findAllByProjectId(int projectId);
 
 	int findIdByResultId(int resultId);
+
+	void save(ClientDataObject object);
 
 }

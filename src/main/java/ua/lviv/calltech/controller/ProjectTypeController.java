@@ -1,5 +1,6 @@
 package ua.lviv.calltech.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,8 @@ public class ProjectTypeController {
 	private ProjectTypeService pTypeServise;
 	
 	@RequestMapping(value="/new_projecttype", method = RequestMethod.GET)
-	public String newProjectType(){
+	public String newProjectType(Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		return "pt-new";
 	}
 	
@@ -31,7 +33,8 @@ public class ProjectTypeController {
 	}
 	
 	@RequestMapping(value="/all_projectTypes", method = RequestMethod.GET)
-	public String allProjectTypes(Model model){
+	public String allProjectTypes(Model model, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		List<ProjectType> types = pTypeServise.findAll();
 		if(types.size() < 1){
 			pTypeServise.createProjectTypes();
@@ -40,8 +43,10 @@ public class ProjectTypeController {
 		model.addAttribute("types", types);
 		return "pt-all";
 	}
+	
 	@RequestMapping(value="/delete_projectType_{id}", method = RequestMethod.GET) 
-	public String deleteProjectType(@PathVariable("id")int projectTypeId){
+	public String deleteProjectType(@PathVariable("id")int projectTypeId, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		pTypeServise.deletePType(projectTypeId);
 		return "redirect:/all_projectTypes";
 	}

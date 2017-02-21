@@ -1,6 +1,7 @@
 package ua.lviv.calltech.controller;
 
 import java.io.File;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,17 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 import ua.lviv.calltech.DTO.SimpleClientObjectDTO;
 import ua.lviv.calltech.entity.ClientDataObject;
 import ua.lviv.calltech.entity.Project;
-import ua.lviv.calltech.entity.Status;
 import ua.lviv.calltech.service.ClientDataObjectService;
 import ua.lviv.calltech.service.ProjectService;
 import ua.lviv.calltech.service.ResultService;
-import ua.lviv.calltech.service.StatusService;
 
 @Controller
 public class ClientDataObjController {
-
-	@Autowired
-	private StatusService statusService;
 
 	@Autowired
 	private ClientDataObjectService clientDataObectService;
@@ -39,28 +35,10 @@ public class ClientDataObjController {
 	
 	@Autowired
 	private ResultService resultService;
-
-	@RequestMapping(value="/examined_p={projectId}r={resultId}", method=RequestMethod.GET)
-	public String fillExaminedValues(@PathVariable("projectId")int projectId, @PathVariable("resultId")int resultId, Model model){
-		List<Status> statuses = statusService.findAll();
-		if(statuses.size()<1){
-			statusService.createStatuses();
-			statuses = statusService.findAll();
-		}
-		model.addAttribute("projectId", projectId).addAttribute("resultId", resultId);
-		model.addAttribute("status", statuses).addAttribute("clientDataObject", new ClientDataObject());
-		return "client-new";
-	}
-	
-	@RequestMapping(value="/saveExamined", method = RequestMethod.POST)
-	public String saveExamined(@RequestParam("projectId")int projectId, @RequestParam("resultId")int resultId,
-			@ModelAttribute("clientDataObject")ClientDataObject object){
-		clientDataObectService.save(object, projectId, resultId);
-		return "redirect:/all_projects";
-	}
 	
 	@RequestMapping(value="/edit_client_{clientId}", method = RequestMethod.GET)
-	public String editClient(@PathVariable("clientId")int clientId, Model model){
+	public String editClient(@PathVariable("clientId")int clientId, Model model, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		ClientDataObject client = clientDataObectService.findOneWithResults(clientId);
 		if(client != null){
 			model.addAttribute("clientDataObject", client);
@@ -77,7 +55,8 @@ public class ClientDataObjController {
 	}
 	
 	@RequestMapping(value="/project_clients_{projectId}", method = RequestMethod.GET)
-	public String allProjectClients(@PathVariable("projectId")int projectId, Model model){
+	public String allProjectClients(@PathVariable("projectId")int projectId, Model model, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		Project project = projectService.findOneWithType(projectId);
 		if(project != null){
 			model.addAttribute("project", project);
@@ -85,11 +64,12 @@ public class ClientDataObjController {
 			model.addAttribute("clients", clients);
 			return "client-all";
 		}
-		return "404";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="/uploadCustomerDB_{projectId}", method = RequestMethod.GET)
-	public String uploadCustomersDB(@PathVariable("projectId")int projectId, Model model){
+	public String uploadCustomersDB(@PathVariable("projectId")int projectId, Model model, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		model.addAttribute("CDOFields", ClientDataObjectService.clientDataObjectParams);
 		String[] types = {"xlsx", "xls"};
 		model.addAttribute("types", types).addAttribute("projectId", projectId);

@@ -1,5 +1,6 @@
 package ua.lviv.calltech.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,8 @@ public class QuestionControler {
 	private QuestionService questionService;
 	
 	@RequestMapping(value="/new_question_{questionnaireId}", method = RequestMethod.GET)
-	public String viewQuestion(Model model, @PathVariable int questionnaireId){
+	public String viewQuestion(Model model, @PathVariable int questionnaireId, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		Questionnaire quest = questionnaireService.findById(questionnaireId);
 		if(quest != null){
 			List<QuestionType> types = questionTypeServise.findAll();
@@ -67,7 +69,8 @@ public class QuestionControler {
 	}
 	
 	@RequestMapping(value="/edit_question_{questionId}", method = RequestMethod.GET)
-	public String editQuestion(@PathVariable("questionId")int questionId, Model modal){
+	public String editQuestion(@PathVariable("questionId")int questionId, Model modal, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		Question question = questionService.findById(questionId);
 		List<QuestionType> types = questionTypeServise.findAll();
 		types.remove(question.getType());
@@ -102,14 +105,16 @@ public class QuestionControler {
 	}
 	
 	@RequestMapping(value="/hide_question_{id}", method=RequestMethod.GET)
-	public String hideQuestion(@PathVariable("id")int questionId){
+	public String hideQuestion(@PathVariable("id")int questionId, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		questionService.setVisible(questionId, false);
 		int questionnaireId = questionnaireService.findIdByQuestionId(questionId);
 		return "redirect:/edit_questionnaire_"+questionnaireId;
 	}
 	
 	@RequestMapping(value="/show_question_{id}", method=RequestMethod.GET)
-	public String showQuestion(@PathVariable("id")int questionId){
+	public String showQuestion(@PathVariable("id")int questionId, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		questionService.setVisible(questionId, true);
 		int questionnaireId = questionnaireService.findIdByQuestionId(questionId);
 		return "redirect:/edit_questionnaire_"+questionnaireId;

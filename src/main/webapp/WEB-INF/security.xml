@@ -10,6 +10,33 @@
 	<http use-expressions="true">
 		<csrf token-repository-ref="csrfTokenRepository" />
 		<intercept-url pattern="/" access="permitAll" />
+		<intercept-url pattern="/new_user" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" />
+		<intercept-url pattern="/all_users" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" />
+		<intercept-url pattern="/delete_user_*" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/edit_user_*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" />
+		<intercept-url pattern="/new_questionnaire" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" />
+		<intercept-url pattern="/all_questionnaire" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" />
+		<intercept-url pattern="/view_questionnaire_*" access="isAuthenticated()" />
+		<intercept-url pattern="/edit_questionnaire_*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" />
+		<intercept-url pattern="/new_question_*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" />
+		<intercept-url pattern="/edit_question_*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" />
+		<intercept-url pattern="/hide_question_*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" />
+		<intercept-url pattern="/show_question_*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" />
+		<intercept-url pattern="/new_projecttype" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" />
+		<intercept-url pattern="/all_projectTypes" access="hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')" />
+		<intercept-url pattern="/delete_projectType_*" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/new_project" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/all_projects" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/edit_project_*" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/delete_project_*" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/new_poll_*" access="isAuthenticated()" />
+		<intercept-url pattern="/edit_result_*" access="isAuthenticated()" />
+		<intercept-url pattern="/new_language" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/all_languages" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/delete_lang_*" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/edit_client_*" access="isAuthenticated()" />
+		<intercept-url pattern="/project_clients_*" access="isAuthenticated()" />
+		<intercept-url pattern="uploadCustomerDB_*" access="hasRole('ROLE_ADMIN')" />
 
 		<logout logout-url="/logout" logout-success-url="/loginpage" />
 

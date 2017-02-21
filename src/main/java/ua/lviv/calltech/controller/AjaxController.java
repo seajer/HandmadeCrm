@@ -1,5 +1,6 @@
 package ua.lviv.calltech.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,12 +29,11 @@ public class AjaxController {
 	private ResultService resultService;
 	
 	@RequestMapping(value = "/saveResultAnswers", method = RequestMethod.POST)
-	public @ResponseBody Boolean saveQuestion(@RequestBody String question) {
+	public @ResponseBody Boolean saveQuestion(@RequestBody String question, Principal principal) {
 		JSONObject result = new JSONObject(question);
 		JSONObject object = result.getJSONObject("result");
 		int resultId = object.getInt("resultId");
 		int questionId = object.getInt("questionId");
-		int principal = object.getInt("principal");
 		String answerString = null;
 		JSONArray answerArray = null;
 		List<String> answers = new ArrayList<String>();
@@ -49,16 +49,15 @@ public class AjaxController {
 		}else{
 			answers = changeJsonArrayToStringList(answerArray);
 		}
-		singleAnswerServce.saveAnswer(resultId, questionId, answers, principal);
+		singleAnswerServce.saveAnswer(resultId, questionId, answers, Integer.parseInt(principal.getName()));
 		return false;
 	}
 	
 	@RequestMapping(value = "/saveTable", method = RequestMethod.POST)
-	public @ResponseBody Boolean saveTable(@RequestBody String table){
+	public @ResponseBody Boolean saveTable(@RequestBody String table, Principal principal){
 		JSONObject object = new JSONObject(table);
 		JSONObject res = object.getJSONObject("result");
 		int resultId = res.getInt("resultId");
-		int principal = res.getInt("principal");
 		JSONArray results = res.getJSONArray("results");
 		Map<Integer, List<String>> tableResults = new LinkedHashMap<Integer, List<String>>();
 		for(int i = 0; i < results.length(); i++){
@@ -72,7 +71,7 @@ public class AjaxController {
 			}
 			tableResults.put(questionId, ans);
 		}
-		singleAnswerServce.saveTable(resultId, tableResults, principal);
+		singleAnswerServce.saveTable(resultId, tableResults, Integer.parseInt(principal.getName()));
 		return true;
 	}
 	

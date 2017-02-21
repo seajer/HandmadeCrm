@@ -9,7 +9,6 @@
 	<form action="editPoll" method="post" >
 		<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 		<input type="hidden" value="${resultId}" name="resultId">
-		<input type="hidden" value="${principal}" class="principal">
 		<c:forEach items="${questions}" varStatus="status" var="question">
 			<input type="button" <c:choose><c:when test="${fn:contains( tableAnswers.keySet(), question.id) || fn:contains(customAnswers.keySet(), question.id)}">style="color:green"</c:when><c:otherwise>style="color:red"</c:otherwise></c:choose> value="${status.index+1}" class="headerQuestion" />
 		</c:forEach>

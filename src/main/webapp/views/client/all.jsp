@@ -12,5 +12,5 @@
 		<a href="edit_result_${client.resultId}">Edit result</a>
 		<br/>
 	</c:forEach>
-	<c:if test="${project.type.id == 5}"><a href="new_poll_${project.id}">New Pool</a></c:if>
+	<c:if test="${project.type.id == 2}"><a href="new_poll_${project.id}">New Pool</a></c:if>
 </div>

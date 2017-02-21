@@ -243,7 +243,6 @@ function getStringAnswers(){
 
 function saveQuestion(customAnswer){
 	var type = $("div.shown .questionType").val();
-	var principal = $(".principal").val();
 	var answers = [];
 	var resultId = $("input[name='resultId']").val();
 	var questionId = $('div.shown input[name="questionId"]').val();
@@ -259,7 +258,7 @@ function saveQuestion(customAnswer){
 	}
 	customAnswer = false;
 	$("div.hidden .customAnswer").show();
-	var result = {resultId : resultId, principal: principal, questionId: questionId, answers : answers}
+	var result = {resultId : resultId, questionId: questionId, answers : answers}
 	sendJsonPost(result, "saveResultAnswers");
 }
 
@@ -290,7 +289,6 @@ function saveTable(){
 function getRadioTableAnswer(typeString){
 	var tableId = $("div.shown input[name='questionId']").val();
 	var resultId = $("input[name='resultId']").val();
-	var principal = $(".principal").val();
 	var questionId = []
 	$('div.shown .tableQuestionId').each(function(){
 		questionId.push($(this).val());
@@ -308,5 +306,5 @@ function getRadioTableAnswer(typeString){
 		})
 		result.push({questionId: value, answers: answers});
 	})
-	return {resultId: resultId, principal: principal, results: result };
+	return {resultId: resultId, results: result };
 }

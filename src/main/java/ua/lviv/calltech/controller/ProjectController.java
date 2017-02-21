@@ -1,5 +1,6 @@
 package ua.lviv.calltech.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,8 @@ public class ProjectController {
 	private UserService userServise;
 	
 	@RequestMapping(value = "/new_project", method = RequestMethod.GET)
-	public String newProject(Model model){
+	public String newProject(Model model, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		model.addAttribute("languages", langService.findAll());
 		List <ProjectType> types = pTypeService.findAll();
 		if(types.size() < 1){
@@ -63,13 +65,15 @@ public class ProjectController {
 	}
 	
 	@RequestMapping(value="/all_projects", method = RequestMethod.GET)
-	public String allProjects(Model model){
+	public String allProjects(Model model, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		model.addAttribute("projects", projectService.findAllWithLanguageAndType());
 		return "project-all";
 	}
 	
 	@RequestMapping(value="/edit_project_{id}", method = RequestMethod.GET)
-	public String editProject(@PathVariable("id") int projectId, Model model){
+	public String editProject(@PathVariable("id") int projectId, Model model, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		ProjectDTO project = projectService.findDtoById(projectId);
 		if(project != null){
 			List<Language> otherLangs = languageServise.languagesExceptProjects(project);
@@ -79,8 +83,9 @@ public class ProjectController {
 			model.addAttribute("project", project).addAttribute("otherLangs", otherLangs).addAttribute("types", otherTypes);
 			model.addAttribute("usersIn", usersIn).addAttribute("usersOut", usersOut);
 			return "project-edit";
+		}else{
+			return "redirect:/all_projects";
 		}
-		return "404";
 	}
 	
 	@RequestMapping(value="/edit_project", method = RequestMethod.POST)
@@ -91,7 +96,8 @@ public class ProjectController {
 	}
 	
 	@RequestMapping(value="delete_project_{id}", method = RequestMethod.GET)
-	public String deleteProject(@PathVariable int id){
+	public String deleteProject(@PathVariable int id, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
 		projectService.deleteProject(id);
 		return "redirect:/all_projects";
 	}
