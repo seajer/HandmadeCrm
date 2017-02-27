@@ -1,6 +1,7 @@
 package ua.lviv.calltech.controller;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,13 @@ public class ProjectController {
 		if(principal == null) return "redirect:/loginpage";
 		projectService.deleteProject(id);
 		return "redirect:/all_projects";
+	}
+	
+	@RequestMapping(value="/generate_output_for_{id}", method = RequestMethod.GET)
+	public String genegareOutput(@PathVariable("id")int projectId, Principal principal){
+		if(principal == null) return "redirect:/loginpage";
+		projectService.generateOutput(new HashMap<Integer, String>(), projectId);
+		return "redirect:/";
 	}
 	
 }

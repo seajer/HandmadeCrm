@@ -15,6 +15,8 @@ public interface ResultService {
 
 	Result findOne(int resultId);
 
-	void changeStatus(int statusId, int resultId);
+	void changeStatus(int statusId, int resultId, String recall);
+
+	List<Result> findAllFinishedByProject(int projectId);
 
 }

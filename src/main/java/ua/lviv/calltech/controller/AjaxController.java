@@ -75,9 +75,11 @@ public class AjaxController {
 		return true;
 	}
 	
-	@RequestMapping(value = "/changeStatus_s={statusId}_r={resuntId}", method = RequestMethod.GET)
-	public @ResponseBody Boolean changeStatus(@PathVariable("statusId")int statusId, @PathVariable("resuntId")int resultId){
-		resultService.changeStatus(statusId, resultId);
+	@RequestMapping(value = "/changeStatus_s={statusId}_r={resuntId}_rec={recallTime}", method = RequestMethod.GET)
+	public @ResponseBody Boolean changeStatus(@PathVariable("statusId")int statusId, @PathVariable("resuntId")int resultId,
+			@PathVariable("recallTime")String recall){
+		if(recall.equals("0"))recall=null;
+		resultService.changeStatus(statusId, resultId, recall);
 		return false;
 	}
 	

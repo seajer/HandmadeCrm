@@ -122,8 +122,8 @@ public class QuestionServiceImpl implements QuestionService{
 		return answers;
 	}
 
-	public Set<Question> findQuestionsByProjectId(int projectId) {
-		Set<Question> questions = questionRepository.findAllByProjectId(projectId);
+	public Set<Question> findVisibleQuestionsByProjectId(int projectId) {
+		Set<Question> questions = questionRepository.findAllVisibleByProjectId(projectId);
 		for (Question question : questions) {
 			List<Question> table = questionRepository.findAllQuestionTable(question.getId());
 			question.setTableQuestions(table);
@@ -275,6 +275,15 @@ public class QuestionServiceImpl implements QuestionService{
 			}
 		}
 		return customMap;
+	}
+
+	public List<Question> findQuestionsByProjectId(int projectId) {
+		List<Question> questions = questionRepository.findAllByProjectId(projectId);
+		for (Question question : questions) {
+			List<Question> table = questionRepository.findAllQuestionTable(question.getId());
+			question.setTableQuestions(table);
+		}
+		return questions;
 	}
 	
 }

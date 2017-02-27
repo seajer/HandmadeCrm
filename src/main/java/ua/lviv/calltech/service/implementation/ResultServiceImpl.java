@@ -1,5 +1,6 @@
 package ua.lviv.calltech.service.implementation;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.lviv.calltech.entity.ClientDataObject;
 import ua.lviv.calltech.entity.Project;
 import ua.lviv.calltech.entity.Result;
+import ua.lviv.calltech.entity.SingleResult;
 import ua.lviv.calltech.entity.Status;
 import ua.lviv.calltech.repository.ResultRepository;
 import ua.lviv.calltech.service.ClientDataObjectService;
 import ua.lviv.calltech.service.ProjectService;
 import ua.lviv.calltech.service.ResultService;
+import ua.lviv.calltech.service.SingleResultService;
 import ua.lviv.calltech.service.StatusService;
 
 @Service
@@ -30,6 +33,9 @@ public class ResultServiceImpl implements ResultService{
 	
 	@Autowired
 	private StatusService statusService;
+	
+	@Autowired
+	private SingleResultService singleResultService;
 
 	public List<Result> findByProjectPhoneAndCompany(int projectId, String phone, String company) {
 		List<Result> result = resultRepository.findByPhoneAndCompany(projectId, phone, company); 
@@ -69,12 +75,22 @@ public class ResultServiceImpl implements ResultService{
 	}
 
 	@Transactional
-	public void changeStatus(int statusId, int resultId) {
+	public void changeStatus(int statusId, int resultId, String recall) {
 		Status status = statusService.findOne(statusId);
 		Result result = resultRepository.findOne(resultId);
 		if(status != null && result != null){
 			result.setStatus(status);
+			if(recall != null) result.setRecallTime(LocalDateTime.now());
 			resultRepository.save(result);
 		}
+	}
+
+	public List<Result> findAllFinishedByProject(int projectId) {
+		List<Result> result = resultRepository.findAllFinishedByProjectId(projectId);
+		for (Result result2 : result) {
+			List<SingleResult> sr = singleResultService.findAllByResultId(result2.getId());
+			result2.setResults(sr);
+		}
+		return result;
 	}
 }

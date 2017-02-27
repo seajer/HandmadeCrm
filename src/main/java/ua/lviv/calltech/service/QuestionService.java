@@ -20,7 +20,9 @@ public interface QuestionService {
 	void editQuestion(int questionId, String question, String recommendations, int type, int[] answersId,
 			String[] answersText);
 
-	Set<Question> findQuestionsByProjectId(int projectId);
+	Set<Question> findVisibleQuestionsByProjectId(int projectId);
+	
+	List<Question> findQuestionsByProjectId(int projectId);
 
 	Set<Integer> findAnsweredQuestionsForResultById(int resultId);
 

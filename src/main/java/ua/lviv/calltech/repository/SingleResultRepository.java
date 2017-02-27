@@ -14,7 +14,7 @@ public interface SingleResultRepository extends JpaRepository<SingleResult, Inte
 	@Query("FROM SingleResult sr JOIN sr.question q JOIN sr.totalResult r WHERE r.id = ?1 AND q.id = ?2")
 	SingleResult findByResultIdAndQuestionId(int resultId, int questionId);
 
-	@Query("SELECT DISTINCT sr FROM SingleResult sr LEFT JOIN FETCH sr.question q INNER JOIN FETCH q.type t LEFT JOIN FETCH sr.answers a JOIN sr.totalResult r WHERE r.id = ?1")
+	@Query("SELECT DISTINCT(sr) FROM SingleResult sr LEFT JOIN FETCH sr.question q INNER JOIN FETCH q.type t LEFT JOIN FETCH sr.answers a JOIN sr.totalResult r WHERE r.id = ?1")
 	List<SingleResult> findAllByResultId(int resultId);
 
 }

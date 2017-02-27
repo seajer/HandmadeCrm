@@ -1,6 +1,7 @@
 package ua.lviv.calltech.service;
 
 import java.util.List;
+import java.util.Map;
 
 import ua.lviv.calltech.DTO.ProjectDTO;
 import ua.lviv.calltech.entity.Project;
@@ -26,5 +27,7 @@ public interface ProjectService {
 	Integer findIdByResultId(int resultId);
 
 	Project findByNaneAndCompany(String name, String company);
+	
+	void generateOutput(Map<Integer, String> map, int projectId);
 
 }

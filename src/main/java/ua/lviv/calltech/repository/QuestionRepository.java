@@ -23,7 +23,10 @@ public interface QuestionRepository extends JpaRepository<Question, Integer>{
 	Question findOneWithAnswers(int questionId);
 
 	@Query("SELECT q FROM Question q LEFT JOIN FETCH q.answers a JOIN FETCH q.type t JOIN q.questionnaire seq JOIN seq.project p WHERE p.id = ?1 AND q.isVisible = true")
-	Set<Question> findAllByProjectId(int projectId);
+	Set<Question> findAllVisibleByProjectId(int projectId);
+	
+	@Query("SELECT DISTINCT(q) FROM Question q LEFT JOIN FETCH q.answers a JOIN FETCH q.type t JOIN q.questionnaire seq JOIN seq.project p WHERE p.id = ?1")
+	List<Question> findAllByProjectId(int projectId);
 
 	@Query("SELECT q.id FROM Question q JOIN q.answers a JOIN a.result r WHERE r.id =?1 ")
 	Set<Integer> findAnsweredByResultId(int resultId);

@@ -132,7 +132,20 @@ jQuery(document).ready(function($) {
 	$(".changeStatus").on('click', function(){
 		var statusId = $('.status').val();
 		var resultId = $('#resultId').val();
-		sendJsonGet("changeStatus_s="+statusId+"_r="+resultId);
+		if(statusId == 4){
+			var recal = $('#dateTime').text();
+			sendJsonGet("changeStatus_s="+statusId+"_r="+resultId+"_rec="+recal);
+		}else{
+			sendJsonGet("changeStatus_s="+statusId+"_r="+resultId+"_rec=0");
+		}
+	});
+	
+	//check new status on callback
+	$("body").on('change', '.status', function(){
+		var statusId = $('.status').val();
+		if(statusId == 4){
+			$(".statDiv").append("</br>Recall Time <input type='text' id='dateTime' />")
+		}
 	});
 	
 	multiselect();

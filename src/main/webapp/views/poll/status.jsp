@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div>
-	<div>
+	<div class="statDiv">
 		<input type="hidden" value="${resultId}" id="resultId">
 		<select class="status">
 			<option value="${status.id}" selected>${status.name}</option>

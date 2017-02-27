@@ -76,7 +76,7 @@ public class PollController {
 	public String editPoll(@PathVariable("resultId")int resultId, Model model, Principal principal){
 		if(principal == null) return "redirect:/loginpage";
 		Integer projectId = projectService.findIdByResultId(resultId);
-		Set<Question> questions = questionService.findQuestionsByProjectId(projectId);
+		Set<Question> questions = questionService.findVisibleQuestionsByProjectId(projectId);
 		List<SingleResult> results = singleResultService.findAllByResultId(resultId);
 		Map<Integer, List<Integer>> tableAnswers = questionService.findTableAnswers(results);
 		Map<Integer, String> customAnsw = questionService.findCustomAnswers(results);
